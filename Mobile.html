@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="Immages/Site_logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <title>A.M.K</title>
+  <style>
+    body, html {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: "Shadows Into Light", cursive, sans-serif;
+      background: url("Immages/Background(1).png") center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    .top-header {
+      width: 100vw;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.3);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1001;
+      font-size: 2em;
+      font-family: 'Shadows Into Light', cursive;
+      padding: 0;
+      margin: 0;
+    }
+    .top-header h5 { margin: 0 0.1em; }
+    #leter1 { color: greenyellow; }
+    #leter2 { color: orange; }
+    #leter3 { color: blue; }
+    .dot { color: #444; font-weight: bold; }
+
+    main {
+      margin-top: 80px;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2em;
+    }
+
+    .buttons {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1em;
+    }
+
+    a { text-decoration: none; }
+
+    button {
+      position: relative;
+      font-size: 18px;
+      padding: 1em 2.5em;
+      font-family: "Shadows Into Light", cursive, sans-serif;
+      font-weight: 500;
+      background: #dfe4eb;
+      color: #111;
+      border: none;
+      border-radius: 0.7em;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 1;
+      outline: none;
+      margin: 0;
+    }
+    button:active { transform: scale(0.96); }
+    .gradient {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0; top: 0;
+      border-radius: 0.7em;
+      background-image: linear-gradient(
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.3)
+      );
+      z-index: 1;
+    }
+    .label { position: relative; z-index: 2; }
+
+    .transition, .transition2 {
+      background-color: rgb(90,106,255);
+      border-radius: 999px;
+      width: 0; height: 0;
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 0;
+      transition: width 0.5s, height 0.5s;
+    }
+    .transition2 { background-color: rgb(255, 50, 50); }
+    button:hover .transition,
+    button:hover .transition2 {
+      width: 11em; height: 11em;
+    }
+
+    .porsline-button-wrapper {
+      background: #FF7272;
+      color: #3e434d;
+      padding: 0.3em 1.2em;
+      border-radius: 0.5em;
+      font-size: 1.13em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      margin-bottom: 1em;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .porsline-button-wrapper:hover {
+      background: #ff5050;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      min-height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(255,255,255,0.89);
+      font-size: 16px;
+      background: rgba(255,255,255,0.09);
+      border-radius: 10px 10px 0 0;
+      padding: 6px 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 14px rgba(255,255,255,0.11);
+      animation: fadeIn 1s ease-out;
+      z-index: 2001;
+      text-align: end;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Tablet Styles */
+    @media (max-width: 900px) {
+      main {
+        max-width: 680px;
+      }
+      button {
+        font-size: 16px;
+        padding: 0.9em 2em;
+      }
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 600px) {
+      .top-header {
+        height: 42px;
+        font-size: 1.2em;
+      }
+      main {
+        margin-top: 60px;
+        max-width: 99vw;
+      }
+      .buttons {
+        gap: 10px;
+      }
+      button {
+        padding: 0.7em 1em;
+        font-size: 15px;
+        border-radius: 0.6em;
+      }
+      .porsline-button-wrapper {
+        font-size: 1em;
+        padding: 0.2em 0.8em;
+      }
+      footer {
+        font-size: 13px;
+        padding: 4px 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-header">
+    <h5 id="leter1">A</h5>
+    <h5 class="dot">.</h5>
+    <h5 id="leter2">M</h5>
+    <h5 class="dot">.</h5>
+    <h5 id="leter3">K</h5>
+  </div>
+
+  <main>
+    <div class="buttons">
+      <a href="https://beheshti-zn.ir">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">سایت مدرسه</span>
+        </button>
+      </a>
+      <a href="#">
+        <button onclick="alert('[ SERVER.EXE - Critical Failure ] -------------------------------------------------- A fatal exception 0x503 has occurred at memory location 0x000000FF. The system has encountered an unrecoverable server-side fault. Possible causes: Connection timeout, internal corruption, unresponsive gateway, or overloaded process queue. Technical information: ERROR CODE 503 SERVICE UNAVAILABLE | THREAD ID: 0x7FFC3B18 | STACK TRACE: server.dll + 0x008C → api_handler.js + 0x192A → kernel32.exe + 0x1812 → sys.main + 0x0004 | Please contact your system administrator or restart your network daemon. Press Retry to reconnect or Cancel to abort.')">
+          <span class="transition2"></span>
+          <span class="gradient"></span>
+          <span class="label">چت کردن</span>
+        </button>
+      </a>
+      <a href="https://myket.ir/mag/best-online-games-for-android/">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">بازی ها</span>
+        </button>
+      </a>
+      <a href="Pages/BooksM.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">PDF های کتاب</span>
+        </button>
+      </a>
+      <a href="Pages/DocumentsM.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">جزوه های درس</span>
+        </button>
+      </a>
+      <a href="https://www.kanoon.ir/Public/ExamQuestions">
+        <button onclick="alert('[این بخش درحال ساخت است.تا الان،بروید قلمچی! ]')">
+          <span class="transition2"></span>
+          <span class="gradient"></span>
+          <span class="label">نمونه سوال</span>
+        </button>
+      </a>
+      <a href="Pages/VideosM.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">ویدیو های آموزشی</span>
+        </button>
+      </a>
+    </div>
+    <a class="porsline-button" style="background-color: #f4bbe1; color: #3e434d" href="https://survey.porsline.ir/s/0VXX2BIi">
+    نظرسنجی
+  </main>
+
+  <footer>
+    این سایت رسمی نیست! ساخته شده توسط تیم رزنو.
+  </footer>
+
+  <audio id="audioPlayer" loop></audio>
+  <script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const musicFiles = [
+      'Music/beans.mp3',
+      'Music/catburger.mp3',
+      'Music/elevator.mp3',
+      'Music/hot chocolate.mp3',
+      'Music/vanilla tea.mp3'
+    ];
+    let currentTrack = 0;
+    audioPlayer.volume = 0.1;
+    function playTrack() {
+      audioPlayer.src = musicFiles[currentTrack];
+      audioPlayer.play().catch(error => {
+        console.error('Error playing audio:', error);
+      });
+    }
+    playTrack();
+    audioPlayer.addEventListener('ended', () => {
+      currentTrack = (currentTrack + 1) % musicFiles.length;
+      playTrack();
+    });
+    
+    // Porsline script
+    (function() {
+      var js,q,d=document,
+        gi=d.getElementById,
+        ifid='porsline-side-tab-iframe',
+        ce=d.createElement,
+        gt=d.getElementsByTagName,
+        id="porsline-share",
+        b="https://cdn.porsline.ir/static/panel/v2/statics/";
+      if(!gi.call(d,id)) {
+        js=ce.call(d,"script");
+        js.id = id;js.setAttribute("data-position","right");js.src=b+"side-tab.js";
+        q=gt.call(d,"script")[0];
+        q.parentNode.insertBefore(js,q);
+      }
+    })();
+    var cl0VXX2BIi = function (ifid) {
+      document.getElementById(ifid).fetchPriority = 'high';
+      document.getElementById(ifid).src =
+        "https://survey.porsline.ir/s/0VXX2BIi#/?ac=0&ns=0"
+    }
+  </script>
+</body>
+</html>

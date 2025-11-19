@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="Immages/Site_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <title>A.M.K</title>
+  <style>
+    .shadows-into-light-regular {
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+    html, body {
+      background: url("Immages/Background(1).png") center/cover no-repeat;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+
+    .buttons {
+  display: flex;
+  flex-direction: row;    /* Change from column to row */
+  gap: 15px;
+  align-items: center;    /* Vertically center buttons in the row */
+  justify-content: flex-end;  /* Keep them aligned to the right, or use center/left as needed */
+}
+
+
+    button {
+      font-size: 17px;
+      padding: 1em 2.5em;
+      font-weight: 500;
+      background: #dfe4eb;
+      color: rgb(17, 17, 17);
+      border: none;
+      border-radius: 0.6em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .gradient {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      border-radius: 0.6em;
+      background-image: linear-gradient(
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.3)
+      );
+      z-index: 1;
+    }
+
+    .label {
+      position: relative;
+      z-index: 2;
+    }
+
+    .transition {
+      transition: all 0.5s cubic-bezier(0, 0, 0.2, 1);
+      background-color: rgb(90, 106, 255);
+      border-radius: 9999px;
+      width: 0;
+      height: 0;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    button:hover .transition {
+      width: 13em;
+      height: 13em;
+    }
+    .transition2 {
+      transition: all 0.5s cubic-bezier(0, 0, 0.2, 1);
+      background-color: rgb(255, 50, 50);
+      border-radius: 9999px;
+      width: 0;
+      height: 0;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    button:hover .transition2 {
+      width: 13em;
+      height: 13em;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 30px;        
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255,255,255,0.8);
+  font-size: 13px;         
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px 10px 0 0;
+  padding: 4px 12px;      
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(255,255,255,0.1);
+  animation: fadeIn 1s ease-out;
+  z-index: 1000;
+}
+
+
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #leter1{
+      color: greenyellow;
+    }
+    #leter2{
+      color: orange;
+    }
+    #leter3{
+      color: blue;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+    .top-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 60px;          
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  background: rgba(255,255,255,0.3);
+  z-index: 1001;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 0; 
+  margin: 0;
+}
+
+.top-header h5 {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 2.5em;
+  margin: 0 0.1em;
+  text-align: center;
+  line-height: 1;   
+}
+
+#leter1 {
+  color: greenyellow;
+}
+
+#leter2 {
+  color: orange;
+}
+
+#leter3 {
+  color: blue;
+}
+
+.dot {
+  color: #444;
+  font-weight: bold;
+} 
+.porsline-button-wrapper {
+  position: absolute;    /* Overlay positioning */
+  top: 50%;              /* Center vertically over buttons area */
+  right: 10vw;           /* You can use left or right as needed */
+  transform: translateY(-50%);
+  background-color: #FF7272;
+  color: #3e434d;
+  z-index: 2001;         /* Higher than buttons */
+  font-weight: bold;
+  padding: 0.6em 2.4em;
+  border-radius: 0.7em;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  cursor: pointer;
+  border: none;
+  display: inline-block;
+}
+
+@media (max-width:600px) {
+  .porsline-button-wrapper {
+    top: 85vw;          /* Place overlay lower on screen for mobile */
+    right: 6vw;
+    font-size: 0.94em;
+    padding: 0.4em 1.2em;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="top-header">
+    <h5 id="leter1">A</h5>
+    <h5 class="dot">.</h5>
+    <h5 id="leter2">M</h5>
+    <h5 class="dot">.</h5>
+    <h5 id="leter3">K</h5>
+  </div>
+  
+    <div class="buttons">
+      <a href="https://beheshti-zn.ir">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">سایت مدرسه</span>
+        </button>
+      </a>
+      <a href="#">
+        <button onclick="alert('[ SERVER.EXE - Critical Failure ] -------------------------------------------------- A fatal exception 0x503 has occurred at memory location 0x000000FF. The system has encountered an unrecoverable server-side fault. Possible causes: Connection timeout, internal corruption, unresponsive gateway, or overloaded process queue. Technical information: ERROR CODE 503 SERVICE UNAVAILABLE | THREAD ID: 0x7FFC3B18 | STACK TRACE: server.dll + 0x008C → api_handler.js + 0x192A → kernel32.exe + 0x1812 → sys.main + 0x0004 | Please contact your system administrator or restart your network daemon. Press Retry to reconnect or Cancel to abort.')">
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">چت کردن</span>
+        </button>
+      </a>
+      <a href="Pages/games.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">بازی ها</span>
+        </button>
+      </a>
+      <a href="Pages/Books.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">PDF های کتاب</span>
+        </button>
+      </a>
+      <a href="Pages/Documents.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">جزوه های درس</span>
+        </button>
+      </a>
+      <a href="https://www.kanoon.ir/Public/ExamQuestions">
+        <button onclick="alert('[این بخش درحال ساخت است.تا الان،بروید قلمچی! ]')">
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">نمونه سوال</span>
+        </button>
+      </a>
+      <a href="Pages/Videos.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">ویدیو های آموزشی</span>
+        </button>
+      </a>
+
+    <br><br><br><br><br>
+    <a class="porsline-button" style="background-color: #f4bbe1; color: #3e434d" href="#porsline-slider"
+    onclick="cl0VXX2BIi('porsline-slider-iframe');showSlider()">
+    نظرسنجی
+  </a>
+    <script>
+      (function() {
+        var js,q,d=document,
+          gi=d.getElementById,
+          ifid='porsline-slider-iframe',
+          ce=d.createElement,
+          gt=d.getElementsByTagName,
+          id="porsline-share",
+          b="https://cdn.porsline.ir/static/panel/v2/statics/";
+        if(!gi.call(d,id)) {
+          js=ce.call(d,"script");
+          js.id = id; js.setAttribute("data-position","right"); js.src=b+"slider.js";
+          q=gt.call(d,"script")[0];
+          q.parentNode.insertBefore(js,q)
+        }
+      })();
+      var cl0VXX2BIi = function (ifid) {
+        document.getElementById(ifid).fetchPriority = 'high';
+        document.getElementById(ifid).src =
+          "https://survey.porsline.ir/s/0VXX2BIi#/?ac=0&ns=0"
+      }
+    </script>
+    </div>
+
+
+  <script>
+    (function() {
+      var js,q,d=document,
+        gi=d.getElementById,
+        ifid='porsline-side-tab-iframe',
+        ce=d.createElement,
+        gt=d.getElementsByTagName,
+        id="porsline-share",
+        b="https://cdn.porsline.ir/static/panel/v2/statics/";
+      if(!gi.call(d,id)) {
+        js=ce.call(d,"script");
+        js.id = id;js.setAttribute("data-position","right");js.src=b+"side-tab.js";
+        q=gt.call(d,"script")[0];
+        q.parentNode.insertBefore(js,q)
+      }
+    })();
+    var cl0VXX2BIi = function (ifid) {
+      document.getElementById(ifid).fetchPriority = 'high';
+      document.getElementById(ifid).src =
+        "https://survey.porsline.ir/s/0VXX2BIi#/?ac=0&ns=0"
+    }
+  </script>
+
+  <footer style="text-align: end;">
+    این سایت رسمی نیست!ساخته شده توسط تیم رزنو.
+  </footer>
+
+  <audio id="audioPlayer" loop></audio>
+  <script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const musicFiles = [
+      'Music/beans.mp3',
+      'Music/catburger.mp3',
+      'Music/elevator.mp3',
+      'Music/hot chocolate.mp3',
+      'Music/vanilla tea.mp3'
+    ];
+    let currentTrack = 0;
+
+    audioPlayer.volume = 0.1;
+
+    function playTrack() {
+      audioPlayer.src = musicFiles[currentTrack];
+      audioPlayer.play().catch(error => {
+        console.error('Error playing audio:', error);
+      });
+    }
+
+    playTrack();
+
+    audioPlayer.addEventListener('ended', () => {
+      currentTrack = (currentTrack + 1) % musicFiles.length;
+      playTrack();
+    });
+
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    ) {
+      window.location.href = "Mobile.html";
+    }
+
+  </script>
+  
+</body>
+</html>
