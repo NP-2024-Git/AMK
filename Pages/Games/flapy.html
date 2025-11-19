@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی فلپی برد</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: linear-gradient(135deg, #70c5ce, #a3e4e9); 
+            font-family: 'Vazir', 'Arial', sans-serif; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            background: url('https://i.imgur.com/5gW5z9m.png') repeat-x; 
+            background-size: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            animation: backgroundScroll 10s linear infinite; 
+        }
+
+        @keyframes backgroundScroll {
+            from { background-position: 0 0; }
+            to { background-position: -320px 0; }
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ff4d4d;
+            font-size: 2em;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .game-over.show {
+            opacity: 1;
+        }
+
+        .score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>فلپی برد</h1>
+    <canvas id="gameCanvas" width="320" height="480"></canvas>
+    <div class="score" id="scoreDisplay">امتیاز: 0</div>
+    <div class="game-over" id="gameOverText">
+        <p>بازی تمام شد!</p>
+        <p style="font-size: 0.8em;">برای شروع دوباره کلیک کنید</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const gameOverText = document.getElementById('gameOverText');
+
+        let bird = { x: 50, y: 150, width: 30, height: 20, gravity: 0.75, lift: -12, velocity: 0 };
+        let pipes = [];
+        let frame = 0;
+        let score = 0;
+        let gameOver = false;
+
+        function drawBird() {
+            ctx.fillStyle = '#ffd700'; 
+            ctx.beginPath();
+            ctx.arc(bird.x + bird.width / 2, bird.y + bird.height / 2, bird.width / 2, 0, Math.PI * 2); // پرنده گرد
+            ctx.fill();
+            ctx.fillStyle = '#fff'; 
+            ctx.beginPath();
+            ctx.arc(bird.x + bird.width / 2 + 5, bird.y + 5, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#000'; 
+            ctx.beginPath();
+            ctx.arc(bird.x + bird.width / 2 + 5, bird.y + 5, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawPipes() {
+            ctx.fillStyle = '#228b22'; // سبز تیره‌تر برای لوله‌ها
+            pipes.forEach(pipe => {
+                ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
+                ctx.fillRect(pipe.x, canvas.height - pipe.bottom, pipe.width, pipe.bottom);
+                ctx.strokeStyle = '#006400'; // حاشیه برای لوله‌ها
+                ctx.lineWidth = 2;
+                ctx.strokeRect(pipe.x, 0, pipe.width, pipe.top);
+                ctx.strokeRect(pipe.x, canvas.height - pipe.bottom, pipe.width, pipe.bottom);
+            });
+        }
+
+        function updatePipes() {
+            if (frame % 90 === 0) {
+                let gap = 120; // فاصله بین لوله‌ها
+                let top = Math.random() * (canvas.height - gap - 100) + 50;
+                let bottom = canvas.height - top - gap;
+                pipes.push({ x: canvas.width, top: top, bottom: bottom, width: 40 });
+            }
+            pipes.forEach(pipe => {
+                pipe.x -= 2;
+            });
+            if (pipes.length && pipes[0].x < -pipes[0].width) {
+                pipes.shift();
+                score++;
+                scoreDisplay.textContent = `امتیاز: ${score}`;
+            }
+        }
+
+        function checkCollision() {
+            pipes.forEach(pipe => {
+                if (bird.x < pipe.x + pipe.width && bird.x + bird.width > pipe.x) {
+                    if (bird.y < pipe.top || bird.y + bird.height > canvas.height - pipe.bottom) {
+                        gameOver = true;
+                    }
+                }
+            });
+            if (bird.y + bird.height >= canvas.height || bird.y < 0) {
+                gameOver = true;
+            }
+        }
+
+        function resetGame() {
+            bird.y = 150;
+            bird.velocity = 0;
+            pipes = [];
+            score = 0;
+            frame = 0;
+            gameOver = false;
+            scoreDisplay.textContent = `امتیاز: ${score}`;
+            gameOverText.classList.remove('show');
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (!gameOver) {
+                bird.velocity += bird.gravity;
+                bird.y += bird.velocity;
+
+                drawBird();
+                updatePipes();
+                drawPipes();
+                checkCollision();
+                frame++;
+            } else {
+                gameOverText.classList.add('show');
+            }
+            requestAnimationFrame(gameLoop);
+        }
+
+        canvas.addEventListener('click', () => {
+            if (gameOver) {
+                resetGame();
+            } else {
+                bird.velocity = bird.lift;
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                if (gameOver) {
+                    resetGame();
+                } else {
+                    bird.velocity = bird.lift;
+                }
+            }
+        });
+
+        gameLoop();
+    </script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fa",dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMK | بازی ها</title>
+    <link rel="icon" type="image/png" href="../Immages/Site_logo.png" alt="Site Logo">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom right, #e7c982, #df9b2f); 
+            color: #333;
+            overflow: auto;
+        }
+
+        h1 {
+            color: #794800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 900px;
+        }
+
+        .app-button {
+            padding: 20px 30px;
+            background-color: #de7732cd;
+            color: white;
+            border: none;
+            border-radius: 15px; 
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.25); 
+            overflow: hidden; 
+            position: relative; 
+        }
+
+        .app-button:hover {
+            transform: translateY(-3px); 
+            box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.35); 
+        }
+
+        .app-button::before { 
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1); 
+            transform: scale(1.1); 
+            opacity: 0; 
+            transition: opacity 0.3s, transform 0.3s; 
+            border-radius: 15px;
+        }
+
+        .app-button:hover::before {
+            opacity: 1; 
+            transform: scale(1); 
+        }
+
+        .app-frame {
+            width: 95%; 
+            height: 650px; 
+            margin-top: 30px;
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.4); 
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative; 
+            display: none; 
+        }
+
+        .app-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        #exitButton { 
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5); 
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 10; 
+            opacity: 0.8; 
+            transition: opacity 0.2s;
+        }
+
+        #exitButton:hover {
+            opacity: 1;
+        }
+ .guide-button {
+    position: absolute;
+    bottom: 20px; 
+    right: 20px; 
+    background-color: rgba(93, 93, 93, 0.5); 
+    padding: 10px 20px;
+}   
+.love-button {
+    position: absolute;
+    bottom: 20px; 
+    left: 20px; 
+    background-color: rgba(228, 95, 95, 0.882); 
+    padding: 10px 20px;
+}                                         
+
+.ripple {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.app-frame {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.app-frame.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+    </style>
+</head>
+<body>
+
+    <h1>بازی کده ی AMK</h1>
+
+    <div class="container">
+        <button class="app-button" onclick="showApp(1)">بازی مین‌روب</button>
+        <button class="app-button" onclick="showApp(2)">گادتو</button>
+        <button class="app-button" onclick="showApp(3)">کارت های مشابه</button>
+        <button class="app-button" onclick="showApp(4)">سنگ، کاغذ، قیچی</button>
+        <button class="app-button" onclick="showApp(5)">دتکتیو سرکل</button>
+        <button class="app-button" onclick="showApp(7)">اسم فامیل</button>
+        <button class="app-button" onclick="showApp(8)">قایم باشک</button>
+        <button class="app-button" onclick="showApp(9)">بازی مار نوکیا</button>
+        <button class="app-button" onclick="showApp(22)">کالاف کلون</button>
+        <button class="app-button" onclick="showApp(10)">بازی فلپی بِرد </button>
+        <button class="app-button" onclick="showApp(11)">دوز</button>
+        <button class="app-button" onclick="showApp(21)">مربع گیمز</button>
+        <button class="app-button" onclick="showApp(12)">2048</button>
+        <button class="app-button" onclick="showApp(17)">جنگل تاریک و ناشناخته</button>
+        <button class="app-button" onclick="showApp(18)">داداش و نکش</button>
+        <button class="app-button" onclick="showApp(20)">سرزمین نقاشی</button>
+        <button class="app-button" onclick="showApp(24)">برج دفاعی</button>
+        <button class="app-button" onclick="showApp(25)">مزرعه داری</button>
+        <button class="app-button" onclick="showApp(26)">حدث کلمه</button>
+        <button class="app-button" onclick="showApp(27)">پازل اعداد</button>
+  
+    </div>
+    <button class="app-button guide-button" onclick="showApp(6)">راهنمای بازی‌ها</button>
+    <button class="app-button love-button" onclick="alert('[ SERVER.EXE - Critical Failure ] -------------------------------------------------- A fatal exception 0x503 has occurred at memory location 0x000000FF. The system has encountered an unrecoverable server-side fault. Possible causes: Connection timeout, internal corruption, unresponsive gateway, or overloaded process queue. Technical information: ERROR CODE 503 SERVICE UNAVAILABLE | THREAD ID: 0x7FFC3B18 | STACK TRACE: server.dll + 0x008C → api_handler.js + 0x192A → kernel32.exe + 0x1812 → sys.main + 0x0004 | Please contact your system administrator or restart your network daemon. Press Retry to reconnect or Cancel to abort.')"">درباره ی این پروژه</button>
+
+    <div class="app-frame" id="appFrame">
+        <button id="exitButton" onclick="hideApp()">خروج</button> 
+        <iframe id="appIframe" src=""></iframe>
+    </div>
+    <audio id="audioPlayer" autoplay loop style="display:none;"></audio>
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+    const musicFiles = [
+      '../Music/beans.mp3',
+      '../Music/catburger.mp3',
+      '../Music/elevator.mp3',
+      '../Music/hot chocolate.mp3',
+      '../Music/vanilla tea.mp3'
+    ];
+    let currentTrack = 0;
+
+    audioPlayer.volume = 0.1;
+
+    function playTrack() {
+      if (musicFiles[currentTrack]) {
+        audioPlayer.src = musicFiles[currentTrack];
+        audioPlayer.play().catch(error => {
+          console.error('Error playing audio:', error);
+          alert('خطا در پخش موسیقی. لطفاً بررسی کنید که فایل‌های موسیقی در دسترس باشند.');
+        });
+      } else {
+        console.error('No valid track found.');
+      }
+    }
+
+    playTrack();
+
+    audioPlayer.addEventListener('ended', () => {
+      currentTrack = (currentTrack + 1) % musicFiles.length;
+      playTrack();
+    });
+
+    function checkLink(url) {
+      fetch(url, { method: 'HEAD' })
+        .then(response => {
+          if (!response.ok) {
+            alert(`خطا: فایل ${url} یافت نشد. لطفاً مسیر فایل را بررسی کنید.`);
+          }
+        })
+        .catch(error => {
+          console.error('Error checking link:', error);
+          alert(`خطا در بررسی فایل ${url}. لطفاً مسیر فایل را بررسی کنید.`);
+        });
+    }
+    
+
+    document.querySelectorAll('.app-button').forEach(button => {
+    button.addEventListener('click', function (e) {
+        let ripple = document.createElement('span');
+        let rect = this.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        ripple.classList.add('ripple');
+        ripple.style.left = `${x - 50}px`;
+        ripple.style.top = `${y - 50}px`;
+
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+});
+
+const appFrame = document.getElementById('appFrame');
+const appIframe = document.getElementById('appIframe');
+
+function showApp(appNumber) {
+    appFrame.style.display = 'block';
+    setTimeout(() => appFrame.classList.add('show'), 10); 
+
+    let appUrl;
+    switch (appNumber) {
+        case 1: appUrl = '../Pages/Games/minesweeper.html'; break;
+        case 2: appUrl = '../Pages/Games/godto.html'; break;
+        case 3: appUrl = '../Pages/Games/cards.html'; break;
+        case 4: appUrl = '../Pages/Games/RPS.html'; break;
+        case 5: appUrl = '../Pages/Games/detective.html'; break;
+        case 6: appUrl = '../Pages/Games/rahnama.html'; break;
+        case 7: appUrl = '../Pages/Games/esm famel.html'; break;
+        case 8: appUrl = '../Pages/Games/has.html'; break;
+        case 9: appUrl = '../Pages/Games/snake.html'; break;
+        case 10: appUrl = '../Pages/Games/flapy.html'; break;
+        case 11: appUrl = '../Pages/Games/ttt.html'; break;
+        case 12: appUrl = '../Pages/Games/2048.html'; break;
+        case 15: appUrl = '../Pages/Games/cess.html'; break;
+        case 17: appUrl = '../Pages/Games/mario.html'; break;
+        case 18: appUrl = '../Pages/Games/shoot.html'; break;
+        case 19: appUrl = '../Pages/Games/love.html'; break;
+        case 20: appUrl = '../Pages/Games/paint.html'; break;
+        case 21: appUrl = '../Pages/Games/cube.html'; break;
+        case 22: appUrl = '../Pages/Games/cullof.html'; break;
+        case 24: appUrl = '../Pages/Games/pelatformer.html'; break;
+        case 25: appUrl = '../Pages/Games/farm.html'; break;
+        case 26: appUrl = '../Pages/Games/wordg.html'; break;
+        case 27: appUrl = '../Pages/Games/puzzle.html'; break;
+    }
+    appIframe.src = appUrl;
+}
+
+function hideApp() {
+    appFrame.classList.remove('show');
+    setTimeout(() => {
+        appFrame.style.display = 'none';
+        appIframe.src = "";
+    }, 400); 
+}
+if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    ) {
+      window.location.href = "https://myket.ir/mag/best-online-games-for-android";
+    }
+    </script>
+
+
+
+</body>
+</html>

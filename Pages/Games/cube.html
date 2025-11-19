@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مربع گیمز</title>
+    <style>
+        body {
+            background-color: #da7c97;
+            text-align: center;
+            font-family: 'Tahoma', sans-serif;
+        }
+        #gameArea {
+            margin-top: 50px;
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 60vh;
+            max-height: 600px;
+            margin: 0 auto;
+            background-color: #ddd;
+            overflow: hidden;
+            border: 2px solid #333;
+            display: none;
+        }
+        #player {
+            width: 10%;
+            max-width: 50px;
+            height: 10%;
+            max-height: 50px;
+            background-color: red;
+            position: absolute;
+            top: 90%;
+            left: 45%;
+        }
+        .obstacle {
+            width: 5%;
+            max-width: 30px;
+            height: 5%;
+            max-height: 30px;
+            background-color: black;
+            position: absolute;
+        }
+        #score {
+            font-size: 24px;
+            margin-top: 20px;
+            display: none;
+        }
+        #startButton, #restartButton, .controlButton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #restartButton {
+            display: none;
+        }
+        #controls {
+            display: none;
+            margin-top: 20px;
+        }
+        .controlButton {
+            width: 60px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <h1>بازی مربع گیمز</h1>
+    <button id="startButton">شروع بازی</button>
+    <div id="score">امتیاز: 0</div>
+    <button id="restartButton">شروع مجدد</button>
+    <div id="gameArea">
+        <div id="player"></div>
+    </div>
+    <div id="controls">
+        <button class="controlButton" id="leftButton">⬅️</button>
+        <button class="controlButton" id="rightButton">➡️</button>
+    </div>
+
+    <script>
+        let player;
+        let score = 0;
+        let gameArea = document.getElementById('gameArea');
+        let scoreDisplay = document.getElementById('score');
+        let restartButton = document.getElementById('restartButton');
+        let startButton = document.getElementById('startButton');
+        let leftButton = document.getElementById('leftButton');
+        let rightButton = document.getElementById('rightButton');
+        let controls = document.getElementById('controls');
+        let gameOver = false;
+        let obstacleInterval;
+        let moveInterval;
+
+        function movePlayerLeft() {
+            if (gameOver) return;
+            moveInterval = setInterval(() => {
+                let left = parseInt(window.getComputedStyle(player).getPropertyValue("left"));
+                if (left > 0) {
+                    player.style.left = left - 5 + 'px';
+                }
+            }, 10);
+        }
+
+        function movePlayerRight() {
+            if (gameOver) return;
+            moveInterval = setInterval(() => {
+                let left = parseInt(window.getComputedStyle(player).getPropertyValue("left"));
+                if (left < gameArea.offsetWidth - player.offsetWidth) {
+                    player.style.left = left + 5 + 'px';
+                }
+            }, 10);
+        }
+
+        function stopPlayerMove() {
+            clearInterval(moveInterval);
+        }
+
+        function movePlayer(event) {
+            if (gameOver) return;
+            if (event.key === "ArrowRight") {
+                movePlayerRight();
+            } else if (event.key === "ArrowLeft") {
+                movePlayerLeft();
+            }
+        }
+
+        function createObstacle() {
+            if (gameOver) return;
+            let obstacle = document.createElement('div');
+            obstacle.classList.add('obstacle');
+            obstacle.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 30)) + 'px';
+            obstacle.style.top = '0px';
+            gameArea.appendChild(obstacle);
+
+            let drop = setInterval(function() {
+                if (gameOver) {
+                    clearInterval(drop);
+                    obstacle.remove();
+                    return;
+                }
+                let obstacleTop = parseInt(window.getComputedStyle(obstacle).getPropertyValue("top"));
+                let playerLeft = parseInt(window.getComputedStyle(player).getPropertyValue("left"));
+                let obstacleLeft = parseInt(obstacle.style.left);
+
+                if (obstacleTop > gameArea.offsetHeight - player.offsetHeight - 10 && Math.abs(playerLeft - obstacleLeft) < player.offsetWidth) {
+                    score += 10;
+                    scoreDisplay.textContent = "امتیاز: " + score;
+                    obstacle.remove();
+                    clearInterval(drop);
+                }
+
+               // if (obstacleTop >= gameArea.offsetHeight) {
+                 //   gameOver = true;
+                  //  alert("بازی تمام شد!");
+                  //  restartButton.style.display = 'inline'; 
+                  //  startButton.style.display = 'none'; 
+                  //  clearInterval(obstacleInterval);
+               // } 
+                else {
+                    obstacle.style.top = obstacleTop + 7 + 'px';
+               }
+            }, 30);
+        }
+
+        function startGame() {
+            score = Math.max(0, score - 5); 
+            scoreDisplay.textContent = "امتیاز: " + score;
+
+            gameOver = false;
+            startButton.style.display = 'none'; 
+            restartButton.style.display = 'none'; 
+            gameArea.style.display = 'block';
+            controls.style.display = 'block';
+            scoreDisplay.style.display = 'block';
+
+            player = document.getElementById('player');
+            player.style.left = '45%'; 
+
+            
+            let obstacles = document.querySelectorAll('.obstacle');
+            obstacles.forEach(obstacle => obstacle.remove());
+
+            obstacleInterval = setInterval(createObstacle, 1000);
+        }
+
+        function restartGame() {
+            score = Math.max(0, score - 5); 
+            scoreDisplay.textContent = "امتیاز: " + score;
+            startGame(); 
+        }
+
+        document.addEventListener('keydown', movePlayer);
+        document.addEventListener('keyup', stopPlayerMove);
+        startButton.addEventListener('click', startGame);
+        restartButton.addEventListener('click', restartGame);
+        leftButton.addEventListener('mousedown', movePlayerLeft);
+        leftButton.addEventListener('mouseup', stopPlayerMove);
+        rightButton.addEventListener('mousedown', movePlayerRight);
+        rightButton.addEventListener('mouseup', stopPlayerMove);
+        leftButton.addEventListener('touchstart', movePlayerLeft);
+        leftButton.addEventListener('touchend', stopPlayerMove);
+        rightButton.addEventListener('touchstart', movePlayerRight);
+        rightButton.addEventListener('touchend', stopPlayerMove);
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 ماجراجویی در جنگل تاریک</title>
+    <style>
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #014812;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        #game-container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+        }
+        .choice-btn {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            font-size: 18px;
+            border: none;
+            background: #ff9800;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .choice-btn:hover {
+            background: #e65100;
+        }
+        .typing {
+            display: inline-block;
+            border-right: 2px solid white;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 2s steps(40, end), blink-caret 0.8s infinite;
+        }
+        @keyframes blink-caret {
+            50% { border-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div id="game-container">
+    <h2>🌲 جنگل تاریک و ناشناخته</h2>
+    <p id="story-text" class="typing">شما در جنگل تاریکی گم شده‌اید... یک صدای عجیب می‌شنوید... دو راه پیش روی شماست.</p>
+    <button class="choice-btn" onclick="makeChoice('left')">🌙 راه چپ (نور کم‌رنگی دیده می‌شود)</button>
+    <button class="choice-btn" onclick="makeChoice('right')">🔥 راه راست (ردپای آتشین)</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("bg-music").play();
+    });
+
+    function makeChoice(choice) {
+        const storyText = document.getElementById('story-text');
+        let gameContainer = document.getElementById("game-container");
+
+        if (choice === 'left') {
+            gameContainer.style.background = "rgba(0, 0, 50, 0.7)";
+            typeText(storyText, "شما به سمت نور می‌روید... یک خانه‌ی متروکه را پیدا می‌کنید. آیا وارد می‌شوید؟");
+            updateChoices([
+                { text: "🚪 وارد خانه شو", action: "enter" },
+                { text: "🏃 فرار کن!", action: "run" }
+            ]);
+        } 
+        else if (choice === 'right') {
+            gameContainer.style.background = "rgba(50, 0, 0, 0.7)";
+            typeText(storyText, "شما از ردپاهای آتشین پیروی می‌کنید... ناگهان صدای غرش بلندی می‌شنوید! آیا پنهان می‌شوید یا می‌جنگید؟");
+            updateChoices([
+                { text: "🤐 پنهان شو", action: "hide" },
+                { text: "⚔️ آماده‌ی نبرد!", action: "fight" }
+            ]);
+        } 
+        else if (choice === 'enter') {
+            typeText(storyText, "خانه تاریک و ترسناک است... ناگهان یک سایه در گوشه‌ای حرکت می‌کند! آیا فرار می‌کنی یا بررسی می‌کنی؟");
+            updateChoices([
+                { text: "🏃 فرار از خانه!", action: "run" },
+                { text: "🔦 بررسی سایه", action: "shadow" }
+            ]);
+        } 
+        else if (choice === 'run') {
+            typeText(storyText, "شما با سرعت فرار کردید و از جنگل خارج شدید! 🎉 شما زنده ماندید!");
+            clearChoices();
+        } 
+        else if (choice === 'shadow') {
+            typeText(storyText, "یک روح قدیمی در خانه زندگی می‌کند... شما طلسم شدید و برای همیشه در خانه ماندید! ☠️ پایان تلخ!");
+            clearChoices();
+        } 
+        else if (choice === 'hide') {
+            typeText(storyText, "شما پشت درخت پنهان شدید... اما هیولای آتشین شما را بو کشید! ☠️ پایان تلخ!");
+            clearChoices();
+        } 
+        else if (choice === 'fight') {
+            typeText(storyText, "شما با شمشیر خود به هیولا حمله کردید و او را شکست دادید! 🎉 قهرمان جنگل شدید!");
+            clearChoices();
+        }
+    }
+
+    function typeText(element, text) {
+        element.innerHTML = "";
+        let i = 0;
+        function typingEffect() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typingEffect, 50);
+            }
+        }
+        typingEffect();
+    }
+
+    function updateChoices(choices) {
+        document.querySelectorAll('.choice-btn').forEach((btn, index) => {
+            if (choices[index]) {
+                btn.innerText = choices[index].text;
+                btn.setAttribute('onclick', `makeChoice('${choices[index].action}')`);
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        });
+    }
+
+    function clearChoices() {
+        document.querySelectorAll('.choice-btn').forEach(btn => btn.style.display = "none");
+    }
+</script>
+
+</body>
+</html>

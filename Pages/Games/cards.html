@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی کارت‌های یک شکل</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #a7ee81;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        #game-board {
+            display: grid;
+            gap: 10px;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #ffffff;
+            border: 2px solid #007BFF;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            background-color: #e0f7fa;
+        }
+        .flipped {
+            background-color: #e0f7fa;
+        }
+        .matched {
+            background-color: #c8e6c9;
+            pointer-events: none;
+        }
+        #restart-btn {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>بازی کارت‌های یک شکل</h1>
+    <select id="difficulty" onchange="setDifficulty()">
+        <option value="easy">آسان</option>
+        <option value="medium">متوسط</option>
+        <option value="hard">سخت</option>
+    </select>
+    <div id="game-board"></div>
+    <button id="restart-btn" onclick="setDifficulty()">شروع مجدد</button>
+    <script>
+        let cards = [];
+        let cardValues = [];
+        let cardIds = [];
+        let matchedCards = [];
+        const gameBoard = document.getElementById('game-board');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function setDifficulty() {
+            const difficulty = document.getElementById('difficulty').value;
+            switch (difficulty) {
+                case 'easy':
+                    cards = ['🍏', '🍏', '🍌', '🍌'];
+                    gameBoard.style.gridTemplateColumns = 'repeat(2, 100px)';
+                    gameBoard.style.gridTemplateRows = 'repeat(2, 100px)';
+                    break;
+                case 'medium':
+                    cards = ['🍏', '🍏', '🍌', '🍌', '🍇', '🍇', '🍊', '🍊'];
+                    gameBoard.style.gridTemplateColumns = 'repeat(4, 100px)';
+                    gameBoard.style.gridTemplateRows = 'repeat(2, 100px)';
+                    break;
+                case 'hard':
+                    cards = ['🍏', '🍏', '🍌', '🍌', '🍇', '🍇', '🍊', '🍊', '🍓', '🍓', '🍒', '🍒', '🍍', '🍍', '🥭', '🥭'];
+                    gameBoard.style.gridTemplateColumns = 'repeat(4, 100px)';
+                    gameBoard.style.gridTemplateRows = 'repeat(4, 100px)';
+                    break;
+            }
+            restartBtn.style.display = 'none';
+            createBoard();
+        }
+
+        function createBoard() {
+            gameBoard.innerHTML = '';
+            matchedCards = [];
+            cardValues = [];
+            cardIds = [];
+            cards = shuffle(cards);
+            
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.setAttribute('data-id', index);
+                cardElement.onclick = flipCard;
+                gameBoard.appendChild(cardElement);
+            });
+        }
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function flipCard() {
+            const selected = this;
+            const cardId = selected.getAttribute('data-id');
+            
+            if (cardValues.length < 2 && !selected.classList.contains('flipped')) {
+                selected.innerHTML = cards[cardId];
+                selected.classList.add('flipped');
+                cardValues.push(cards[cardId]);
+                cardIds.push(cardId);
+            }
+
+            if (cardValues.length === 2) {
+                setTimeout(checkMatch, 500);
+            }
+        }
+
+        function checkMatch() {
+            const boardCards = document.querySelectorAll('.card');
+            const [firstCardId, secondCardId] = cardIds;
+            
+            if (cardValues[0] === cardValues[1] && firstCardId !== secondCardId) {
+                boardCards[firstCardId].classList.add('matched');
+                boardCards[secondCardId].classList.add('matched');
+                matchedCards.push(cardValues[0]);
+            } else {
+                boardCards[firstCardId].innerHTML = '';
+                boardCards[secondCardId].innerHTML = '';
+                boardCards[firstCardId].classList.remove('flipped');
+                boardCards[secondCardId].classList.remove('flipped');
+            }
+            
+            cardValues = [];
+            cardIds = [];
+
+            if (matchedCards.length === cards.length / 2) {
+                restartBtn.style.display = 'block';
+            }
+        }
+
+        setDifficulty();
+    </script>
+</body>
+</html>

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<title>سنگ کاغذ قیچی</title>
+<style>
+    body { 
+        margin: 0; 
+        overflow: hidden; 
+        font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+        background-color: #008080;
+    }
+    #gameUI {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: black;
+        padding: 3px;
+        background: #c0c0c0;
+        border: 2px solid;
+        border-top-color: #ffffff;
+        border-left-color: #ffffff;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        box-shadow: 1px 1px 0 0 #000000;
+    }
+    .title-bar {
+        background: #000080;
+        color: white;
+        padding: 2px 3px;
+        margin: -3px -3px 3px -3px;
+        font-weight: bold;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+    }
+    .title-bar-icon {
+        width: 16px;
+        height: 16px;
+        background: #c0c0c0;
+        margin-right: 3px;
+    }
+    .choice-btn {
+        background: #c0c0c0;
+        border: 2px solid;
+        border-top-color: #ffffff;
+        border-left-color: #ffffff;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        color: black;
+        padding: 5px 10px;
+        margin: 5px;
+        cursor: pointer;
+        font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+        font-size: 12px;
+        min-width: 70px;
+    }
+    .choice-btn:active {
+        border-top-color: #808080;
+        border-left-color: #808080;
+        border-right-color: #ffffff;
+        border-bottom-color: #ffffff;
+    }
+    .choice-btn:focus {
+        outline: 1px dotted #000000;
+        outline-offset: -4px;
+    }
+    #result {
+        margin-top: 20px;
+        font-size: 12px;
+        border: 1px solid #808080;
+        padding: 5px;
+        background: white;
+    }
+    #score, #round {
+        margin-top: 10px;
+        font-size: 12px;
+    }
+    #nextRound {
+        background: #c0c0c0;
+        border: 2px solid;
+        border-top-color: #ffffff;
+        border-left-color: #ffffff;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        color: black;
+        padding: 5px 10px;
+        margin-top: 10px;
+        font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+        font-size: 12px;
+        display: none;
+        min-width: 70px;
+    }
+    #nextRound:active {
+        border-top-color: #808080;
+        border-left-color: #808080;
+        border-right-color: #ffffff;
+        border-bottom-color: #ffffff;
+    }
+    .score-label {
+        position: absolute;
+        background: #c0c0c0;
+        border: 2px solid;
+        border-top-color: #ffffff;
+        border-left-color: #ffffff;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        padding: 5px;
+        font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+        font-size: 12px;
+        text-align: center;
+        width: 150px;
+    }
+    #playerScore {
+        bottom: 20px;
+        left: 20%;
+        transform: translateX(-50%);
+    }
+    #npcScore {
+        bottom: 20px;
+        right: 20%;
+        transform: translateX(50%);
+    }
+    .status-text {
+        position: absolute;
+        background: #c0c0c0;
+        border: 2px solid;
+        border-top-color: #ffffff;
+        border-left-color: #ffffff;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        padding: 5px;
+        font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+        font-size: 12px;
+        text-align: center;
+        width: 100px;
+    }
+    #playerStatus {
+        bottom: 120px;
+        left: 20%;
+        transform: translateX(-50%);
+    }
+    #npcStatus {
+        bottom: 120px;
+        right: 20%;
+        transform: translateX(50%);
+    }
+    #resetButton {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #c0c0c0;
+        border: 2px solid;
+        border-top-color: #ffffff;
+        border-left-color: #ffffff;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        color: black;
+        padding: 5px 10px;
+        font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    #resetButton:active {
+        border-top-color: #808080;
+        border-left-color: #808080;
+        border-right-color: #ffffff;
+        border-bottom-color: #ffffff;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.7.1/dist/gsap.min.js"></script>
+</head>
+<body>
+<div id="gameUI">
+    <div class="title-bar">
+        <div class="title-bar-icon"></div>
+        سنگ کاغذ قیچی  
+    </div>
+    <div id="round">دور: 1</div>
+    <div>
+        <button class="choice-btn" onclick="play('rock')">سنگ</button>
+        <button class="choice-btn" onclick="play('paper')">کاغذ</button>
+        <button class="choice-btn" onclick="play('scissors')">قیچی</button>
+    </div>
+    <div id="result"></div>
+    <div id="score">امتیاز شما: 0 | امتیاز کامپیوتر: 0</div>
+    <button id="nextRound" onclick="startNewRound()">دور بعدی</button>
+</div>
+<div id="playerScore" class="score-label">
+    بازیکن<br>
+    امتیاز: 0<br>
+    آخرین انتخاب: --
+</div>
+<div id="npcScore" class="score-label">
+    کامپیوتر<br>
+    امتیاز: 0<br>
+    آخرین انتخاب: --
+</div>
+<div id="playerStatus" class="status-text">
+    --
+</div>
+<div id="npcStatus" class="status-text">
+    --
+</div>
+<button id="resetButton" onclick="resetProgress()">شروع مجدد</button>
+<script>
+let scene, camera, renderer, playerMesh, npcMesh;
+let playerBody, npcBody;  
+let playerIndicator, npcIndicator;
+let playerHands, npcHands;
+let playerScore = 0, npcScore = 0, currentRound = 1;
+let buttonsEnabled = true;
+let mouse = new THREE.Vector2();
+let isChoiceMade = false;
+let blinkInterval; 
+let playerConfetti = [], npcConfetti = [];
+const confettiColors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff];
+
+function createConfettiParticle(isPlayer) {
+    const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.02);
+    const material = new THREE.MeshPhongMaterial({ 
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        shininess: 80
+    });
+    const particle = new THREE.Mesh(geometry, material);
+    const x = isPlayer ? -2 : 2;
+    particle.position.set(
+        x + (Math.random() - 0.5),
+        2, 
+        Math.random() - 0.5
+    );
+    particle.rotation.set(
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2
+    );
+    particle.velocity = {
+        y: -(Math.random() * 0.05 + 0.02),
+        rot: (Math.random() - 0.5) * 0.2
+    };
+    scene.add(particle);
+    return particle;
+}
+
+function updateConfetti() {
+    for(let i = playerConfetti.length - 1; i >= 0; i--) {
+        const particle = playerConfetti[i];
+        particle.position.y += particle.velocity.y;
+        particle.rotation.x += particle.velocity.rot;
+        particle.rotation.y += particle.velocity.rot;
+        if(particle.position.y < -2) {
+            scene.remove(particle);
+            playerConfetti.splice(i, 1);
+        }
+    }
+    for(let i = npcConfetti.length - 1; i >= 0; i--) {
+        const particle = npcConfetti[i];
+        particle.position.y += particle.velocity.y;
+        particle.rotation.x += particle.velocity.rot;
+        particle.rotation.y += particle.velocity.rot;
+        if(particle.position.y < -2) {
+            scene.remove(particle);
+            npcConfetti.splice(i, 1);
+        }
+    }
+}
+
+function createConfettiShower(isPlayer) {
+    if(isPlayer) {
+        playerConfetti.forEach(p => scene.remove(p));
+        playerConfetti = [];
+    } else {
+        npcConfetti.forEach(p => scene.remove(p));
+        npcConfetti = [];
+    }
+    for(let i = 0; i < 50; i++) {
+        const particle = createConfettiParticle(isPlayer);
+        if(isPlayer) {
+            playerConfetti.push(particle);
+        } else {
+            npcConfetti.push(particle);
+        }
+    }
+}
+
+document.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
+
+function createBody() {
+    const bodyGroup = new THREE.Group();
+    const sphereGeometry = new THREE.SphereGeometry(0.6, 32, 32);
+    const sphereMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xFFFF00,  
+        shininess: 50
+    });
+    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    sphere.position.y = -0.3;  
+    bodyGroup.add(sphere);
+    return bodyGroup;
+}
+
+function createHappyFace() {
+    const faceGroup = new THREE.Group();
+    const geometry = new THREE.PlaneGeometry(0.8, 0.5);
+    const normalTexture = new THREE.TextureLoader().load('/costume5.png');
+    const blinkTexture = new THREE.TextureLoader().load('/costume6.png');
+    const losingTexture = new THREE.TextureLoader().load('/costume2.png');
+    const losingBlinkTexture = new THREE.TextureLoader().load('/costume3.png');
+    const material = new THREE.MeshBasicMaterial({ 
+        map: normalTexture,
+        transparent: true,
+        side: THREE.DoubleSide
+    });
+    const face = new THREE.Mesh(geometry, material);
+    face.position.z = 0.7;  
+    face.position.y = -0.3;  
+    faceGroup.add(face);
+    face.currentState = 'normal';
+    face.blink = function(isLosing) {
+        const currentTexture = this.material.map;
+        if (isLosing) {
+            this.material.map = currentTexture === losingTexture ? losingBlinkTexture : losingTexture;
+        } else {
+            this.material.map = currentTexture === normalTexture ? blinkTexture : normalTexture;
+        }
+        this.material.needsUpdate = true;
+    };
+    face.setLosing = function(isLosing) {
+        this.material.map = isLosing ? losingTexture : normalTexture;
+        this.material.needsUpdate = true;
+    };
+    return faceGroup;
+}
+
+function createStatusIndicator() {
+    const geometry = new THREE.CircleGeometry(0.2, 32);
+    const material = new THREE.MeshBasicMaterial({ 
+        color: 0x808080,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0
+    });
+    const circle = new THREE.Mesh(geometry, material);
+    circle.position.y = 1;
+    return circle;
+}
+
+function createHandSign(choice) {
+    const handGroup = new THREE.Group();
+    const handMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xffdbac,
+        shininess: 20,
+        specular: 0x555555
+    });
+    if (choice === 'rock') {
+        const mainFist = new THREE.BoxGeometry(0.3, 0.35, 0.25);
+        const fist = new THREE.Mesh(mainFist, handMaterial);
+        const knuckleGeom = new THREE.SphereGeometry(0.06, 8, 8);
+        for(let i = 0; i < 4; i++) {
+            const knuckle = new THREE.Mesh(knuckleGeom, handMaterial);
+            knuckle.position.set(-0.1 + (i * 0.07), 0.1, 0.13);
+            handGroup.add(knuckle);
+        }
+        const thumbGeom = new THREE.CylinderGeometry(0.05, 0.04, 0.2);
+        const thumb = new THREE.Mesh(thumbGeom, handMaterial);
+        thumb.rotation.x = Math.PI / 4;
+        thumb.position.set(-0.15, -0.1, 0.1);
+        handGroup.add(fist);
+        handGroup.add(thumb);
+    } else if (choice === 'paper') {
+        const palm = new THREE.BoxGeometry(0.4, 0.5, 0.08);
+        const mainPalm = new THREE.Mesh(palm, handMaterial);
+        const fingerGeom = new THREE.CylinderGeometry(0.04, 0.03, 0.3);
+        for(let i = 0; i < 4; i++) {
+            const finger = new THREE.Mesh(fingerGeom, handMaterial);
+            finger.position.set(-0.15 + (i * 0.1), 0.3, 0);
+            finger.rotation.x = -0.2;
+            handGroup.add(finger);
+        }
+        const thumbGeom = new THREE.CylinderGeometry(0.04, 0.03, 0.25);
+        const thumb = new THREE.Mesh(thumbGeom, handMaterial);
+        thumb.position.set(-0.25, 0, 0);
+        thumb.rotation.z = Math.PI / 4;
+        handGroup.add(mainPalm);
+        handGroup.add(thumb);
+    } else if (choice === 'scissors') {
+        const fingerGeom = new THREE.CylinderGeometry(0.04, 0.03, 0.4);
+        const finger1 = new THREE.Mesh(fingerGeom, handMaterial);
+        const finger2 = new THREE.Mesh(fingerGeom, handMaterial);
+        finger1.position.set(0.06, 0.1, 0);
+        finger1.rotation.z = -Math.PI / 12;
+        finger2.position.set(-0.06, 0.1, 0);
+        finger2.rotation.z = Math.PI / 12;
+        const palmGeom = new THREE.BoxGeometry(0.3, 0.3, 0.1);
+        const palm = new THREE.Mesh(palmGeom, handMaterial);
+        palm.position.y = -0.1;
+        const foldedFingerGeom = new THREE.BoxGeometry(0.15, 0.1, 0.1);
+        const foldedFingers = new THREE.Mesh(foldedFingerGeom, handMaterial);
+        foldedFingers.position.y = -0.2;
+        handGroup.add(finger1);
+        handGroup.add(finger2);
+        handGroup.add(palm);
+        handGroup.add(foldedFingers);
+    }
+    handGroup.position.y = -1;
+    handGroup.rotation.x = Math.PI / 6; 
+    handGroup.visible = false;
+    return handGroup;
+}
+
+const glitchShader = {
+    uniforms: {
+        'tDiffuse': { value: null },
+        'intensity': { value: 0.0 },
+        'time': { value: 0.0 }
+    },
+    vertexShader: `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `,
+    fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform float intensity;
+        uniform float time;
+        varying vec2 vUv;
+        float rand(vec2 co) {
+            return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+        }
+        void main() {
+            vec2 uv = vUv;
+            float amount = intensity * 0.05;
+            vec2 offset = amount * vec2(cos(time * 2.0), sin(time * 2.0));
+            vec4 cr = texture2D(tDiffuse, uv + offset);
+            vec4 cg = texture2D(tDiffuse, uv);
+            vec4 cb = texture2D(tDiffuse, uv - offset);
+            float noise = rand(uv * time) * intensity;
+            float glitchY = floor(uv.y * 10.0) * 0.1;
+            float glitchAmount = rand(vec2(glitchY, time)) * intensity;
+            uv.x += glitchAmount * (rand(vec2(glitchY, time * 0.1)) * 2.0 - 1.0);
+            vec4 color = vec4(cr.r, cg.g, cb.b, 1.0);
+            color.rgb += noise * 0.5;
+            gl_FragColor = color;
+        }
+    `
+};
+
+let composer, glitchPass;
+
+function init() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x008080); 
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(0, 10, 10);
+    scene.add(directionalLight);
+    playerMesh = createHappyFace();
+    playerMesh.position.x = -2;
+    playerMesh.position.y = 0.3;  
+    scene.add(playerMesh);
+    npcMesh = createHappyFace();
+    npcMesh.position.x = 2;
+    npcMesh.position.y = 0.3;  
+    scene.add(npcMesh);
+    playerBody = createBody();
+    playerBody.position.x = -2;
+    scene.add(playerBody);
+    npcBody = createBody();
+    npcBody.position.x = 2;
+    scene.add(npcBody);
+    playerIndicator = createStatusIndicator();
+    playerMesh.add(playerIndicator);
+    npcIndicator = createStatusIndicator();
+    npcMesh.add(npcIndicator);
+    playerHands = {
+        rock: createHandSign('rock'),
+        paper: createHandSign('paper'),
+        scissors: createHandSign('scissors')
+    };
+    npcHands = {
+        rock: createHandSign('rock'),
+        paper: createHandSign('paper'),
+        scissors: createHandSign('scissors')
+    };
+    Object.values(playerHands).forEach(hand => playerMesh.add(hand));
+    Object.values(npcHands).forEach(hand => npcMesh.add(hand));
+    camera.position.z = 5;
+    const renderScene = new THREE.RenderPass(scene, camera);
+    composer = new THREE.EffectComposer(renderer);
+    composer.addPass(renderScene);
+    glitchPass = new THREE.ShaderPass(glitchShader);
+    glitchPass.uniforms.intensity.value = 0.0;
+    composer.addPass(glitchPass);
+    setInterval(() => {
+        const shouldBlink = Math.random() < 0.1; 
+        if (shouldBlink) {
+            const playerIsLosing = playerScore < npcScore;
+            const npcIsLosing = npcScore < playerScore;
+            playerMesh.children[0].blink(playerIsLosing);
+            npcMesh.children[0].blink(npcIsLosing);
+            setTimeout(() => {
+                playerMesh.children[0].blink(playerIsLosing);
+                npcMesh.children[0].blink(npcIsLosing);
+            }, 150);
+        }
+    }, 1000); 
+    animate();
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    if (playerScore < npcScore) {
+        const scoreDiff = Math.min(npcScore - playerScore, 3); 
+        const ratio = scoreDiff / 3;
+        const r = Math.floor(lerp(0, 139, ratio));
+        const g = Math.floor(lerp(128, 0, ratio));
+        const b = Math.floor(lerp(128, 0, ratio));
+        const color = new THREE.Color(r/255, g/255, b/255);
+        scene.background = color;
+        document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        glitchPass.uniforms.intensity.value = ratio * 1.5;
+        glitchPass.uniforms.time.value += 0.01;
+    } else {
+        scene.background = new THREE.Color(0x008080);
+        document.body.style.backgroundColor = '#008080';
+        glitchPass.uniforms.intensity.value = 0.0;
+    }
+    playerBody.position.x = playerMesh.position.x;
+    playerBody.position.y = playerMesh.position.y;
+    playerBody.rotation.y = playerMesh.rotation.y;
+    npcBody.position.x = npcMesh.position.x;
+    npcBody.position.y = npcMesh.position.y;
+    npcBody.rotation.y = npcMesh.rotation.y;
+    if (!isChoiceMade) {
+        const mouseX = mouse.x * 5; 
+        const targetRotation = Math.atan2(mouseX - playerMesh.position.x, 5);
+        playerMesh.rotation.y = targetRotation;
+    } else {
+        const targetRotation = Math.atan2(npcMesh.position.x - playerMesh.position.x, 0);
+        playerMesh.rotation.y = targetRotation;
+        npcMesh.rotation.y = Math.atan2(playerMesh.position.x - npcMesh.position.x, 0);
+    }
+    updateConfetti();
+    composer.render();
+}
+
+function lerp(start, end, ratio) {
+    return start + (end - start) * ratio;
+}
+
+function updateIndicators(result) {
+    playerIndicator.material.opacity = 1;
+    npcIndicator.material.opacity = 1;
+    if (result === "مساوی شدید!") {
+        playerIndicator.material.color.setHex(0x0000FF); 
+        npcIndicator.material.color.setHex(0x0000FF); 
+    } else if (result === 'شما برنده شدید!') {
+        playerIndicator.material.color.setHex(0x00FF00); 
+        npcIndicator.material.color.setHex(0xFF0000); 
+    } else {
+        playerIndicator.material.color.setHex(0xFF0000); 
+        npcIndicator.material.color.setHex(0x00FF00); 
+    }
+}
+
+function updateStatus() {
+    const playerStatusEl = document.getElementById('playerStatus');
+    const npcStatusEl = document.getElementById('npcStatus');
+    if (playerScore === npcScore) {
+        playerStatusEl.textContent = "مساوی";
+        npcStatusEl.textContent = "مساوی";
+    } else if (playerScore > npcScore) {
+        playerStatusEl.textContent = "برنده";
+        npcStatusEl.textContent = "بازنده";
+    } else {
+        playerStatusEl.textContent = "بازنده";
+        npcStatusEl.textContent = "برنده";
+    }
+}
+
+function play(playerChoice) {
+    if (!buttonsEnabled) return;
+    isChoiceMade = true; 
+    buttonsEnabled = false;
+    const choices = ['rock', 'paper', 'scissors'];
+    const npcChoice = choices[Math.floor(Math.random() * 3)];
+    playerMesh.position.set(-2, 0, 0);
+    npcMesh.position.set(2, 0, 0);
+    gsap.to(playerMesh.scale, {
+        x: 1.5,
+        y: 1.5,
+        z: 1.5,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1
+    });
+    gsap.to(npcMesh.scale, {
+        x: 1.5,
+        y: 1.5,
+        z: 1.5,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1
+    });
+    let result;
+    if (playerChoice === npcChoice) {
+        result = "مساوی شدید!";
+    } else if (
+        (playerChoice === 'rock' && npcChoice === 'scissors') ||
+        (playerChoice === 'paper' && npcChoice === 'rock') ||
+        (playerChoice === 'scissors' && npcChoice === 'paper')
+    ) {
+        result = 'شما برنده شدید!';
+        playerScore++;
+        createConfettiShower(true);  
+    } else {
+        result = 'کامپیوتر برنده شد!';
+        npcScore++;
+        createConfettiShower(false); 
+    }
+    document.getElementById('result').innerHTML = `
+        انتخاب شما: ${playerChoice === 'rock' ? 'سنگ' : playerChoice === 'paper' ? 'کاغذ' : 'قیچی'}<br>
+        انتخاب کامپیوتر: ${npcChoice === 'rock' ? 'سنگ' : npcChoice === 'paper' ? 'کاغذ' : 'قیچی'}<br>
+        ${result}
+    `;
+    document.getElementById('score').textContent = `امتیاز شما: ${playerScore} | امتیاز کامپیوتر: ${npcScore}`;
+    document.getElementById('nextRound').style.display = 'block';
+    updateIndicators(result);
+    document.getElementById('playerScore').innerHTML = `
+        بازیکن<br>
+        امتیاز: ${playerScore}<br>
+        آخرین انتخاب: ${playerChoice === 'rock' ? 'سنگ' : playerChoice === 'paper' ? 'کاغذ' : 'قیچی'}
+    `;
+    document.getElementById('npcScore').innerHTML = `
+        کامپیوتر<br>
+        امتیاز: ${npcScore}<br>
+        آخرین انتخاب: ${npcChoice === 'rock' ? 'سنگ' : npcChoice === 'paper' ? 'کاغذ' : 'قیچی'}
+    `;
+    updateStatus();
+    Object.values(playerHands).forEach(hand => hand.visible = false);
+    Object.values(npcHands).forEach(hand => hand.visible = false);
+    playerHands[playerChoice].visible = true;
+    npcHands[npcChoice].visible = true;
+    const buttons = document.getElementsByClassName('choice-btn');
+    for (let button of buttons) {
+        button.style.opacity = '0.5';
+        button.disabled = true;
+    }
+}
+
+function startNewRound() {
+    currentRound++;
+    isChoiceMade = false; 
+    document.getElementById('round').textContent = `دور: ${currentRound}`;
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('nextRound').style.display = 'none';
+    playerMesh.position.set(-2, 0, 0);
+    npcMesh.position.set(2, 0, 0);
+    playerIndicator.material.opacity = 0;
+    npcIndicator.material.opacity = 0;
+    Object.values(playerHands).forEach(hand => hand.visible = false);
+    Object.values(npcHands).forEach(hand => hand.visible = false);
+    const buttons = document.getElementsByClassName('choice-btn');
+    for (let button of buttons) {
+        button.style.opacity = '1';
+        button.disabled = false;
+    }
+    buttonsEnabled = true;
+    playerMesh.scale.set(1, 1, 1);
+    npcMesh.scale.set(1, 1, 1);
+    gsap.from([playerMesh.position, npcMesh.position], {
+        y: -5,
+        duration: 1,
+        ease: "bounce.out"
+    });
+    playerConfetti.forEach(p => scene.remove(p));
+    npcConfetti.forEach(p => scene.remove(p));
+    playerConfetti = [];
+    npcConfetti = [];
+}
+
+function resetProgress() {
+    playerScore = 0;
+    npcScore = 0;
+    currentRound = 1;
+    isChoiceMade = false;
+    document.getElementById('round').textContent = `دور: ${currentRound}`;
+    document.getElementById('score').textContent = `امتیاز شما: ${playerScore} | امتیاز کامپیوتر: ${npcScore}`;
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('nextRound').style.display = 'none';
+    document.getElementById('playerScore').innerHTML = `
+        بازیکن<br>
+        امتیاز: 0<br>
+        آخرین انتخاب: --
+    `;
+    document.getElementById('npcScore').innerHTML = `
+        کامپیوتر<br>
+        امتیاز: 0<br>
+        آخرین انتخاب: --
+    `;
+    document.getElementById('playerStatus').textContent = '--';
+    document.getElementById('npcStatus').textContent = '--';
+    playerIndicator.material.opacity = 0;
+    npcIndicator.material.opacity = 0;
+    playerMesh.position.set(-2, 0, 0);
+    npcMesh.position.set(2, 0, 0);
+    playerMesh.scale.set(1, 1, 1);
+    npcMesh.scale.set(1, 1, 1);
+    playerBody.position.set(-2, 0, 0);
+    npcBody.position.set(2, 0, 0);
+    Object.values(playerHands).forEach(hand => hand.visible = false);
+    Object.values(npcHands).forEach(hand => hand.visible = false);
+    const buttons = document.getElementsByClassName('choice-btn');
+    for (let button of buttons) {
+        button.style.opacity = '1';
+        button.disabled = false;
+    }
+    buttonsEnabled = true;
+    playerConfetti.forEach(p => scene.remove(p));
+    npcConfetti.forEach(p => scene.remove(p));
+    playerConfetti = [];
+    npcConfetti = [];
+}
+
+window.addEventListener('resize', onWindowResize, false);
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+init();
+</script>
+</body></html>

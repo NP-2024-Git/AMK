@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../Immages/Site_logo.png">
+  <title>A.M.K | دانلود کتاب ها</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Vazir', sans-serif;
+      background: url("../Immages/Background(2).png") center center/cover no-repeat;
+      background-attachment: fixed;
+    }
+    body {
+      min-height: 100vh;
+      width: 100vw;
+    }
+    .site-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 90vh;
+      width: 100vw;
+      gap: 2em;
+    }
+    h1 {
+      margin: 1em 0 1em 0;
+      font-size: 2em;
+      font-weight: 700;
+      color: #000000;
+      text-shadow: 0 0 8px rgba(0,0,0,0.8);
+      border-bottom: 2px solid rgba(255,255,255,0.2);
+      padding-bottom: 0.5em;
+      width: 100%;
+      text-align: center;
+    }
+    h2 {
+      margin-top: 1.5em;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.5em;
+      color: #e83f3f;
+      border-right: 4px solid #bd4747;
+      padding-right: 10px;
+      min-width: 260px;
+      text-align: center;
+      text-shadow: 0 0 6px rgba(0,183,255,0.6);
+      background: rgba(0,0,0,0.2);
+      border-radius: 7px;
+    }
+    .pdf-list {
+      width: 90%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 0.8em;
+      margin-bottom: 1.5em;
+    }
+    .pdf-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.6);
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .pdf-item:hover {
+      transform: scale(1.02);
+      background: rgba(255,255,255,0.11);
+    }
+    .pdf-name {
+      font-size: 1.05em;
+      font-weight: 500;
+      color: #fff;
+      text-shadow: 0 0 4px #000;
+      padding-left: 2px;
+    }
+    .download-btn {
+      background: #00a2ff;
+      border: none;
+      color: #fff;
+      padding: 4px 10px;      /* Smaller padding! */
+      border-radius: 5px;     /* Slightly less round */
+      cursor: pointer;
+      font-size: 0.83em;      /* Smaller font! */
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 10px rgba(0,162,255,0.4);
+      min-width: 60px;
+    }
+    .download-btn:hover {
+      background: #0090ff;
+      box-shadow: 0 0 20px rgba(0,162,255,0.6);
+    }
+    audio {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      opacity: 0.8;
+      z-index: 10;
+    }
+    @media (max-width: 950px) {
+      .site-container {
+        width: 98vw;
+        min-height: 75vh;
+      }
+      .pdf-list {
+        width: 99vw;
+        max-width: 99vw;
+      }
+      h2 {
+        min-width: 180px;
+        font-size: 1.25em;
+      }
+      .download-btn {
+        min-width: 56px;     /* Even smaller for tablet */
+        font-size: 0.8em;
+        padding: 4px 9px;
+      }
+    }
+    @media (max-width: 600px) {
+      .site-container {
+        min-height: unset;
+        gap: 1em;
+        padding: 0 6px;
+      }
+      h1 {
+        font-size: 1.12em;
+        padding-bottom: 0.28em;
+      }
+      h2 {
+        font-size: 0.96em;
+        min-width: 80px;
+        padding-right: 6px;
+      }
+      .pdf-list {
+        width: 99vw;
+        max-width: 99vw;
+        gap: 9px;
+      }
+      .pdf-item {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 6px;
+      }
+      .pdf-name {
+        font-size: 0.96em;
+        margin-bottom: 7px;
+        padding-right: 5px;
+      }
+      .download-btn {
+        width: 66px;           /* COMPACT on mobile */
+        font-size: 0.82em;
+        padding: 10px 0;
+        margin: 0 auto;
+        display: block;
+      }
+      audio {
+        width: 92vw;
+        left: 4vw;
+        bottom: 10vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-container">
+    <h1>کتاب‌های درسی</h1>
+    <div class="pdf-item">
+      <span class="pdf-name">بارمبندی دروس</span>
+      <a href="https://www.roshd.ir/DesktopModules/Barrizon/LArticle/api/File/Get/d41b7e57-1991-4fc5-bd1f-fcfc843f427b?download=false" download><button class="download-btn">دانلود</button></a>
+    </div>
+    <!-- پایه هفتم -->
+    <h2>پایه هفتم</h2>
+    <div class="pdf-list">
+        <div class="pdf-item"><span class="pdf-name">نگارش هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C704.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">فارسی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C703.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">پیام‌های آسمانی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C702.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">آموزش قرآن هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C701.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">فرهنگ و هنر هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C708.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">مطالعات اجتماعی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C707.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">علوم تجربی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C706.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">ریاضی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C705.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">تفکر و سبک زندگی (پسران) هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C712.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">کتاب کار انگلیسی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C711.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">کتاب انگلیسی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C710.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">عربی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C709.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">کار و فناوری هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C717.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">از من تا خدای هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C741.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">فارسی و نگارش تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C722.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">ریاضی تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C723.pdf" download><button class="download-btn">دانلود</button></a></div>
+        <div class="pdf-item"><span class="pdf-name">علوم تجربی تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/555/C724.pdf" download><button class="download-btn">دانلود</button></a></div>
+      </div>
+  
+      <!-- پایه هشتم -->
+      <h2>پایه هشتم</h2>
+      <div class="pdf-list">
+          <div class="pdf-item"><span class="pdf-name">نگارش هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C804.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">فارسی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C803.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">پیام‌های آسمانی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C802.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">آموزش قرآن هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C801.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">فرهنگ و هنر هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C808.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">مطالعات اجتماعی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C807.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">علوم تجربی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C806.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">ریاضی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C805.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">تفکر و سبک زندگی (پسران) هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C812.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">کتاب کار انگلیسی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C811.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">کتاب انگلیسی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C810.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">عربی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C809.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">کار و فناوری هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C817.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">از من تا خدای هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C841.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">فارسی و نگارش تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C822.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">ریاضی تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C823.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">علوم تجربی تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/558/C824.pdf" download><button class="download-btn">دانلود</button></a></div>
+      </div>
+  
+      <!-- پایه نهم -->
+      <h2>پایه نهم</h2>
+      <div class="pdf-list">
+          <div class="pdf-item"><span class="pdf-name">نگارش هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C904.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">فارسی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C903.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">پیام‌های آسمانی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C902.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">آموزش قرآن هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C901.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">فرهنگ و هنر هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C908.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">مطالعات اجتماعی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C907.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">علوم تجربی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C906.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">ریاضی وزارتی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C905.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">تفکر و سبک زندگی (پسران) هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C912.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">کتاب کار انگلیسی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C911.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">کتاب انگلیسی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C910.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">عربی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C909.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">کار و فناوری هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C917.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">از من تا خدای هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C941.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">فارسی و نگارش تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C922.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">ریاضی تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C923.pdf" download><button class="download-btn">دانلود</button></a></div>
+          <div class="pdf-item"><span class="pdf-name">علوم تجربی تکمیلی هفتم</span><a href="http://chap.sch.ir/sites/default/files/lbooks/1404-1405/556/C924.pdf" download><button class="download-btn">دانلود</button></a></div>
+      </div>
+    </div>
+  <audio id="audioPlayer" loop></audio>
+  <script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const musicFiles = [
+      '../Music/beans.mp3',
+      '../Music/catburger.mp3',
+      '../Music/elevator.mp3',
+      '../Music/hot chocolate.mp3',
+      '../Music/vanilla tea.mp3'
+    ];
+    let currentTrack = 0;
+    audioPlayer.volume = 0.1;
+    function playTrack() {
+      audioPlayer.src = musicFiles[currentTrack];
+      audioPlayer.play().catch(error => {});
+    }
+    playTrack();
+    audioPlayer.addEventListener('ended', () => {
+      currentTrack = (currentTrack + 1) % musicFiles.length;
+      playTrack();
+    });
+  </script>
+</body>
+</html>

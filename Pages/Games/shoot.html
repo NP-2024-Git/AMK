@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داداش و نکش</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<canvas id="gameCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = 800;
+    canvas.height = 600;
+
+    let player = {
+        x: canvas.width / 2 - 25,
+        y: canvas.height - 60,
+        width: 50,
+        height: 50,
+        speed: 5,
+        dx: 0,
+        dy: 0,
+        color: "cyan",
+    };
+
+    let bullets = [];
+    let enemies = [];
+    let score = 0;
+
+    document.addEventListener("keydown", movePlayer);
+    document.addEventListener("keyup", stopPlayer);
+    document.addEventListener("keydown", shootBullet);
+
+    function movePlayer(e) {
+        if (e.key === "ArrowLeft") player.dx = -player.speed;
+        if (e.key === "ArrowRight") player.dx = player.speed;
+        if (e.key === "ArrowUp") player.dy = -player.speed;
+        if (e.key === "ArrowDown") player.dy = player.speed;
+    }
+
+    function stopPlayer(e) {
+        if (e.key === "ArrowLeft" || e.key === "ArrowRight") player.dx = 0;
+        if (e.key === "ArrowUp" || e.key === "ArrowDown") player.dy = 0;
+    }
+
+    function shootBullet(e) {
+        if (e.key === " ") {
+            let bullet = {
+                x: player.x + player.width / 2 - 5,
+                y: player.y,
+                width: 5,
+                height: 15,
+                speed: 4,
+                color: "yellow",
+            };
+            bullets.push(bullet);
+        }
+    }
+
+    function updateGameArea() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+        player.x += player.dx;
+        player.y += player.dy;
+
+        if (player.x < 0) player.x = 0;
+        if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+        if (player.y < 0) player.y = 0;
+        if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+
+
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+
+        for (let i = 0; i < bullets.length; i++) {
+            let bullet = bullets[i];
+            bullet.y -= bullet.speed;
+            ctx.fillStyle = bullet.color;
+            ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+
+
+            if (bullet.y < 0) {
+                bullets.splice(i, 1);
+                i--;
+            }
+
+
+            for (let j = 0; j < enemies.length; j++) {
+                let enemy = enemies[j];
+                if (bullet.x < enemy.x + enemy.width &&
+                    bullet.x + bullet.width > enemy.x &&
+                    bullet.y < enemy.y + enemy.height &&
+                    bullet.y + bullet.height > enemy.y) {
+                    enemies.splice(j, 1);
+                    bullets.splice(i, 1);
+                    score += 10;
+                    i--;
+                    break;
+                }
+            }
+        }
+
+
+        if (Math.random() < 0.02) {
+            let enemy = {
+                x: Math.random() * (canvas.width - 50),
+                y: 0,
+                width: 50,
+                height: 50,
+                speed: Math.random() * 2 + 2,
+                color: "red",
+            };
+            enemies.push(enemy);
+        }
+
+        for (let i = 0; i < enemies.length; i++) {
+            let enemy = enemies[i];
+            enemy.y += enemy.speed;
+            ctx.fillStyle = enemy.color;
+            ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+
+
+            if (enemy.x < player.x + player.width &&
+                enemy.x + enemy.width > player.x &&
+                enemy.y < player.y + player.height &&
+                enemy.y + enemy.height > player.y) {
+                alert("Game Over! Final Score: " + score);
+                document.location.reload();
+            }
+
+
+            if (enemy.y > canvas.height) {
+                enemies.splice(i, 1);
+                i--;
+            }
+        }
+
+
+        ctx.fillStyle = "white";
+        ctx.font = "20px Arial";
+        ctx.fillText("Score: " + score, 10, 30);
+
+        requestAnimationFrame(updateGameArea);
+    }
+
+    updateGameArea();
+</script>
+
+</body>
+</html>

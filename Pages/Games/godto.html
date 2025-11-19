@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>گادتو</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: rgb(110, 73, 196); 
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          position: relative;
+      }
+      #world {
+          width: 600px;
+          height: 600px;
+          background-color: #87ceeb;
+          border: 2px solid #000;
+          position: relative;
+          overflow: hidden;
+          border-radius: 5px;
+      }
+      .entity {
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          cursor: pointer;
+          font-size: 20px; 
+      }
+      .human-female {
+          background-color: rgb(237, 128, 205);
+          border: 2px solid white; 
+      }
+      .human-male {
+          background-color: rgb(245 , 204 , 167);
+          border: 2px solid black; 
+      }
+      .animal {
+          background-color: rgb(81, 158, 81);
+      }
+      .monster {
+          background-color: rgba(0, 0, 0, 0.459);
+      }
+      .tree {
+          background-color: rgb(89 , 55 , 5);
+          width: 30px;
+          height: 50px;
+          position: absolute;
+      }
+      .food {
+          background-color: rgb(109, 180, 150);
+          width: 10px;
+          height: 10px;
+          position: absolute;
+      }
+      .building {
+          background-color: rgb(136, 117, 81);
+          width: 40px;
+          height: 40px;
+          position: absolute;
+      }
+      .button-container {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          right: 10px;
+      }
+      .button {
+          margin: 5px;
+          padding: 10px;
+          border: none;
+          cursor: pointer;
+          color: white;
+          border-radius: 15px;
+      }
+      .button:hover {
+            transform: translateY(-3px); 
+            box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.35); 
+        }
+      .red { background-color: red; }
+      .green { background-color: green; }
+      .black { background-color: black; }
+      .white { background-color: rgb(255, 255, 255); color: black; }
+      .orange { background-color: orange; }
+      .yellow { background-color: yellow;}
+      .blue { background-color: blue; }
+      .purple { background-color: purple; }
+      .pink { background-color: rgb(181, 141, 147); }
+      #yearDisplay {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background-color: rgb(207, 219, 105);
+          padding: 5px;
+          border: 1px solid black;
+          border-radius: 12px;
+      }
+  </style>
+</head>
+<body>
+  <div id="yearDisplay">سال: 0</div>
+  <div id="world"></div>
+  <div class="button-container">
+      <button style="background-color:rgb(210, 161, 115) ;" class="button red" onclick="addHuman()">انسان اضافه کن</button>
+      <button class="button green" onclick="addAnimal()">حیوان اضافه کن</button>
+      <button class="button black" onclick="addMonster()">هیولا اضافه کن</button>
+      <button class="button white" onclick="advanceYear()">یک سال جلو برو</button>
+      <button style="background-color:rgb(171, 75, 11) ;" class="button orange" onclick="destroyWorld()">شهاب‌سنگ بفرست</button>
+      <button style="background-color:rgb(125 , 135 , 17 ) ;" class="button yellow" onclick="toggleDayNight()">روز و شب تغییر بده</button>
+      <button style="background-color:rgb(89 , 55 , 5) ;" class="button brown" onclick="addTree()">درخت اضافه کن</button>
+      <button style="background-color:rgb(204, 139, 42) ;" class="button blue" onclick="sendProphet()">امام بفرست</button>
+      <button style="background-color:rgb(232, 90, 34) ;" class="button purple" onclick="createFire()">آتش به وجود بیاور</button>
+      <button class="button pink" onclick="upgradeHumans()">انسان‌ها را پیشرفته‌تر کن</button>
+  </div>
+
+  <script>
+      let world = document.getElementById('world');
+      let yearDisplay = document.getElementById('yearDisplay');
+      let entities = [];
+      let buildings = [];
+      let prophetsCount = 0;
+      let yearCounter = 0;
+
+      const humanNamesMale = ["محمد", "علی", "اصغر", "دانیل"];
+      const humanNamesFemale = ["زهرا", "صفیه", "جسیکا", "ایمی"];
+      const animalNames = ["گاو", "مرغ", "گوسفند"];
+      const animalEmojis = ["🐄", "🐔", "🐑"]; 
+      const monsterNames = ["گرگ", "خرس", "انبه ی پرنده"];
+      const monsterEmoji = "👹"; 
+      const prophetNames = ["حضرت آدم", "حضرت نوح", "حضرت ابراهیم", "حضرت اسماعیل", "حضرت عیسی", "حضرت یونس", "حضرت داوود", "حضرت سلیمان", "حضرت یعقوب", "حضرت هارون", "حضرت اسحاق", "حضرت زکریا", "حضرت یحیی", "حضرت الیاس", "حضرت یسع", "حضرت لوط", "حضرت ایوب", "حضرت یوسف", "حضرت موسی", "حضرت محمد"];
+      const prophetEmoji = "🕌";
+
+      function addTree() {
+          let tree = document.createElement('div');
+          tree.className = 'tree';
+          tree.style.left = Math.random() * 570 + 'px';
+          tree.style.top = Math.random() * 570 + 'px';
+          world.appendChild(tree);
+      }
+
+      function addFood(x, y) {
+          let food = document.createElement('div');
+          food.className = 'food';
+          food.style.left = x + 'px';
+          food.style.top = y + 'px';
+          world.appendChild(food);
+      }
+
+      function initializeWorld() {
+          for (let i = 0; i < 5; i++) {
+              addTree();
+              addFood(Math.random() * 590, Math.random() * 590);
+          }
+      }
+
+      function addHuman() {
+          let isFemale = Math.random() < 0.5; 
+          let name = isFemale ? humanNamesFemale[Math.floor(Math.random() * humanNamesFemale.length)] : humanNamesMale[Math.floor(Math.random() * humanNamesMale.length)];
+          let human = createEntity(isFemale ? 'human-female' : 'human-male', name);
+          human.obeyGod = Math.random() < 0.99;
+          entities.push(human);
+          world.appendChild(human.element);
+          
+          
+          human.element.innerHTML = isFemale ? '👩' : '👨'; 
+          humanMovement(human);
+      }
+
+      function addAnimal() {
+          let animalTypeIndex = Math.floor(Math.random() * animalNames.length);
+          let animalType = animalNames[animalTypeIndex];
+          let animalEmoji = animalEmojis[animalTypeIndex]; 
+          let animal = createEntity('animal', animalType);
+          entities.push(animal);
+          world.appendChild(animal.element);
+          
+      
+          animal.element.innerHTML = animalEmoji; 
+          animalMovement(animal);
+      }
+
+      function addMonster() {
+          let monsterType = monsterNames[Math.floor(Math.random() * monsterNames.length)];
+          let monster = createEntity('monster', monsterType);
+          entities.push(monster);
+          world.appendChild(monster.element);
+          
+          
+          monster.element.innerHTML = monsterEmoji; 
+          monsterMovement(monster);
+      }
+
+      function sendProphet() {
+          if (prophetsCount < prophetNames.length) {
+              let prophetName = prophetNames[prophetsCount];
+              let prophet = createEntity('human-male', prophetName); 
+              prophet.intelligence = 56000; 
+              prophet.obeyGod = true;
+              prophet.element.style.backgroundColor = 'gold';
+              prophet.element.innerHTML = prophetEmoji; 
+              entities.push(prophet);
+              world.appendChild(prophet.element);
+              prophetsCount++; 
+              prophetMovement(prophet);
+          } else {
+              alert('حداکثر تعداد پیامبران رسیده است.');
+          }
+      }
+
+      function createFire() {
+          alert('آتش به وجود آمد! 3 چیز نابود شدند.');
+          let destroyedCount = 0;
+
+          for (let i = 0; i < 3; i++) {
+              if (buildings.length > 0) {
+                  let building = buildings.pop();
+                  world.removeChild(building);
+                  destroyedCount++;
+              } else if (entities.length > 0) {
+                  let entity = entities.pop();
+                  world.removeChild(entity.element);
+                  destroyedCount++;
+              } else {
+                  break;
+              }
+          }
+
+          let trees = document.querySelectorAll('.tree');
+          if (trees.length > 0) {
+              trees[0].remove();
+          }
+
+          alert(`آتش ${destroyedCount} چیز را نابود کرد!`);
+      }
+
+      function upgradeHumans() {
+          entities.forEach(entity => {
+              if (entity.type === 'human-female' || entity.type === 'human-male') {
+                  entity.intelligence = (entity.intelligence || 100) + 50; 
+                  if (entity.intelligence >= 200 && buildings.length < 2) {
+                      createBuilding(entity);
+                  }
+              }
+          });
+          alert('انسان‌ها پیشرفته‌تر شدند!');
+      }
+
+      function createBuilding(entity) {
+          if (buildings.length < 2) {
+              let building = document.createElement('div');
+              building.className = 'building';
+              building.style.left = Math.random() * 570 + 'px';
+              building.style.top = Math.random() * 570 + 'px';
+              world.appendChild(building);
+              buildings.push(building);
+              building.dataset.builtBy = entity.name; 
+              alert(`${entity.name} یک ساختمان جدید ساخت!`);
+          }
+      }
+
+      function createEntity(type, name) {
+          let age = 0;
+          let obeyGod = false;
+          let intelligence = 100; 
+
+          let entity = {
+              element: document.createElement('div'),
+              type: type,
+              name: name,
+              age: age,
+              health: 100,
+              obeyGod: obeyGod,
+              intelligence: intelligence,
+              x: Math.random() * 580,
+              y: Math.random() * 580,
+              move: function() {
+                  this.x += (Math.random() - 0.5) * 20; 
+                  this.y += (Math.random() - 0.5) * 20; 
+                  this.element.style.left = Math.max(0, Math.min(580, this.x)) + 'px';
+                  this.element.style.top = Math.max(0, Math.min(580, this.y)) + 'px';
+              },
+              attack: function(target) {
+                  if (this.type === 'human-female' && target.type === 'animal') {
+                      target.health = 0; 
+                  } else if (this.type === 'human-male' && target.type === 'animal') {
+                      target.health = 0; 
+                  } else if (this.type === 'monster' && (target.type === 'human-female' || target.type === 'human-male')) {
+                      target.health = 0; 
+                  }
+              }
+          };
+
+          entity.element.className = 'entity ' + type;
+          entity.element.style.width = '20px'; 
+          entity.element.style.height = '20px';
+          entity.element.style.left = entity.x + 'px';
+          entity.element.style.top = entity.y + 'px';
+
+          entity.element.onclick = function() {
+              alert(`نام: ${entity.name}\nجنسیت: ${type.includes('human-female') ? 'زن' : 'مرد'}\nسن: ${entity.age}\nپرستش خدا: ${entity.obeyGod ? 'بله' : 'خیر'}\nهوش: ${entity.intelligence}`);
+          };
+
+          return entity;
+      }
+
+      function advanceYear() {
+          yearCounter++;
+          yearDisplay.innerText = `سال: ${yearCounter}`;
+          entities.forEach(entity => {
+              if (entity.type.includes('human')) {
+                  entity.age++;
+                  if (entity.age >= 81) {
+                      alert(`${entity.name} مرد.`);
+                      entity.health = 0; 
+                  }
+                  if (entity.obeyGod && entity.age >= 97) {
+                      alert(`${entity.name} به دلیل پرستش خدا زندگی طولانی‌تری داشت.`);
+                  }
+              }
+          });
+          entities = entities.filter(e => e.health > 0);
+
+          if (yearCounter >= 12) {
+              alert('تکنولوژی به شدت پیشرفت کرده است!');
+              upgradeHumans(); 
+          }
+
+          alert('یک سال به جلو رفتیم!');
+      }
+
+      function destroyWorld() {
+          alert('شهاب‌سنگ به دنیا برخورد کرد!');
+          world.innerHTML = '';
+          entities = [];
+          buildings = [];
+      }
+
+      function toggleDayNight() {
+          document.body.classList.toggle('night');
+          alert('روز و شب تغییر کرد!');
+      }
+
+      function humanMovement(human) {
+          setInterval(() => {
+              human.move();
+              entities.forEach(entity => {
+                  if (entity.type === 'animal' && isNearby(human, entity)) {
+                      human.attack(entity);
+                      if (entity.health <= 0) {
+                          world.removeChild(entity.element);
+                          entities = entities.filter(e => e !== entity);
+                      }
+                  }
+              });
+          }, 1000);
+      }
+
+      function animalMovement(animal) {
+          setInterval(() => {
+              animal.move();
+          }, 1000);
+      }
+
+      function monsterMovement(monster) {
+          setInterval(() => {
+              monster.move();
+              entities.forEach(entity => {
+                  if ((entity.type === 'human-female' || entity.type === 'human-male') && isNearby(monster, entity)) {
+                      monster.attack(entity);
+                      if (entity.health <= 0) {
+                          world.removeChild(entity.element);
+                          entities = entities.filter(e => e !== entity);
+                      }
+                  }
+              });
+          }, 1000);
+      }
+
+      function prophetMovement(prophet) {
+          setInterval(() => {
+              prophet.move();
+          }, 1000);
+      }
+
+      function isNearby(entity1, entity2) {
+          const distance = Math.sqrt(Math.pow(entity1.x - entity2.x, 2) + Math.pow(entity1.y - entity2.y, 2));
+          return distance < 30; 
+      }
+
+      initializeWorld();
+       
+  </script>
+  
+</body>
+</html>
+

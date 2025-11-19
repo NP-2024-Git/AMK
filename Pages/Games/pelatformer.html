@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> برج دفاعی</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            margin: 20px auto;
+            border: 2px solid #000;
+        }
+
+        #game-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #path {
+            position: absolute;
+            width: 100%;
+            height: 50px;
+            background: #808080;
+            top: 175px;
+        }
+
+        #tower-menu {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="path"></div>
+        <canvas id="game-canvas" width="800" height="400"></canvas>
+        <div id="tower-menu">
+            <button id="add-tower">اضافه کردن برج (50 امتیاز)</button>
+            <p>امتیاز: <span id="score">100</span></p>
+            <p>سلامتی ساختمان: <span id="base-health">100</span></p>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById("game-canvas");
+        const ctx = canvas.getContext("2d");
+        const addTowerBtn = document.getElementById("add-tower");
+        const scoreDisplay = document.getElementById("score");
+        const baseHealthDisplay = document.getElementById("base-health");
+
+        let score = 100;
+        let baseHealth = 100; 
+        let towers = [];
+        let enemies = [];
+        let bullets = [];
+        let isPlacingTower = false;
+        let timeElapsed = 0; 
+
+        
+        function drawBase() {
+            ctx.fillStyle = "green";
+            ctx.fillRect(750, 175, 50, 50);
+        }
+
+        
+        function drawTower(x, y, health) {
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, Math.PI * 2);
+            ctx.fillStyle = health > 0 ? "blue" : "gray";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        
+        function drawEnemy(x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = "red";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        
+        function drawBullet(x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        
+        addTowerBtn.addEventListener("click", () => {
+            if (score >= 50) {
+                isPlacingTower = true;
+                alert("روی صفحه کلیک کن تا برج رو بذاری!");
+            } else {
+                alert("امتیاز کافی نداری!");
+            }
+        });
+
+        canvas.addEventListener("click", (e) => {
+            if (isPlacingTower) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                towers.push({ x, y, health: 20 }); 
+                score -= 50;
+                scoreDisplay.textContent = score;
+                isPlacingTower = false;
+            }
+        });
+
+        
+        function spawnEnemy() {
+            enemies.push({ x: 0, y: 200, speed: 1 });
+            setTimeout(spawnEnemy, 2000); 
+        }
+
+        
+        function shootBullet() {
+            bullets.push({ x: 750, y: 200, speed: -5 }); 
+            setTimeout(shootBullet, 5000); 
+        }
+
+        
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBase();
+
+            
+            timeElapsed += 1 / 60;
+            if (timeElapsed >= 50 && baseHealth > 0) {
+                baseHealth = 0;
+                alert("ساختمان نابود شد! بازی تمام شد.");
+            }
+
+            
+            towers.forEach(tower => {
+                drawTower(tower.x, tower.y, tower.health);
+            });
+
+           
+            enemies.forEach((enemy, eIndex) => {
+                let blocked = false;
+                for (let tower of towers) {
+                    if (tower.health > 0 && Math.abs(enemy.x - tower.x) < 20) {
+                        tower.health -= 1 / 60;
+                        blocked = true;
+                        break;
+                    }
+                }
+                if (!blocked && enemy.x < 750) {
+                    enemy.x += enemy.speed;
+                } else if (enemy.x >= 750 && baseHealth > 0) {
+                    baseHealth -= 1;
+                    enemies.splice(eIndex, 1);
+                }
+                drawEnemy(enemy.x, enemy.y);
+            });
+
+            
+            bullets.forEach((bullet, bIndex) => {
+                bullet.x += bullet.speed;
+                drawBullet(bullet.x, bullet.y);
+
+                enemies.forEach((enemy, eIndex) => {
+                    if (Math.abs(bullet.x - enemy.x) < 13 && Math.abs(bullet.y - enemy.y) < 13) {
+                        enemies.splice(eIndex, 1); 
+                        bullets.splice(bIndex, 1); 
+                        score += 10; 
+                        scoreDisplay.textContent = score;
+                    }
+                });
+
+                if (bullet.x < 0) bullets.splice(bIndex, 1);
+            });
+
+            
+            baseHealthDisplay.textContent = baseHealth > 0 ? baseHealth : 0;
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        
+        spawnEnemy();
+        shootBullet();
+        gameLoop();
+    </script>
+</body>
+</html>

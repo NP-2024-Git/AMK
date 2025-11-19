@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی تیک تاک تو</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0ebac;
+    direction: rtl; 
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#message {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #555;
+    font-weight: bold; 
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 2px;
+    background-color: #333;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.cell {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #333;
+    transition: background-color 0.3s ease; 
+}
+
+.cell:hover {
+    background-color: #eee;
+}
+
+
+.cell.winning-cell {
+    background-color: #58ff5e; 
+    color: #000;
+    font-weight: bold;
+}
+
+
+#reset-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#reset-button:hover {
+    background-color: #45a049;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>بازی دوز</h1>
+        <div id="message">نوبت بازیکن X</div>
+        <div class="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+        <button id="reset-button">شروع دوباره</button>
+    </div>
+
+    <script>
+const cells = document.querySelectorAll('.cell');
+const messageDisplay = document.getElementById('message');
+const resetButton = document.getElementById('reset-button');
+let currentPlayer = 'X';
+let gameBoard = ['', '', '', '', '', '', '', '', ''];
+let gameActive = true;
+let winner = null;
+
+const winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+];
+
+function handleCellClick(clickedCellEvent) {
+    const clickedCell = clickedCellEvent.target;
+    const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
+
+    if (!gameActive || gameBoard[clickedCellIndex] !== '') {
+        return;
+    }
+
+    gameBoard[clickedCellIndex] = currentPlayer;
+    clickedCell.textContent = currentPlayer;
+
+    checkWin();
+    checkDraw();
+    switchPlayer();
+
+    if (gameActive && currentPlayer === 'O') {
+       
+        setTimeout(robotMove, 500); 
+    }
+}
+
+function switchPlayer() {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    messageDisplay.textContent = `نوبت بازیکن ${currentPlayer}`;
+}
+
+function checkWin() {
+    for (let i = 0; i <= 7; i++) {
+        const winCondition = winningConditions[i];
+        const a = gameBoard[winCondition[0]];
+        const b = gameBoard[winCondition[1]];
+        const c = gameBoard[winCondition[2]];
+        if (a === '' || b === '' || c === '') {
+            continue;
+        }
+        if (a === b && b === c) {
+            gameActive = false;
+            winner = currentPlayer;
+            messageDisplay.textContent = `بازیکن ${currentPlayer} برنده شد!`;
+            highlightWinningCells(winCondition);
+            return;
+        }
+    }
+}
+
+function highlightWinningCells(winCondition) {
+    winCondition.forEach(index => {
+        cells[index].classList.add('winning-cell');
+    });
+}
+
+
+function checkDraw() {
+    if (!gameBoard.includes('') && winner === null) {
+        gameActive = false;
+        messageDisplay.textContent = `بازی مساوی شد!`;
+    }
+}
+
+function restartGame() {
+    gameActive = true;
+    currentPlayer = 'X';
+    gameBoard = ['', '', '', '', '', '', '', '', ''];
+    winner = null;
+    messageDisplay.textContent = 'نوبت بازیکن X';
+    cells.forEach(cell => {
+        cell.textContent = '';
+        cell.classList.remove('winning-cell');
+    });
+
+    if (currentPlayer === 'O') {
+        setTimeout(robotMove, 500); 
+    }
+}
+
+function robotMove() {
+    if (!gameActive) return;
+
+    let bestMoveIndex = findBestMove(); 
+
+    if (bestMoveIndex !== null) {
+        const robotCell = cells[bestMoveIndex];
+        gameBoard[bestMoveIndex] = currentPlayer;
+        robotCell.textContent = currentPlayer;
+
+        checkWin();
+        checkDraw();
+        switchPlayer();
+    }
+}
+
+
+function findBestMove() {
+   
+    for (let i = 0; i < gameBoard.length; i++) {
+        if (gameBoard[i] === '') {
+            gameBoard[i] = 'O'; 
+            if (checkWinForRobot()) {
+                gameBoard[i] = ''; 
+                return i; 
+            }
+            gameBoard[i] = '';
+        }
+    }
+
+  
+    for (let i = 0; i < gameBoard.length; i++) {
+        if (gameBoard[i] === '') {
+            gameBoard[i] = 'X'; 
+            if (checkWinForPlayerX()) { 
+                gameBoard[i] = ''; 
+                return i; 
+            }
+            gameBoard[i] = '';
+        }
+    }
+
+   
+    let emptyCells = [];
+    for (let i = 0; i < gameBoard.length; i++) {
+        if (gameBoard[i] === '') {
+            emptyCells.push(i);
+        }
+    }
+    if (emptyCells.length > 0) {
+        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+        return emptyCells[randomIndex]; 
+    }
+
+    return null; 
+}
+
+
+function checkWinForRobot() {
+    for (let i = 0; i <= 7; i++) {
+        const winCondition = winningConditions[i];
+        const a = gameBoard[winCondition[0]];
+        const b = gameBoard[winCondition[1]];
+        const c = gameBoard[winCondition[2]];
+        if (a === 'O' && b === 'O' && c === 'O') {
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkWinForPlayerX() {
+    for (let i = 0; i <= 7; i++) {
+        const winCondition = winningConditions[i];
+        const a = gameBoard[winCondition[0]];
+        const b = gameBoard[winCondition[1]];
+        const c = gameBoard[winCondition[2]];
+        if (a === 'X' && b === 'X' && c === 'X') {
+            return true; 
+        }
+    }
+    return false;
+}
+
+
+cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+resetButton.addEventListener('click', restartGame);
+
+    </script>
+</body>
+</html>

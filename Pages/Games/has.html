@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی قایم‌ باشک</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #87c232;
+            color: white;
+        }
+        #gameContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+        #gameArea {
+            width: 500px;
+            height: 500px;
+            position: relative;
+            background-color: #4c9f38;
+            border: 2px solid #333;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+        .tree {
+            width: 50px;
+            height: 80px;
+            position: absolute;
+        }
+        .tree::before {
+            content: '';
+            width: 50px;
+            height: 50px;
+            background-color: #2a5d24;
+            position: absolute;
+            top: 0;
+            left: 0;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+        .tree::after {
+            content: '';
+            width: 20px;
+            height: 30px;
+            background-color: #5c3d1e;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #statusBox {
+            width: 150px;
+            height: 500px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            font-size: 18px;
+            margin-left: 20px;
+            border-radius: 7px;
+        }
+        #hiddenObject {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            background-color: red;
+            border-radius: 50%;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>بازی قایم‌ باشک</h1>
+    <p>با موس خود دایره ی گم شده را در جنگل پیدا کنید</p>
+    <div id="gameContainer">
+        <div id="gameArea">
+            <div id="hiddenObject"></div>
+        </div>
+        <div id="statusBox">
+            <p id="message">شروع کنید!</p>
+        </div>
+    </div>
+    
+    <script>
+        const gameArea = document.getElementById("gameArea");
+        const message = document.getElementById("message");
+        const hiddenObject = document.getElementById("hiddenObject");
+        const hiddenX = Math.floor(Math.random() * 470);
+        const hiddenY = Math.floor(Math.random() * 470);
+        
+        hiddenObject.style.left = `${hiddenX}px`;
+        hiddenObject.style.top = `${hiddenY}px`;
+
+        for (let i = 0; i < 5; i++) {
+            let tree = document.createElement("div");
+            tree.classList.add("tree");
+            tree.style.left = Math.random() * 450 + "px";
+            tree.style.top = Math.random() * 420 + "px";
+            gameArea.appendChild(tree);
+        }
+
+        gameArea.addEventListener("mousemove", (event) => {
+            const rect = gameArea.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            const distance = Math.sqrt((mouseX - hiddenX) ** 2 + (mouseY - hiddenY) ** 2);
+            
+            if (distance < 20) {
+                message.textContent = "یافتی! روی آن کلیک کن!";
+                hiddenObject.style.display = "block";
+            } else if (distance < 50) {
+                message.textContent = "خیلی گرم!";
+            } else if (distance < 100) {
+                message.textContent = "گرم‌تر";
+            } else if (distance < 200) {
+                message.textContent = "سردتر";
+            } else {
+                message.textContent = "خیلی سرد!";
+            }
+        });
+
+        hiddenObject.addEventListener("click", () => {
+            message.textContent = "بردی! 🎉";
+            gameArea.style.backgroundColor = "#90EE90";
+        });
+    </script>
+</body>
+</html>

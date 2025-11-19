@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="fa">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ویدیو های آموزشی | AMK</title>
+  <link rel="icon" type="image/png" href="../Immages/Site_logo.png" alt="Site Logo">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazir', 'Tahoma', Arial, sans-serif;
+      background: url("../Immages/Background(3).jpg") center/cover no-repeat;
+      color: #001654;
+      direction: rtl;
+      box-sizing: border-box;
+    }
+    .window {
+      background: #f2f3f7;
+      border-radius: 15px;
+      box-shadow: 0 2px 12px rgba(55,80,105,.10);
+      width: 96vw;
+      max-width: 900px;
+      margin: 30px auto 0 auto;
+      overflow: hidden;
+      border: none;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+    .title-bar {
+      background: linear-gradient(90deg,#3285d9,#7fcff4);
+      color: #fff;
+      padding: 16px;
+      font-weight: bold;
+      font-size: 1.25em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e0e4ea;
+    }
+    .content {
+      padding: 18px 6px 16px 6px;
+      background: #fff;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 1px 6px rgba(60,80,140,0.07);
+      flex: 1;
+      width: 100%;
+    }
+    .btn {
+      display: inline-block;
+      background: #3399ff;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      padding: 8px 18px;
+      transition: background 0.2s;
+      margin: 12px 0;
+      cursor: pointer;
+      box-shadow: 0 1px 7px rgba(51,153,255,.06);
+    }
+    .btn:hover { background: #207acc; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .card {
+      background: #f1f5fc;
+      border-radius: 9px;
+      box-shadow: 0 1.5px 6px rgba(80,120,180,.08);
+      text-align: center;
+      cursor: pointer;
+      overflow: hidden;
+      border: none;
+      transition: transform 0.14s, box-shadow 0.20s;
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+    }
+    .card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 12px rgba(60,80,140,0.13);
+    }
+    .thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-size: cover;
+      background-position: center center;
+      background-color: #e5ebf7;
+      min-height: 92px;
+    }
+    .meta {
+      padding: 11px 8px 8px 8px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .meta .title { font-weight: bold; font-size: 1.06em;}
+    .meta .name { font-size: 0.96em; opacity: 0.82; margin-top: 2px;}
+    .modal {
+      position: fixed; inset: 0;
+      background: rgba(0,8,16,0.77);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 14px;
+    }
+    .modal.open { display: flex; }
+    .modal video {
+      max-width: 97vw;
+      max-height: 76vh;
+      background: #000;
+      border-radius: 10px;
+      outline: none;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.21);
+      border: none;
+    }
+    .close-btn {
+      position: absolute; top: 22px; left: 28px;
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.6em;
+      color: #3285d9;
+      cursor: pointer;
+      width: 37px; height: 37px;
+      box-shadow: 0 2px 9px rgba(60,80,140,0.13);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2025;
+      transition: background 0.16s;
+    }
+    .close-btn:hover { background: #f2f4f8; }
+    /* Tablet */
+    @media(max-width:950px){
+      .window { max-width: 99vw; margin-top: 12px; }
+      .title-bar{ padding:12px; font-size:1.08em;}
+      .content{ padding:12px 2px;}
+      .grid{ gap:11px;}
+    }
+    /* Mobile */
+    @media(max-width:600px){
+      .window{margin-top:6vw; min-width:95vw; border-radius:8px;}
+      .title-bar{padding:8px;font-size:1em;}
+      .content{padding:7px 1px;}
+      .btn{font-size:.91em; padding:7px 9px;}
+      .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
+      .meta{padding:7px 5px;}
+      .close-btn{top:10vw; left:18vw; width:32px; height:32px;font-size:1.2em;}
+    }
+
+    /* Always Center modal content on small screens */
+    @media(max-width:500px){
+      .modal video{max-width:99vw; max-height:48vh;}
+      .close-btn{top:14vw; left:15vw;}
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="title-bar">
+      <span>ویدیو های آموزشی</span>
+      <div class="title-bar-buttons"></div>
+    </div>
+    <div class="content">
+      <p>ویدیو های ساخته شده توسط دانش آموزان مدرسه!</p>
+      <a href="https://forms.gle/gN2WZj8ywCExh6L96" target="_blank" class="btn">ویدیوی خود را آپلود کنید</a>
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <button class="close-btn" id="closeModal">✕</button>
+    <video id="player" controls></video>
+  </div>
+
+  <script>
+    const videos = [
+      { first: 'محمد رادین', last: 'نظری', title: 'هوش مصنوعی در زندگی ما', src: '../Videos/Ai(Nazari).mp4', poster: '../Videos/Thumanil/Thum1.png' }
+    ];
+    const grid = document.getElementById('grid');
+    const modal = document.getElementById('modal');
+    const player = document.getElementById('player');
+    const closeModal = document.getElementById('closeModal');
+
+    function createCard(v) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<div class='thumb' style='background-image:url(${v.poster})'></div><div class='meta'><div class='title'>${v.title}</div><div class='name'>${v.first} ${v.last}</div></div>`;
+      card.onclick = () => openVideo(v);
+      return card;
+    }
+    function openVideo(v) {
+      player.src = v.src;
+      modal.classList.add('open');
+      player.play();
+    }
+    closeModal.onclick = () => { modal.classList.remove('open'); player.pause(); };
+    videos.forEach(v => grid.appendChild(createCard(v)));
+    
+  </script>
+</body>
+</html>

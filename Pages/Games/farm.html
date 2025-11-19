@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مزرعه‌داری</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #87CEEB; 
+        }
+
+        #game-container {
+            width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        #farm-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 100px);
+            gap: 10px;
+            background: #8B4513; 
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .plot {
+            width: 100px;
+            height: 100px;
+            background: #D2B48C; 
+            border: 2px solid #654321;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .planted { background: #90EE90; } 
+        .grown { background: #FFD700; } 
+
+        #stats {
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        #day-night {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="stats">
+            <p>پول: <span id="money">100</span> تومان</p>
+            <p>بذرها: <span id="seeds">5</span></p>
+        </div>
+        <div id="farm-grid"></div>
+        <button id="buy-seeds">خرید بذر (20 تومان)</button>
+        <div id="day-night">روز</div>
+    </div>
+    <script>
+        const farmGrid = document.getElementById("farm-grid");
+        const moneyDisplay = document.getElementById("money");
+        const seedsDisplay = document.getElementById("seeds");
+        const buySeedsBtn = document.getElementById("buy-seeds");
+        const dayNightDisplay = document.getElementById("day-night");
+
+        let money = 100;
+        let seeds = 5;
+        let plots = [];
+        let day = true;
+        let time = 0;
+
+        
+        for (let i = 0; i < 5; i++) {
+            const plot = document.createElement("div");
+            plot.classList.add("plot");
+            plot.dataset.state = "empty"; 
+            plot.dataset.time = 0; 
+            plot.addEventListener("click", () => handlePlotClick(plot));
+            farmGrid.appendChild(plot);
+            plots.push(plot);
+        }
+
+        
+        function handlePlotClick(plot) {
+            if (plot.dataset.state === "empty" && seeds > 0) {
+                plot.dataset.state = "planted";
+                plot.classList.add("planted");
+                plot.textContent = "🌱"; 
+                seeds--;
+                seedsDisplay.textContent = seeds;
+            } else if (plot.dataset.state === "grown") {
+                plot.dataset.state = "empty";
+                plot.classList.remove("grown");
+                plot.textContent = "";
+                money += 50; 
+                moneyDisplay.textContent = money;
+            }
+        }
+
+        
+        buySeedsBtn.addEventListener("click", () => {
+            if (money >= 20) {
+                money -= 20;
+                seeds++;
+                moneyDisplay.textContent = money;
+                seedsDisplay.textContent = seeds;
+            } else {
+                alert("فقیری برادر من🤣");
+            }
+        });
+
+        
+        setInterval(() => {
+            time++;
+
+            
+            if (time % 10 === 0) {
+                day = !day;
+                dayNightDisplay.textContent = day ? "روز" : "شب";
+            }
+
+            
+            if (day && time % 5 === 0) {
+                plots.forEach(plot => {
+                    if (plot.dataset.state === "planted") {
+                        plot.dataset.time = parseInt(plot.dataset.time) + 1;
+                        if (plot.dataset.time >= 2) { 
+                            plot.dataset.state = "grown";
+                            plot.classList.remove("planted");
+                            plot.classList.add("grown");
+                            plot.textContent = "🌾";
+                        }
+                    }
+                });
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

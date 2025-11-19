@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دتکتیو سرکل</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          background-color: #efef8e;
+          margin: 0;
+      }
+      h1 {
+          color: #ca4848;
+          margin-bottom: 20px;
+      }
+      #game-container {
+          width: 90vw;
+          max-width: 600px;
+          height: 90vw;
+          max-height: 600px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          border: 5px solid #a6aa54;
+          border-radius: 10px;
+          background-color: #8ad3d1;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+      .circle {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          margin: 10px;
+          display: inline-block;
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s;
+          position: relative;
+          overflow: hidden;
+          background-color: #fab4f2; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: black; 
+      }
+      .circle:hover {
+          transform: scale(1.1);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      #message {
+          margin-top: 20px;
+          font-size: 24px;
+          color: #000000;
+          text-align: center;
+      }
+      .shape {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 48px;
+          color: white;
+      }
+      .square {
+          width: 100px;
+          height: 100px;
+          background-color: #e82600; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .triangle {
+          width: 0;
+          height: 0;
+          border-left: 50px solid transparent;
+          border-right: 50px solid transparent;
+          border-bottom: 100px solid #8cea87; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+      }
+      @media (max-width: 600px) {
+          .circle {
+              width: 60px;
+              height: 60px;
+              font-size: 20px;
+          }
+          #message {
+              font-size: 20px;
+          }
+      }
+  </style>
+</head>
+<body>
+  <h1>دتکتیو سرکل</h1>
+  <div id="game-container"></div>
+  <div id="message"></div>
+  <script>
+      let circles = 6;
+      const gameContainer = document.getElementById('game-container');
+      const messageDiv = document.getElementById('message');
+
+      function createCircles() {
+          gameContainer.innerHTML = '';
+          for (let i = 1; i <= circles; i++) {
+              const circle = document.createElement('div');
+              circle.className = 'circle';
+              circle.textContent = i; 
+              circle.onclick = () => selectCircle(circle);
+              gameContainer.appendChild(circle);
+          }
+      }
+
+      function showShape(shape) {
+          const shapeDiv = document.createElement('div');
+          shapeDiv.className = 'shape';
+          if (shape === 'square') {
+              shapeDiv.innerHTML = '<div class="square">11</div>';
+          } else if (shape === 'triangle') {
+              shapeDiv.innerHTML = '<div class="triangle">1</div>';
+          }
+          gameContainer.innerHTML = '';
+          gameContainer.appendChild(shapeDiv);
+      }
+
+      function selectCircle(selectedCircle) {
+          const correctCircleIndex = Math.floor(Math.random() * circles);
+          const correctCircle = gameContainer.children[correctCircleIndex];
+
+          if (selectedCircle === correctCircle) {
+              circles--;
+              messageDiv.textContent = 'انتخاب درست! یکی از دایره‌ها کم شد.';
+          } else {
+              circles++;
+              messageDiv.textContent = 'انتخاب اشتباه! یکی از دایره‌ها اضافه شد.';
+          }
+
+          if (circles <= 1) {
+              messageDiv.textContent = 'بازی تمام شد! شما برنده شدید.';
+              showShape('triangle');
+          } else if (circles >= 11) {
+              messageDiv.textContent = 'بازی تمام شد! شما باختید.';
+              showShape('square');
+          } else {
+              createCircles();
+          }
+      }
+
+      createCircles();
+  </script>
+</body>
+</html>

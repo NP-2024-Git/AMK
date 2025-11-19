@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>بازی حدس کلمات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            direction: rtl;
+        }
+        h1 {
+            color: #333;
+        }
+        #word-display {
+            font-size: 2em;
+            margin: 20px;
+            letter-spacing: 5px;
+        }
+        #message {
+            font-size: 1.2em;
+            color: #e74c3c;
+            margin: 10px;
+        }
+        #guesses-left {
+            font-size: 1.1em;
+            color: #2ecc71;
+        }
+        input {
+            padding: 5px;
+            font-size: 1em;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #guessed-letters {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>بازی حدس کلمات</h1>
+    <div id="word-display"></div>
+    <div id="message"></div>
+    <div id="guesses-left">تعداد حدس‌های باقی‌مانده: 6</div>
+    <div id="guessed-letters">حروف حدس‌زده‌شده: </div>
+    <input type="text" id="letter-input" maxlength="1" placeholder="یه حرف وارد کن">
+    <button onclick="guessLetter()">حدس بزن</button>
+    <button onclick="resetGame()">بازی دوباره</button>
+
+    <script>
+  
+        const words = ["مالتینو","پیر","کیبورد","مداد","لیوان","هدفون","فلش","صفحه","شیاومی","سامسونگ","اپل","مادر","پدر","یورو","دلار","رضایی","نوری","شکلات","بستنی","ریاضی","تومان","زرد","دندان","ماساژ","گوشی","رایانه","خشارشور","انبه","سلام", "خداحافظ", "کتاب", "مدرسه", "سیب", "پرنده", "آفتاب"];
+        let secretWord = "";
+        let displayedWord = [];
+        let guessesLeft = 6;
+        let guessedLetters = [];
+
+  
+        function startGame() {
+            secretWord = words[Math.floor(Math.random() * words.length)];
+            displayedWord = "_".repeat(secretWord.length).split("");
+            guessesLeft = 6;
+            guessedLetters = [];
+            document.getElementById("word-display").textContent = displayedWord.join(" ");
+            document.getElementById("guesses-left").textContent = `تعداد حدس‌های باقی‌مانده: ${guessesLeft}`;
+            document.getElementById("guessed-letters").textContent = "حروف حدس‌زده‌شده: ";
+            document.getElementById("message").textContent = "";
+            document.getElementById("letter-input").value = "";
+            document.getElementById("letter-input").disabled = false;
+            document.querySelectorAll("button")[0].disabled = false; 
+            document.querySelectorAll("button")[1].disabled = false; 
+        }
+
+
+        function guessLetter() {
+            const input = document.getElementById("letter-input");
+            const letter = input.value.toLowerCase();
+
+            if (letter === "" || !letter.match(/[ا-ی]/)) {
+                document.getElementById("message").textContent = "لطفاً یه حرف فارسی وارد کن!";
+                return;
+            }
+
+            if (guessedLetters.includes(letter)) {
+                document.getElementById("message").textContent = "این حرف رو قبلاً حدس زدی!";
+                return;
+            }
+
+            guessedLetters.push(letter);
+            document.getElementById("guessed-letters").textContent = "حروف حدس‌زده‌شده: " + guessedLetters.join(", ");
+
+            if (secretWord.includes(letter)) {
+                for (let i = 0; i < secretWord.length; i++) {
+                    if (secretWord[i] === letter) {
+                        displayedWord[i] = letter;
+                    }
+                }
+                document.getElementById("word-display").textContent = displayedWord.join(" ");
+            } else {
+                guessesLeft--;
+                document.getElementById("guesses-left").textContent = `تعداد حدس‌های باقی‌مانده: ${guessesLeft}`;
+            }
+
+            if (displayedWord.join("") === secretWord) {
+                document.getElementById("message").textContent = "تبریک! بردی!";
+                disableGame();
+            } else if (guessesLeft === 0) {
+                document.getElementById("message").textContent = `باختی! کلمه "${secretWord}" بود.`;
+                disableGame();
+            }
+
+            input.value = "";
+        }
+
+
+        function disableGame() {
+            document.getElementById("letter-input").disabled = true;
+            document.querySelectorAll("button")[0].disabled = true; 
+        }
+
+
+        function resetGame() {
+            startGame();
+        }
+
+
+        startGame();
+    </script>
+</body>
+</html>

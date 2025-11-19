@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyX </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* هدر */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #000;
+            border-bottom: 1px solid #333;
+            padding: 10px 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1d9bf0;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 20px;
+            background: #333;
+            color: #fff;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1d9bf0;
+        }
+
+        /* مودال ورود/ثبت نام */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+        }
+
+        .auth-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            background: #000;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            color: #71767b;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .tab-btn.active {
+            color: #1d9bf0;
+            border-bottom: 2px solid #1d9bf0;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #111;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1d9bf0;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* پست جدید - مخفی تا ورود */
+        .new-post {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #1d9bf0;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3);
+            transition: transform 0.2s;
+            z-index: 100;
+        }
+
+        .new-post:hover {
+            transform: scale(1.1);
+        }
+
+        /* فید */
+        .feed {
+            margin-top: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            min-height: calc(100vh - 120px);
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome-screen h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #1d9bf0;
+        }
+
+        .welcome-screen p {
+            color: #71767b;
+            margin-bottom: 30px;
+        }
+
+        /* پست */
+        .post {
+            background: #16181c;
+            border-radius: 15px;
+            padding: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #2f3336;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1d9bf0;
+        }
+
+        .post-info h3 {
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .post-info span {
+            color: #71767b;
+            font-size: 13px;
+        }
+
+        .post-text {
+            font-size: 15px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        /* دکمه‌های تعاملی */
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: #71767b;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 20px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .action-btn:hover {
+            background: rgba(29, 155, 240, 0.1);
+            color: #1d9bf0;
+        }
+
+        .action-btn.liked {
+            color: #f91880 !important;
+        }
+
+        .action-btn.reposted {
+            color: #00ba7c !important;
+        }
+
+        .action-count {
+            font-size: 13px;
+        }
+
+        /* کامنت */
+        .comments {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+
+        .comments.active {
+            display: block;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-input input {
+            flex: 1;
+            background: #111;
+            border: none;
+            padding: 8px;
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .comment-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .comment-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1d9bf0;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: #e7e9ea;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        /* مودال پست */
+        .post-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: #000;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .modal-content textarea {
+            width: 100%;
+            height: 120px;
+            border: none;
+            background: #111;
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .post-btn {
+            background: #1d9bf0;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر -->
+    <div class="header">
+        <div class="logo">MyX</div>
+        <div class="search-bar">
+            <input type="text" placeholder="جستجو...">
+        </div>
+        <div class="user-info" id="userInfo">
+            <button class="auth-btn" onclick="openAuthModal()" style="padding: 8px 16px; font-size: 14px;">ورود</button>
+        </div>
+    </div>
+
+    <!-- فید پست‌ها -->
+    <div class="feed" id="feed">
+        <div class="welcome-screen" id="welcomeScreen">
+            <h1>به MyX خوش آمدید! 👋</h1>
+            <p>برای پست دادن و تعامل با دیگران، ابتدا وارد شوید</p>
+            <button class="auth-btn" onclick="openAuthModal()">شروع کنید</button>
+        </div>
+    </div>
+
+    <!-- دکمه پست جدید -->
+    <div class="new-post" id="newPostBtn" onclick="openPostModal()">+</div>
+
+    <!-- مودال ورود/ثبت نام -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab(event, 'login')">ورود</button>
+                <button class="tab-btn" onclick="switchTab(event, 'register')">ثبت نام</button>
+            </div>
+            
+            <!-- فرم ورود -->
+            <div class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <input type="text" id="loginUsername" placeholder="نام کاربری">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="رمز عبور">
+                </div>
+                <button class="auth-btn" onclick="login()">ورود</button>
+            </div>
+
+            <!-- فرم ثبت نام -->
+            <div class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <input type="text" id="registerUsername" placeholder="نام کاربری">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="registerEmail" placeholder="ایمیل">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="registerPassword" placeholder="رمز عبور">
+                </div>
+                <button class="auth-btn" onclick="register()">ثبت نام</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال پست جدید -->
+    <div class="post-modal" id="postModal">
+        <div class="modal-content">
+            <textarea placeholder="چه خبره؟" id="postText"></textarea>
+            <div class="post-actions">
+                <button onclick="closePostModal()">لغو</button>
+                <button class="post-btn" onclick="createPost()">پست</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🚀 سیستم پست‌های مشترک برای همه کاربران
+        let allPosts = JSON.parse(localStorage.getItem('myx_allPosts')) || [
+            {
+                id: 1,
+                user: "علی رضایی",
+                username: "ali_rz",
+                text: "همین الان MyX رو ساختم! 🔥 واقعاً شبیه X شده! #MyX #برنامه_نویسی",
+                time: "2دقیقه",
+                likes: 12,
+                reposts: 8,
+                comments: 1,
+                commentsList: [
+                    {user: "سارا محمدی", text: "عالیه! 👏"}
+                ]
+            }
+        ];
+
+        let users = JSON.parse(localStorage.getItem('myx_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('myx_currentUser')) || null;
+
+        // بررسی وضعیت ورود کاربر
+        if (currentUser) {
+            showUserInterface();
+        }
+
+        // نمایش رابط کاربری کاربر
+        function showUserInterface() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('newPostBtn').style.display = 'flex';
+            document.getElementById('userInfo').innerHTML = `
+                <div class="avatar-small"></div>
+                <span>${currentUser.username}</span>
+                <button class="auth-btn" onclick="logout()" style="padding: 8px 16px; font-size: 14px; background: #f91880;">خروج</button>
+            `;
+            loadAllPosts(); // بارگذاری پست‌های همه کاربران
+        }
+
+        // بارگذاری پست‌های همه کاربران
+        function loadAllPosts() {
+            const feed = document.getElementById('feed');
+            feed.innerHTML = '';
+            
+            allPosts.forEach(post => {
+                const postElement = createPostElement(post);
+                feed.appendChild(postElement);
+            });
+        }
+
+        // ساخت المان پست
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            postDiv.setAttribute('data-post-id', post.id);
+            
+            postDiv.innerHTML = `
+                <div class="post-header">
+                    <div class="avatar"></div>
+                    <div class="post-info">
+                        <h3>${post.user}</h3>
+                        <span>@${post.username} • ${post.time}</span>
+                    </div>
+                </div>
+                <div class="post-text">${post.text}</div>
+                <div class="post-actions">
+                    <button class="action-btn like-btn ${post.likedBy?.includes(currentUser?.username) ? 'liked' : ''}" onclick="toggleLike(this, ${post.id})">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="action-count">${post.likes}</span>
+                    </button>
+                    <button class="action-btn repost-btn" onclick="toggleRepost(this, ${post.id})">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M23.77 15.67l-1.94-2.07a9.04 9.04 0 0 0-.56-10.41C20.32 2.27 19.75 2 19 2c-.34 0-.66.03-.99.09A11.65 11.65 0 0 0 15 2.46c-.39.07-.78.15-1.17.26l-.82 1.25a7.97 7.97 0 0 0-1.3.73L12 5l-.54-.37a7.97 7.97 0 0 0-1.3-.73l-.83-1.25a11.65 11.65 0 0 0-1.17-.25 11 11 0 0 0-3-.09C3.35 2 2.78 2.27 2.13 3.19a9.04 9.04 0 0 0-.56 10.41l-1.94 2.07A2 2 0 0 0 2 18v3a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3a2 2 0 0 0-.23-1.33z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="action-count">${post.reposts}</span>
+                    </button>
+                    <button class="action-btn comment-btn" onclick="toggleComments(this, ${post.id})">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M4.5 3.5c-1.24 0-2.25 1.01-2.25 2.25S3.26 8.25 4.5 8.25s2.25-1.01 2.25-2.25S5.74 3.5 4.5 3.5zm0 11.25c-1.24 0-2.25 1.01-2.25 2.25S3.26 19.25 4.5 19.25s2.25-1.01 2.25-2.25-1.01-2.25-2.25-2.25zm11.25 0c-1.24 0-2.25 1.01-2.25 2.25s1.01 2.25 2.25 2.25 2.25-1.01 2.25-2.25-1.01-2.25-2.25-2.25zM16 7.5c-1.24 0-2.25 1.01-2.25 2.25S14.76 12 16 12s2.25-1.01 2.25-2.25S17.24 7.5 16 7.5z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="action-count">${post.comments}</span>
+                    </button>
+                </div>
+                <div class="comments" id="comments-${post.id}">
+                    <div class="comment-input">
+                        <input type="text" placeholder="نظرت چیه؟" id="comment-input-${post.id}">
+                        <button class="comment-btn" onclick="addComment(${post.id})">ارسال</button>
+                    </div>
+                    ${post.commentsList.map(comment => `
+                        <div class="comment-item">
+                            <div class="comment-avatar"></div>
+                            <div>
+                                <div class="comment-author">${comment.user}</div>
+                                <div class="comment-text">${comment.text}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            return postDiv;
+        }
+
+        // ساخت پست جدید (مشترک)
+        function createPost() {
+            if (!currentUser) return;
+
+            const text = document.getElementById('postText').value.trim();
+            if (!text) return;
+
+            const newPost = {
+                id: Date.now(),
+                user: currentUser.username,
+                username: currentUser.username,
+                text: text,
+                time: "همین الان",
+                likes: 0,
+                likedBy: [],
+                reposts: 0,
+                comments: 0,
+                commentsList: []
+            };
+
+            allPosts.unshift(newPost); // اضافه به ابتدا
+            localStorage.setItem('myx_allPosts', JSON.stringify(allPosts));
+            
+            loadAllPosts(); // رفرش فید
+            closePostModal();
+        }
+
+        // بقیه توابع...
+        function toggleLike(button, postId) {
+            if (!currentUser) return;
+            
+            const post = allPosts.find(p => p.id == postId);
+            const index = post.likedBy.indexOf(currentUser.username);
+            
+            if (index > -1) {
+                post.likedBy.splice(index, 1);
+                post.likes--;
+                button.classList.remove('liked');
+            } else {
+                post.likedBy.push(currentUser.username);
+                post.likes++;
+                button.classList.add('liked');
+            }
+            
+            localStorage.setItem('myx_allPosts', JSON.stringify(allPosts));
+            loadAllPosts();
+        }
+
+        function toggleRepost(button, postId) {
+            const post = allPosts.find(p => p.id == postId);
+            post.reposts = button.classList.contains('reposted') ? post.reposts - 1 : post.reposts + 1;
+            button.classList.toggle('reposted');
+            localStorage.setItem('myx_allPosts', JSON.stringify(allPosts));
+            loadAllPosts();
+        }
+
+        function toggleComments(button, postId) {
+            const commentsDiv = document.getElementById(`comments-${postId}`);
+            commentsDiv.classList.toggle('active');
+        }
+
+        function addComment(postId) {
+            if (!currentUser) return;
+            
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const post = allPosts.find(p => p.id == postId);
+            post.commentsList.push({
+                user: currentUser.username,
+                text: text
+            });
+            post.comments++;
+            
+            input.value = '';
+            localStorage.setItem('myx_allPosts', JSON.stringify(allPosts));
+            loadAllPosts();
+        }
+
+        // توابع احراز هویت (بدون تغییر)
+        function logout() {
+            localStorage.removeItem('myx_currentUser');
+            currentUser = null;
+            document.getElementById('newPostBtn').style.display = 'none';
+            document.getElementById('userInfo').innerHTML = `
+                <button class="auth-btn" onclick="openAuthModal()" style="padding: 8px 16px; font-size: 14px;">ورود</button>
+            `;
+            document.getElementById('feed').innerHTML = `
+                <div class="welcome-screen" id="welcomeScreen">
+                    <h1>به MyX خوش آمدید! 👋</h1>
+                    <p>برای پست دادن و تعامل با دیگران، ابتدا وارد شوید</p>
+                    <button class="auth-btn" onclick="openAuthModal()">شروع کنید</button>
+                </div>
+            `;
+        }
+
+        function openAuthModal() {
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function switchTab(event, tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Form').classList.add('active');
+        }
+
+        function register() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value.trim();
+
+            if (!username || !email || !password) {
+                alert('لطفاً همه فیلدها را پر کنید');
+                return;
+            }
+
+            if (users.find(user => user.username === username)) {
+                alert('این نام کاربری قبلاً ثبت شده است');
+                return;
+            }
+
+            const newUser = { id: Date.now(), username, email, password };
+            users.push(newUser);
+            localStorage.setItem('myx_users', JSON.stringify(users));
+
+            currentUser = newUser;
+            localStorage.setItem('myx_currentUser', JSON.stringify(currentUser));
+            closeAuthModal();
+            showUserInterface();
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            const user = users.find(u => u.username === username && u.password === password);
+            if (!user) {
+                alert('نام کاربری یا رمز عبور اشتباه است');
+                return;
+            }
+
+            currentUser = user;
+            localStorage.setItem('myx_currentUser', JSON.stringify(currentUser));
+            closeAuthModal();
+            showUserInterface();
+        }
+
+        function openPostModal() {
+            if (!currentUser) {
+                alert('لطفاً ابتدا وارد شوید');
+                return;
+            }
+            document.getElementById('postModal').style.display = 'block';
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').style.display = 'none';
+            document.getElementById('postText').value = '';
+        }
+
+        window.onclick = function(event) {
+            const authModal = document.getElementById('authModal');
+            const postModal = document.getElementById('postModal');
+            if (event.target == authModal) closeAuthModal();
+            if (event.target == postModal) closePostModal();
+        }
+        if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    ) {
+      window.location.href = "Mobile.html";
+    }
+    </script>
+</body>
+</html>

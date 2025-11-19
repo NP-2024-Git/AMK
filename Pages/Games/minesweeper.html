@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی مین‌اسروپ</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #92b6da;
+            margin: 0;
+        }
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(10, 40px);
+            grid-template-rows: repeat(10, 40px);
+            gap: 5px;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #da735a;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .cell:hover {
+            background-color: #e9ecef;
+            transform: scale(1.05);
+        }
+        .revealed {
+            background-color: #d1ecf1;
+            border: 2px solid #5bc0de;
+        }
+        .mine {
+            color: #dc3545;
+            font-size: 24px;
+        }
+        .flag {
+            color: #ffc107;
+            font-size: 24px;
+        }
+        #difficulty {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <select id="difficulty">
+        <option value="easy">آسان</option>
+        <option value="medium">متوسط</option>
+        <option value="hard">سخت</option>
+    </select>
+    <button onclick="startGame()">شروع بازی</button>
+    <div id="grid"></div>
+    <script>
+        const gridElement = document.getElementById('grid');
+        const difficultySelect = document.getElementById('difficulty');
+        let gridSize;
+        let mineCount;
+        let grid = [];
+
+        function startGame() {
+            const difficulty = difficultySelect.value;
+            if (difficulty === 'easy') {
+                gridSize = 8;
+                mineCount = 10;
+            } else if (difficulty === 'medium') {
+                gridSize = 10;
+                mineCount = 20;
+            } else {
+                gridSize = 12;
+                mineCount = 30;
+            }
+            createGrid();
+        }
+
+        function createGrid() {
+            grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(0));
+            placeMines();
+            calculateAdjacentMines();
+            renderGrid();
+        }
+
+        function placeMines() {
+            let minesPlaced = 0;
+            while (minesPlaced < mineCount) {
+                const x = Math.floor(Math.random() * gridSize);
+                const y = Math.floor(Math.random() * gridSize);
+                if (grid[x][y] !== '💣') {
+                    grid[x][y] = '💣';
+                    minesPlaced++;
+                }
+            }
+        }
+
+        function calculateAdjacentMines() {
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    if (grid[x][y] === '💣') {
+                        for (let i = -1; i <= 1; i++) {
+                            for (let j = -1; j <= 1; j++) {
+                                const newX = x + i;
+                                const newY = y + j;
+                                if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize && grid[newX][newY] !== '💣') {
+                                    grid[newX][newY]++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function renderGrid() {
+            gridElement.innerHTML = '';
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    cell.onclick = () => revealCell(x, y);
+                    cell.oncontextmenu = (e) => {
+                        e.preventDefault();
+                        toggleFlag(x, y);
+                    };
+                    gridElement.appendChild(cell);
+                }
+            }
+        }
+
+        function revealCell(x, y) {
+            const cell = gridElement.children[x * gridSize + y];
+            if (grid[x][y] === '💣') {
+                cell.classList.add('revealed');
+                cell.innerHTML = '<span class="mine">💣</span>';
+                alert('بازی تمام شد! شما بمب را پیدا کردید.');
+                revealAllMines(); 
+            } else {
+                cell.classList.add('revealed');
+                cell.innerText = grid[x][y] > 0 ? grid[x][y] : '';
+            }
+        }
+
+        function revealAllMines() {
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    if (grid[x][y] === '💣') {
+                        const cell = gridElement.children[x * gridSize + y];
+                        cell.classList.add('revealed');
+                        cell.innerHTML = '<span class="mine">💣</span>';
+                    } else if (grid[x][y] > 0) {
+                        const cell = gridElement.children[x * gridSize + y];
+                        cell.classList.add('revealed');
+                        cell.innerText = grid[x][y];
+                    }
+                }
+            }
+        }
+
+        function toggleFlag(x, y) {
+            const cell = gridElement.children[x * gridSize + y];
+            if (cell.innerText === '🚩') {
+                cell.innerText = '';
+                cell.classList.remove('flag');
+            } else {
+                cell.innerText = '🚩';
+                cell.classList.add('flag');
+            }
+        }
+    </script>
+</body>
+</html>
