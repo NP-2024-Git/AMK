@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دانلود PDF</title>
+    <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Vazir', sans-serif;
+      background: url("../Immages/Background(2).png") center center/cover no-repeat;
+      background-attachment: fixed;
+    }
+.container {
+    max-width: 420px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+select, button {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+button {
+    background: #008cff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0075d1;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+button.pdf-btn {
+    background: #28a745;
+    margin-top: 10px;
+}
+
+button.pdf-btn:hover {
+    background: #1f8b38;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>دانلود PDF</h1>
+
+    <label>پایه:</label>
+    <select id="paye">
+        <option value="">انتخاب پایه</option>
+        <option value="7">هفتم</option>
+        <option value="8">هشتم</option>
+        <option value="9">نهم</option>
+    </select>
+
+    <label>درس:</label>
+    <select id="dars">
+        <option value="">انتخاب درس</option>
+        <option value="riazi">ریاضی</option>
+        <option value="shimi">شیمی</option>
+        <option value="fizik">فیزیک</option>
+        <option value="zist">زیست و زمین</option>
+        <option value="englisi">انگلیسی</option>
+        <option value="ejtemaei">اجتماعی</option>
+        <option value="arabi">عربی</option>
+        <option value="payam">پیام‌های آسمانی</option> <!-- فیکس مهم -->
+    </select>
+
+    <label>نوبت:</label>
+    <select id="nobat">
+        <option value="">انتخاب نوبت</option>
+        <option value="1">نوبت اول</option>
+        <option value="2">نوبت دوم</option>
+    </select>
+
+    <button id="showPdf">نمایش PDF</button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+   const pdfLinks = {
+            "7": {
+                "payam": {
+                    "1": "https://hamyar.in/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84-%D9%BE%DB%8C%D8%A7%D9%85-%D8%A2%D8%B3%D9%85%D8%A7%D9%86%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D8%A8%D8%A7-%D8%AC%D9%88%D8%A7%D8%A8-%D9%86%D9%88%D8%A8/",
+                    "2": "https://hamyar.in/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84-%D9%BE%DB%8C%D8%A7%D9%85-%D8%A2%D8%B3%D9%85%D8%A7%D9%86%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D9%86%D9%88%D8%A8%D8%AA-%D8%AF%D9%88%D9%85/"
+                },
+                "riazi": {
+                    "1": "https://tizline.ir/nemoone-soal-riyazi-7/",
+                    "2": "https://tizline.ir/riyazi7-nobat-dovom/"
+                },
+                "ejtemaei": {
+                    "1": "https://paadars.com/class7/social7/samples/finalone/",
+                    "2": "https://paadars.com/class7/social7/samples/finaltwo/"
+                },
+                "shimi": {
+                    "1": "https://alavi.ir/%D8%B4%DB%8C%D9%85%DB%8C-%D9%87%D9%81%D8%AA%D9%85/%D9%87%D9%81%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/309",
+                    "2": "https://alavi.ir/%D8%B4%DB%8C%D9%85%DB%8C-%D9%87%D9%81%D8%AA%D9%85/%D9%87%D9%81%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/309"
+                },
+                "fizik": {
+                    "1": "https://alavi.ir/%D9%81%DB%8C%D8%B2%DB%8C%DA%A9-%D9%87%D9%81%D8%AA%D9%85/%D9%87%D9%81%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/308",
+                    "2": "https://alavi.ir/%D9%81%DB%8C%D8%B2%DB%8C%DA%A9-%D9%87%D9%81%D8%AA%D9%85/%D9%87%D9%81%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/308"
+                },
+                "quran": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=33&lesson=149",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=33&lesson=149"
+                },
+                "englisi": {
+                    "1": "https://biamoz.com/doc/%D8%AF%D9%88%D8%B1%D9%87-%D8%A7%D9%88%D9%84-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D8%B2%D8%A8%D8%A7%D9%86-%D8%A7%D9%86%DA%AF%D9%84%DB%8C%D8%B3%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%88%D8%A8%D8%AA-%D8%A7%D9%88%D9%84-%D8%A7%D9%86%DA%AF%D9%84%DB%8C%D8%B3%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/",
+                    "2": "https://biamoz.com/doc/%D8%AF%D9%88%D8%B1%D9%87-%D8%A7%D9%88%D9%84-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D8%B2%D8%A8%D8%A7%D9%86-%D8%A7%D9%86%DA%AF%D9%84%DB%8C%D8%B3%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%88%D8%A8%D8%AA-%D8%AF%D9%88%D9%85-%D8%A7%D9%86%DA%AF%D9%84%DB%8C%D8%B3%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/"
+                },
+                "zist": {
+                    "1": "https://alavi.ir/%D8%B2%DB%8C%D8%B3%D8%AA-%D8%B4%D9%86%D8%A7%D8%B3%DB%8C-%D9%88-%D8%B2%D9%85%DB%8C%D9%86-%D9%87%D9%81%D8%AA%D9%85/%D9%87%D9%81%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/302",
+                    "2": "https://alavi.ir/%D8%B2%DB%8C%D8%B3%D8%AA-%D8%B4%D9%86%D8%A7%D8%B3%DB%8C-%D9%88-%D8%B2%D9%85%DB%8C%D9%86-%D9%87%D9%81%D8%AA%D9%85/%D9%87%D9%81%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/302"
+                },
+                "arabi": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=33&lesson=17",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=33&lesson=17"
+                },
+                "tafakor": {
+                    "1": "https://hamyar.in/soal-n1-7tafakor/",
+                    "2": "https://hamyar.in/soal-n2-7tafakor/"
+                },
+                "farsi": {
+                    "1": "https://gama.ir/search?type=test&section=2&base=4&lesson=136&test_type=89&level=3&pdf=1&free=1&sortby=best&perpage=20&noTypesStats=1",
+                    "2": "https://biamoz.com/doc/%D8%AF%D9%88%D8%B1%D9%87-%D8%A7%D9%88%D9%84-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D8%A7%D8%AF%D8%A8%DB%8C%D8%A7%D8%AA-%D9%81%D8%A7%D8%B1%D8%B3%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%88%D8%A8%D8%AA-%D8%AF%D9%88%D9%85-%D9%81%D8%A7%D8%B1%D8%B3%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/"
+                },
+                "ensha": {
+                    "1": "https://dourkhiz.com/nemone_soal/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84%D8%A7%D8%AA-%D9%86%DA%AF%D8%A7%D8%B1%D8%B4-%D9%87%D9%81%D8%AA%D9%85/",
+                    "2": "https://paadars.com/class7/negaresh7/samples/finaltwo/"
+                },
+                "emla": {
+                    "1": "https://www.heyvagroup.com/shownews/11967/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84%D8%A7%D8%AA-%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86-%D8%A7%D9%85%D9%84%D8%A7-%D9%87%D9%81%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87-%D8%A7%D9%88%D9%84.html",
+                    "2": "https://paadars.com/class7/farsi7/samples/finaltwo/"
+                }
+            },
+            "8": {
+                "payam": {
+                    "1": "https://gama.ir/search?type=test&section=2&base=9&lesson=14329&sortby=best&perpage=20&noTypesStats=1",
+                    "2": "https://gama.ir/dars/detail/3320/%D8%AF%D8%B1%D8%B3%D9%86%D8%A7%D9%85%D9%87-%D8%A2%D9%85%D9%88%D8%B2%D8%B4%DB%8C-%D8%A7%D8%B2-%D9%85%D9%86-%D8%AA%D8%A7-%D8%AE%D8%AF%D8%A7-%D8%AA%D8%B1%D8%A8%DB%8C%D8%AA-%D8%AF%DB%8C%D9%86%DB%8C-%DA%A9%D9%84%D8%A7%D8%B3-%D9%87%D8%B4%D8%AA%D9%85-%D8%AF%D8%B1%D8%B3-2-%DB%8C%DA%A9-%D8%AE%D9%88%D8%A7%D8%A8-%D8%B1%D8%A7%D8%AD%D8%AA"
+                },
+                "riazi": {
+                    "1": "https://tizline.ir/nemoone-soal-riyazi8/",
+                    "2": "https://tizline.ir/riyazi8-nobat-dovom/"
+                },
+                "ejtemaei": {
+                    "1": "https://hamyar.in/soal-n1-8motaleat/",
+                    "2": "https://hamyar.in/soal-n2-8motaleat/"
+                },
+                "shimi": {
+                    "1": "https://alavi.ir/%D8%B4%DB%8C%D9%85%DB%8C-%D9%87%D8%B4%D8%AA%D9%85/%D9%87%D8%B4%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/313",
+                    "2": "https://alavi.ir/%D8%B4%DB%8C%D9%85%DB%8C-%D9%87%D8%B4%D8%AA%D9%85/%D9%87%D8%B4%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/313"
+                },
+                "fizik": {
+                    "1": "https://alavi.ir/%D9%81%DB%8C%D8%B2%DB%8C%DA%A9-%D9%87%D8%B4%D8%AA%D9%85/%D9%87%D8%B4%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/312",
+                    "2": "https://alavi.ir/%D9%81%DB%8C%D8%B2%DB%8C%DA%A9-%D9%87%D8%B4%D8%AA%D9%85/%D9%87%D8%B4%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/312"
+                },
+                "quran": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=149",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=149"
+                },
+                "englisi": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=10",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=10"
+                },
+                "zist": {
+                    "1": "https://alavi.ir/%D8%B2%DB%8C%D8%B3%D8%AA-%D8%B4%D9%86%D8%A7%D8%B3%DB%8C-%D9%88-%D8%B2%D9%85%DB%8C%D9%86-%D9%87%D8%B4%D8%AA%D9%85/%D9%87%D8%B4%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/307",
+                    "2": "https://alavi.ir/%D8%B2%DB%8C%D8%B3%D8%AA-%D8%B4%D9%86%D8%A7%D8%B3%DB%8C-%D9%88-%D8%B2%D9%85%DB%8C%D9%86-%D9%87%D8%B4%D8%AA%D9%85/%D9%87%D8%B4%D8%AA%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/307"
+                },
+                "arabi": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=17",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=17"
+                },
+                "tafakor": {
+                    "1": "https://paadars.com/class8/tafakor8/samples/finalone/",
+                    "2": "https://hamyar.in/soal-n2-8taf/"
+                },
+                "farsi": {
+                    "1": "https://biamoz.com/doc/%D8%AF%D9%88%D8%B1%D9%87-%D8%A7%D9%88%D9%84-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%87%D8%B4%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D8%A7%D8%AF%D8%A8%DB%8C%D8%A7%D8%AA-%D9%81%D8%A7%D8%B1%D8%B3%DB%8C-%D9%87%D8%B4%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%88%D8%A8%D8%AA-%D8%A7%D9%88%D9%84-%D9%81%D8%A7%D8%B1%D8%B3%DB%8C-%D9%87%D8%B4%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/ ",
+                    "2": "https://biamoz.com/doc/%D8%AF%D9%88%D8%B1%D9%87-%D8%A7%D9%88%D9%84-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%87%D8%B4%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D8%A7%D8%AF%D8%A8%DB%8C%D8%A7%D8%AA-%D9%81%D8%A7%D8%B1%D8%B3%DB%8C-%D9%87%D8%B4%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%88%D8%A8%D8%AA-%D8%AF%D9%88%D9%85-%D9%81%D8%A7%D8%B1%D8%B3%DB%8C-%D9%87%D8%B4%D8%AA%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/"
+                },
+                "ensha": {
+                    "1": "https://paadars.com/class8/negaresh8/samples/finalone/",
+                    "2": "https://hamyar.in/soal-n2-8fnegaresh/"
+                },
+                "emla": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=252",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=31&lesson=252"
+                }
+            },
+            "9": {
+                "payam": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=44",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=44"
+                },
+                "riazi": {
+                    "1": "https://biamoz.com/doc/%D8%AF%D9%88%D8%B1%D9%87-%D8%A7%D9%88%D9%84-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%87%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D8%B1%DB%8C%D8%A7%D8%B6%DB%8C-%D9%86%D9%87%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%88%D8%A8%D8%AA-%D8%A7%D9%88%D9%84-%D8%B1%DB%8C%D8%A7%D8%B6%DB%8C-%D9%86%D9%87%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/",
+                    "2": ""
+                },
+                "ejtemaei": {
+                    "1": "https://www.daneshchi.ir/motaleat-9/",
+                    "2": "https://biamoz.com/doc/%D8%AF%D9%88%D8%B1%D9%87-%D8%A7%D9%88%D9%84-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%87%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D8%B1%DB%8C%D8%A7%D8%B6%DB%8C-%D9%86%D9%87%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/%D9%86%D9%88%D8%A8%D8%AA-%D8%AF%D9%88%D9%85-%D8%B1%DB%8C%D8%A7%D8%B6%DB%8C-%D9%86%D9%87%D9%85-%D9%85%D8%AA%D9%88%D8%B3%D8%B7%D9%87/"
+                },
+                "shimi": {
+                    "1": "https://alavi.ir/%D8%B4%DB%8C%D9%85%DB%8C-%D9%86%D9%87%D9%85/%D9%86%D9%87%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/204",
+                    "2": "https://alavi.ir/%D8%B4%DB%8C%D9%85%DB%8C-%D9%86%D9%87%D9%85/%D9%86%D9%87%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/204"
+                },
+                "fizik": {
+                    "1": "https://alavi.ir/%D9%81%DB%8C%D8%B2%DB%8C%DA%A9-%D9%86%D9%87%D9%85/%D9%86%D9%87%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/203",
+                    "2": "https://alavi.ir/%D9%81%DB%8C%D8%B2%DB%8C%DA%A9-%D9%86%D9%87%D9%85/%D9%86%D9%87%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/203"
+                },
+                "quran": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=149",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=149"
+                },
+                "englisi": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=10",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=10"
+                },
+                "zist": {
+                    "1": "https://alavi.ir/%D8%B2%DB%8C%D8%B3%D8%AA-%D8%B4%D9%86%D8%A7%D8%B3%DB%8C-%D9%88-%D8%B2%D9%85%DB%8C%D9%86-%D9%86%D9%87%D9%85/%D9%86%D9%87%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/320",
+                    "2": "https://alavi.ir/%D8%B2%DB%8C%D8%B3%D8%AA-%D8%B4%D9%86%D8%A7%D8%B3%DB%8C-%D9%88-%D8%B2%D9%85%DB%8C%D9%86-%D9%86%D9%87%D9%85/%D9%86%D9%87%D9%85/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84/320"
+                },
+                "arabi": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=17",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=17"
+                },
+                "tafakor": {
+                    "1": "https://gama.ir/search?type=test&base=9&lesson=152&test_type=90",
+                    "2": "https://gama.ir/search?type=test&base=9&lesson=152&test_type=90"
+                },
+                "farsi": {
+                    "1": "https://tizline.ir/farsi9-nobat-aval/",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=43"
+                },
+                "ensha": {
+                    "1": "https://paadars.com/class9/negaresh/samples/finalone/",
+                    "2": "https://paadars.com/class9/negaresh/samples/finaltwo/"
+                },
+                "emla": {
+                    "1": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=252",
+                    "2": "https://www.kanoon.ir/Public/ExamQuestions?group=27&lesson=252"
+                }
+            }
+        };
+document.getElementById('showPdf').addEventListener('click', function () {
+  const paye = document.getElementById('paye').value;
+  const dars = document.getElementById('dars').value;
+  const nobat = document.getElementById('nobat').value;
+  const resultDiv = document.getElementById('result');
+
+  const lessonKey = dars;  // فیکس بزرگ موبایل
+
+  if (!paye || !dars || !nobat) {
+    resultDiv.innerHTML = `<p>لطفا همه گزینه‌ها را انتخاب کنید.</p>`;
+    return;
+  }
+
+  const link =
+    pdfLinks?.[paye]?.[lessonKey]?.[nobat] || null;
+
+  if (!link) {
+    resultDiv.innerHTML = `<p>فایل PDF برای این انتخاب موجود نیست.</p>`;
+    return;
+  }
+
+  const lessonName = document.getElementById('dars').selectedOptions[0].text;
+
+  resultDiv.innerHTML = `
+    <p>PDF پایه <b>${paye}</b> - درس <b>${lessonName}</b> - نوبت <b>${nobat}</b>:</p>
+    <a href="${link}" target="_blank" rel="noopener noreferrer">
+      <button class="pdf-btn">دانلود PDF</button>
+    </a>
+  `;
+});
+
+</script>
+</body>
+</html>
