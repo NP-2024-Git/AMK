@@ -9,6 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
   <title>A.M.K</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Badeen+Display&display=swap');
+    .badeen-display-regular {
+  font-family: "Badeen Display", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
     .shadows-into-light-regular {
   font-family: "Shadows Into Light", cursive;
   font-weight: 400;
@@ -21,6 +28,7 @@
       width: 100%;
       margin: 0;
       display: flex;
+      flex-direction: column;     /* ⭐ THIS FIXES THE PROBLEM ⭐ */
       justify-content: center;
       align-items: center;
       overflow: hidden;
@@ -37,20 +45,21 @@
 }
 
 
-    button {
-      font-size: 17px;
-      padding: 1em 2.5em;
-      font-weight: 500;
-      background: #dfe4eb;
-      color: rgb(17, 17, 17);
-      border: none;
-      border-radius: 0.6em;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-      transition: transform 0.2s ease;
-    }
+button {
+  font-size: 16px;
+  padding: 0.5em 1em;
+  font-weight: 500;
+  background: #dfe4eb;
+  color: rgb(17, 17, 17);
+  border: none;
+  border-radius: 0.6em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
 
     .gradient {
       position: absolute;
@@ -222,6 +231,25 @@
   }
 }
 
+.porsline-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;          /* spacing between the two buttons */
+    margin-top: 40px;   /* increased space from main buttons */
+    direction: ltr;
+
+    /* small size */
+    scale: 0.6;
+    transform-origin: top center;
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center horizontally */
+  gap: 40px;             /* vertical space between buttons and Porsline box */
+}
+
+
   </style>
 </head>
 <body>
@@ -232,7 +260,7 @@
     <h5 class="dot">.</h5>
     <h5 id="leter3">K</h5>
   </div>
-  
+  <div class="main-container">
     <div class="buttons">
       <a href="https://beheshti-zn.ir">
         <button>
@@ -248,47 +276,57 @@
           <span class="label">چت کردن</span>
         </button>
       </a>
-      <a href="Pages/games.html">
-        <button>
-          <span class="transition"></span>
-          <span class="gradient"></span>
-          <span class="label">بازی ها</span>
-        </button>
-      </a>
-      <a href="Pages/Books.html">
+      <a href="Pages/BooksM.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">PDF های کتاب</span>
         </button>
       </a>
-      <a href="Pages/Documents.html">
+      <a href="Pages/DocumentsM.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">جزوه های درس</span>
         </button>
       </a>
-      <a href="https://www.kanoon.ir/Public/ExamQuestions">
-        <button onclick="alert('[این بخش درحال ساخت است.تا الان،بروید قلمچی! ]')">
+      <a href="../Pages/Questions.html">
+        <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">نمونه سوال</span>
         </button>
       </a>
-      <a href="Pages/Videos.html">
+      <a href="Pages/VideosM.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">ویدیو های آموزشی</span>
         </button>
       </a>
-
-    <br><br><br><br><br>
-    <a class="porsline-button" style="background-color: #f4bbe1; color: #3e434d" href="#porsline-slider"
-    onclick="cl0VXX2BIi('porsline-slider-iframe');showSlider()">
-    نظرسنجی
-  </a>
+      <a href="Pages/SearchEngineM.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">جستجوی درسی (در اینترنت)</span>
+        </button>
+      </a>
+      </div>
+      <br /><br /><br /><br /><br />
+      <div class="porsline-box">
+        <a class="porsline-button" style="background-color: #f4bbe1; color: #3e434d" 
+           href="#porsline-slider"
+           onclick="cl0VXX2BIi('porsline-slider-iframe');showSlider()">بهبود سایت</a>   
+    
+        <a class="porsline-button" style="background-color: #52aeff; color: #3e434d"
+           href="https://survey.porsline.ir/s/ODXe1mKp"
+           onclick="cl0VXX2BIi('porsline-slider-iframe2');showSlider()">نظردهی به معلمان</a>
+    </div>
+  </div>
+    
+  <footer style="text-align: end;">
+    این سایت رسمی نیست!---ساخته شده توسط <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html">تیم رضنو</a>
+  </footer>
     <script>
       (function() {
         var js,q,d=document,
@@ -310,64 +348,7 @@
         document.getElementById(ifid).src =
           "https://survey.porsline.ir/s/0VXX2BIi#/?ac=0&ns=0"
       }
-    </script>
-    </div>
 
-
-  <script>
-    (function() {
-      var js,q,d=document,
-        gi=d.getElementById,
-        ifid='porsline-side-tab-iframe',
-        ce=d.createElement,
-        gt=d.getElementsByTagName,
-        id="porsline-share",
-        b="https://cdn.porsline.ir/static/panel/v2/statics/";
-      if(!gi.call(d,id)) {
-        js=ce.call(d,"script");
-        js.id = id;js.setAttribute("data-position","right");js.src=b+"side-tab.js";
-        q=gt.call(d,"script")[0];
-        q.parentNode.insertBefore(js,q)
-      }
-    })();
-    var cl0VXX2BIi = function (ifid) {
-      document.getElementById(ifid).fetchPriority = 'high';
-      document.getElementById(ifid).src =
-        "https://survey.porsline.ir/s/0VXX2BIi#/?ac=0&ns=0"
-    }
-  </script>
-
-  <footer style="text-align: end;">
-  این سایت رسمی نیست!---ساخته توسط <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html">تیم رضنو</a>
-  </footer>
-
-  <audio id="audioPlayer" loop></audio>
-  <script>
-    const audioPlayer = document.getElementById('audioPlayer');
-    const musicFiles = [
-      'Music/beans.mp3',
-      'Music/catburger.mp3',
-      'Music/elevator.mp3',
-      'Music/hot chocolate.mp3',
-      'Music/vanilla tea.mp3'
-    ];
-    let currentTrack = 0;
-
-    audioPlayer.volume = 0.1;
-
-    function playTrack() {
-      audioPlayer.src = musicFiles[currentTrack];
-      audioPlayer.play().catch(error => {
-        console.error('Error playing audio:', error);
-      });
-    }
-
-    playTrack();
-
-    audioPlayer.addEventListener('ended', () => {
-      currentTrack = (currentTrack + 1) % musicFiles.length;
-      playTrack();
-    });
 
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
@@ -379,4 +360,3 @@
   
 </body>
 </html>
-

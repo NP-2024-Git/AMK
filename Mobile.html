@@ -1,315 +1,286 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="Immages/Site_logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
-  <title>A.M.K</title>
-  <style>
-    body, html {
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-      font-family: "Shadows Into Light", cursive, sans-serif;
-      background: url("Immages/Background(1).png") center/cover no-repeat;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      position: relative;
-      box-sizing: border-box;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="Immages/Site_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Badeen+Display&display=swap" rel="stylesheet">
+<title>A.M.K</title>
+<style>
+  /* ===== Fonts ===== */
+  .badeen-display-regular { font-family: "Badeen Display", system-ui; }
+  .shadows-into-light-regular { font-family: "Shadows Into Light", cursive; }
 
-    .top-header {
-      width: 100vw;
-      height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(255,255,255,0.3);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1001;
-      font-size: 2em;
-      font-family: 'Shadows Into Light', cursive;
-      padding: 0;
-      margin: 0;
-    }
-    .top-header h5 { margin: 0 0.1em; }
-    #leter1 { color: greenyellow; }
-    #leter2 { color: orange; }
-    #leter3 { color: blue; }
-    .dot { color: #444; font-weight: bold; }
+  html, body {
+    background: url("Immages/Background(1).png") center/cover no-repeat;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-    main {
-      margin-top: 80px;
-      width: 100%;
-      max-width: 900px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2em;
-    }
+  /* ===== Top header ===== */
+  .top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255,0.3);
+    z-index: 1001;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .top-header h5 {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 2.5em;
+    margin: 0 0.1em;
+    line-height: 1;
+    text-align: center;
+  }
+  #leter1 { color: greenyellow; }
+  #leter2 { color: orange; }
+  #leter3 { color: blue; }
+  .dot { color: #444; font-weight: bold; }
 
+  /* ===== Buttons ===== */
+  .main-container { display: flex; flex-direction: column; align-items: center; gap: 40px; margin-top: 80px; }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 0.5em 1em;
+    font-weight: 500;
+    background: #dfe4eb;
+    color: rgb(17,17,17);
+    border: none;
+    border-radius: 0.6em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+
+  .gradient {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 0.6em;
+    background-image: linear-gradient(
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.3)
+    );
+    z-index: 1;
+  }
+
+  .label { position: relative; z-index: 2; }
+  .transition {
+    transition: all 0.5s cubic-bezier(0,0,0.2,1);
+    background-color: rgb(90,106,255);
+    border-radius: 9999px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+  }
+  button:hover .transition { width: 13em; height: 13em; }
+
+  .transition2 {
+    transition: all 0.5s cubic-bezier(0,0,0.2,1);
+    background-color: rgb(255,50,50);
+    border-radius: 9999px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+  }
+  button:hover .transition2 { width: 13em; height: 13em; }
+  button:active { transform: scale(0.97); }
+
+  a { text-decoration: none; }
+
+  /* ===== Porsline Box ===== */
+  .porsline-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+    direction: ltr;
+    scale: 0.6;
+    transform-origin: top center;
+  }
+
+  .porsline-button-wrapper, .porsline-button {
+    font-weight: bold;
+    padding: 0.6em 2.4em;
+    border-radius: 0.7em;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    text-align: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px 10px 0 0;
+    padding: 4px 12px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 12px rgba(255,255,255,0.1);
+    z-index: 1000;
+  }
+
+  /* ===== Animations ===== */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== Mobile Responsive ===== */
+  @media (max-width: 768px) {
     .buttons {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      margin-bottom: 1em;
+      gap: 12px;
     }
-
-    a { text-decoration: none; }
 
     button {
-      position: relative;
-      font-size: 18px;
-      padding: 1em 2.5em;
-      font-family: "Shadows Into Light", cursive, sans-serif;
-      font-weight: 500;
-      background: #dfe4eb;
-      color: #111;
-      border: none;
-      border-radius: 0.7em;
-      cursor: pointer;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      transition: transform 0.2s, box-shadow 0.2s;
-      z-index: 1;
-      outline: none;
-      margin: 0;
-    }
-    button:active { transform: scale(0.96); }
-    .gradient {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0; top: 0;
-      border-radius: 0.7em;
-      background-image: linear-gradient(
-        rgba(0, 0, 0, 0),
-        rgba(0, 0, 0, 0.2),
-        rgba(0, 0, 0, 0.3)
-      );
-      z-index: 1;
-    }
-    .label { position: relative; z-index: 2; }
-
-    .transition, .transition2 {
-      background-color: rgb(90,106,255);
-      border-radius: 999px;
-      width: 0; height: 0;
-      position: absolute;
-      left: 50%; top: 50%;
-      transform: translate(-50%,-50%);
-      z-index: 0;
-      transition: width 0.5s, height 0.5s;
-    }
-    .transition2 { background-color: rgb(255, 50, 50); }
-    button:hover .transition,
-    button:hover .transition2 {
-      width: 11em; height: 11em;
+      font-size: 14px;
+      padding: 0.4em 0.8em;
+      width: 90%;
+      max-width: 300px;
     }
 
-    .porsline-button-wrapper {
-      background: #FF7272;
-      color: #3e434d;
-      padding: 0.3em 1.2em;
-      border-radius: 0.5em;
-      font-size: 1.13em;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      margin-bottom: 1em;
-      display: inline-block;
-      transition: background 0.2s;
+    .porsline-box {
+      scale: 0.5;
+      margin-top: 30px;
+      gap: 8px;
     }
-    .porsline-button-wrapper:hover {
-      background: #ff5050;
-    }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100vw;
-      min-height: 36px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: rgba(255,255,255,0.89);
-      font-size: 16px;
-      background: rgba(255,255,255,0.09);
-      border-radius: 10px 10px 0 0;
-      padding: 6px 15px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 14px rgba(255,255,255,0.11);
-      animation: fadeIn 1s ease-out;
-      z-index: 2001;
-      text-align: end;
-    }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Tablet Styles */
-    @media (max-width: 900px) {
-      main {
-        max-width: 680px;
-      }
-      button {
-        font-size: 16px;
-        padding: 0.9em 2em;
-      }
-    }
-
-    /* Mobile Styles */
-    @media (max-width: 600px) {
-      .top-header {
-        height: 42px;
-        font-size: 1.2em;
-      }
-      main {
-        margin-top: 60px;
-        max-width: 99vw;
-      }
-      .buttons {
-        gap: 10px;
-      }
-      button {
-        padding: 0.7em 1em;
-        font-size: 15px;
-        border-radius: 0.6em;
-      }
-      .porsline-button-wrapper {
-        font-size: 1em;
-        padding: 0.2em 0.8em;
-      }
-      footer {
-        font-size: 13px;
-        padding: 4px 6px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div class="top-header">
-    <h5 id="leter1">A</h5>
-    <h5 class="dot">.</h5>
-    <h5 id="leter2">M</h5>
-    <h5 class="dot">.</h5>
-    <h5 id="leter3">K</h5>
+<div class="top-header">
+  <h5 id="leter1">A</h5>
+  <h5 class="dot">.</h5>
+  <h5 id="leter2">M</h5>
+  <h5 class="dot">.</h5>
+  <h5 id="leter3">K</h5>
+</div>
+
+<div class="main-container">
+  <div class="buttons">
+    <a href="https://beheshti-zn.ir">
+      <button>
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">سایت مدرسه</span>
+      </button>
+    </a>
+    <a href="#">
+      <button onclick="alert('[ SERVER.EXE - Critical Failure ]')">
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">چت کردن</span>
+      </button>
+    </a>
+    <a href="Pages/games.html">
+      <button>
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">بازی ها</span>
+      </button>
+    </a>
+    <a href="Pages/Books.html">
+      <button>
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">PDF های کتاب</span>
+      </button>
+    </a>
+    <a href="Pages/Documents.html">
+      <button>
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">جزوه های درس</span>
+      </button>
+    </a>
+    <a href="../Pages/QuestionsM.html">
+      <button>
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">نمونه سوال</span>
+      </button>
+    </a>
+    <a href="Pages/Videos.html">
+      <button>
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">ویدیو های آموزشی</span>
+      </button>
+    </a>
+    <a href="Pages/SearchEngine.html">
+      <button>
+        <span class="transition"></span>
+        <span class="gradient"></span>
+        <span class="label">جستجوی درسی</span>
+      </button>
+    </a>
   </div>
 
-  <main>
-    <div class="buttons">
-      <a href="https://beheshti-zn.ir">
-        <button>
-          <span class="transition"></span>
-          <span class="gradient"></span>
-          <span class="label">سایت مدرسه</span>
-        </button>
-      </a>
-      <a href="#">
-        <button onclick="alert('[ SERVER.EXE - Critical Failure ] -------------------------------------------------- A fatal exception 0x503 has occurred at memory location 0x000000FF. The system has encountered an unrecoverable server-side fault. Possible causes: Connection timeout, internal corruption, unresponsive gateway, or overloaded process queue. Technical information: ERROR CODE 503 SERVICE UNAVAILABLE | THREAD ID: 0x7FFC3B18 | STACK TRACE: server.dll + 0x008C → api_handler.js + 0x192A → kernel32.exe + 0x1812 → sys.main + 0x0004 | Please contact your system administrator or restart your network daemon. Press Retry to reconnect or Cancel to abort.')">
-          <span class="transition2"></span>
-          <span class="gradient"></span>
-          <span class="label">چت کردن</span>
-        </button>
-      </a>
-      <a href="https://myket.ir/mag/best-online-games-for-android/">
-        <button>
-          <span class="transition"></span>
-          <span class="gradient"></span>
-          <span class="label">بازی ها</span>
-        </button>
-      </a>
-      <a href="Pages/BooksM.html">
-        <button>
-          <span class="transition"></span>
-          <span class="gradient"></span>
-          <span class="label">PDF های کتاب</span>
-        </button>
-      </a>
-      <a href="Pages/DocumentsM.html">
-        <button>
-          <span class="transition"></span>
-          <span class="gradient"></span>
-          <span class="label">جزوه های درس</span>
-        </button>
-      </a>
-      <a href="https://www.kanoon.ir/Public/ExamQuestions">
-        <button onclick="alert('[این بخش درحال ساخت است.تا الان،بروید قلمچی! ]')">
-          <span class="transition2"></span>
-          <span class="gradient"></span>
-          <span class="label">نمونه سوال</span>
-        </button>
-      </a>
-      <a href="Pages/VideosM.html">
-        <button>
-          <span class="transition"></span>
-          <span class="gradient"></span>
-          <span class="label">ویدیو های آموزشی</span>
-        </button>
-      </a>
-    </div>
-    <a class="porsline-button" style="background-color: #f4bbe1; color: #3e434d" href="https://survey.porsline.ir/s/0VXX2BIi">
-    نظرسنجی
-  </main>
+  <div class="porsline-box">
+    <a class="porsline-button" style="background-color: #f4bbe1; color: #3e434d"
+       href="https://survey.porsline.ir/s/0VXX2BIi#/?ac=0&ns=0"
+       onclick="cl0VXX2BIi('porsline-slider-iframe');showSlider()">بهبود سایت</a>
 
-  <footer>
-    این سایت رسمی نیست!---ساخته توسط <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html">تیم رضنو</a>
-  </footer>
+    <a class="porsline-button" style="background-color: #52aeff; color: #3e434d"
+       href="https://survey.porsline.ir/s/ODXe1mKp"
+       onclick="cl0VXX2BIi('porsline-slider-iframe2');showSlider()">نظردهی به معلمان</a>
+  </div>
+</div>
 
-  <audio id="audioPlayer" loop></audio>
-  <script>
-    const audioPlayer = document.getElementById('audioPlayer');
-    const musicFiles = [
-      'Music/beans.mp3',
-      'Music/catburger.mp3',
-      'Music/elevator.mp3',
-      'Music/hot chocolate.mp3',
-      'Music/vanilla tea.mp3'
-    ];
-    let currentTrack = 0;
-    audioPlayer.volume = 0.1;
-    function playTrack() {
-      audioPlayer.src = musicFiles[currentTrack];
-      audioPlayer.play().catch(error => {
-        console.error('Error playing audio:', error);
-      });
-    }
-    playTrack();
-    audioPlayer.addEventListener('ended', () => {
-      currentTrack = (currentTrack + 1) % musicFiles.length;
-      playTrack();
-    });
-    
-    // Porsline script
-    (function() {
-      var js,q,d=document,
-        gi=d.getElementById,
-        ifid='porsline-side-tab-iframe',
-        ce=d.createElement,
-        gt=d.getElementsByTagName,
-        id="porsline-share",
-        b="https://cdn.porsline.ir/static/panel/v2/statics/";
-      if(!gi.call(d,id)) {
-        js=ce.call(d,"script");
-        js.id = id;js.setAttribute("data-position","right");js.src=b+"side-tab.js";
-        q=gt.call(d,"script")[0];
-        q.parentNode.insertBefore(js,q);
-      }
-    })();
-    var cl0VXX2BIi = function (ifid) {
-      document.getElementById(ifid).fetchPriority = 'high';
-      document.getElementById(ifid).src =
-        "https://survey.porsline.ir/s/0VXX2BIi#/?ac=0&ns=0"
-    }
-  </script>
+<footer>
+  این سایت رسمی نیست!---ساخته شده توسط <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html">تیم رضنو</a>
+</footer>
+
 </body>
 </html>
-
