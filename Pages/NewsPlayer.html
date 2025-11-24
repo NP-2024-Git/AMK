@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Vazir&display=swap" rel="stylesheet" />
+<title>AMK | اخبار</title>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Vazir', sans-serif;
+    background: url("../Immages/Background(2).png") center/cover no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .video-container {
+    width: 90%;
+    max-width: 800px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 12px;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 20px rgba(0,162,255,0.5);
+  }
+
+  video {
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    box-shadow: 0 0 15px rgba(0, 162, 255, 0.4);
+  }
+
+  video:hover {
+    box-shadow: 0 0 25px rgba(0, 162, 255, 0.7);
+    transition: 0.3s;
+  }
+</style>
+</head>
+
+<body>
+  <div class="video-container">
+    <video controls>
+      <source src="../Videos/Videos/Khabar.mp4" type="video/mp4">
+      مرورگر شما ویدیو را پشتیبانی نمی‌کند.
+    </video>
+  </div>
+</body>
+<script>
+   if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    ) {
+      window.location.href = "NewsPlayerM.html";
+    } 
+</script>
+</html>

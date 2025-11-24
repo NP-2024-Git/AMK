@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Vazir&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="../Immages/Site_logo.png" alt="Site Logo">
+<link rel="stylesheet" type="text/css" href="../BackBtn.css">
+<title>AMK | اخبار</title>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Vazir', sans-serif;
+    background: url("../Immages/Background(2).png") center/cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .site-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px; 
+    width: 100%;
+  }
+
+  .video-container {
+    width: 95%;
+    max-width: 600px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 12px;
+    padding: 15px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 20px rgba(0,162,255,0.5);
+  }
+
+  video {
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    box-shadow: 0 0 12px rgba(0, 162, 255, 0.4);
+  }
+
+  video:hover {
+    box-shadow: 0 0 18px rgba(0, 162, 255, 0.7);
+    transition: 0.3s;
+  }
+
+  @media (max-width: 480px) {
+    .video-container {
+      padding: 10px;
+      max-width: 100%;
+    }
+
+    video {
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 162, 255, 0.4);
+    }
+  }
+</style>
+</head>
+
+<body>
+  <button class="Btn" onclick="history.back()">
+    <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
+    <div class="text">بازگشت</div>
+  </button>
+  <div class="site-container">
+    <div class="video-container">
+      <video controls>
+        <source src="../Videos/Videos/Khabar.mp4" type="video/mp4">
+        مرورگر شما ویدیو را پشتیبانی نمی‌کند.
+      </video>
+    </div>
+  </div>
+</body>
+</html>

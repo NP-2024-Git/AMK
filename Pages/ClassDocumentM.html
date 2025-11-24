@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Vazir&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="../Immages/Site_logo.png" alt="Site Logo">
+<link rel="stylesheet" type="text/css" href="../BackBtn.css">
+<title>برنامه کلاسی | موبایل</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Vazir', sans-serif;
+      background: url("../Immages/Background(2).png") center center/cover no-repeat;
+      background-attachment: fixed;
+    }
+
+  h1 {
+    text-align: center;
+    padding: 15px 10px;
+    color: white;
+    font-size: 1.4em;
+  }
+
+  #container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  select, button {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+
+  select {
+    background: #222;
+    color: white;
+    border: 1px solid #555;
+  }
+
+  button {
+    background: #00a2ff;
+    border: none;
+    color: white;
+  }
+
+  #result {
+    text-align: center;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  /* ⭐ THIS IS THE REAL FIX */
+  #result img {
+    display: block;
+    width: 100%;        /* fits screen NO MATTER WHAT */
+    max-width: 100%;    /* never goes outside */
+    height: auto;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>نمایش برنامه کلاسی</h1>
+<button class="Btn" onclick="history.back()">
+  <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
+  <div class="text">بازگشت</div>
+</button>
+<div id="container">
+
+  <select id="Class">
+    <option value="">انتخاب کلاس</option>
+    <option value="701">701</option>
+    <option value="702">702</option>
+    <option value="801">801</option>
+    <option value="802">802</option>
+    <option value="901">901</option>
+    <option value="902">902</option>
+  </select>
+
+  <button id="showPng">نمایش برنامه</button>
+
+  <div id="result"></div>
+
+</div>
+<script>
+ const PngLinks = {
+            "701": "../Immages/701.jpg",
+            "702": "../Immages/702.jpg",
+            "801": "../Immages/801.jpg",
+            "802": "../Immages/802.jpg",
+            "901": "../Immages/901.jpg",
+            "902": "../Immages/902.jpg"
+        };
+document.getElementById('showPng').addEventListener('click', function () {
+  const Class = document.getElementById('Class').value;
+  const resultDiv = document.getElementById('result');
+
+  if (!Class) {
+    resultDiv.innerHTML = `<p>لطفا یک گزینه‌ را انتخاب کنید.</p>`;
+    return;
+  }
+
+  const link =
+  PngLinks?.[Class] || null;
+
+  if (!link) {
+    resultDiv.innerHTML = `<p> برنامه برای این کلاس موجود نیست.</p>`;
+    return;
+  }
+
+
+  resultDiv.innerHTML = `
+    <img  src="${link}" alt="برنامه کلاسی کلاس ${Class}">
+  `;
+});
+</script>
+
+</body>
+</html>
