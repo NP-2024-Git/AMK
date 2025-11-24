@@ -9,57 +9,90 @@
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
   <title>A.M.K</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Badeen+Display&display=swap');
+    /* ===== Fonts ===== */
     .badeen-display-regular {
-  font-family: "Badeen Display", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
+      font-family: "Badeen Display", system-ui;
+    }
     .shadows-into-light-regular {
-  font-family: "Shadows Into Light", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
+      font-family: "Shadows Into Light", cursive;
+    }
 
-    html, body {
+    /* Box sizing for better control */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
       background: url("Immages/Background(1).png") center/cover no-repeat;
       height: 100%;
       width: 100%;
       margin: 0;
       display: flex;
-      flex-direction: column;     /* ⭐ THIS FIXES THE PROBLEM ⭐ */
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      overflow-x: hidden;
       position: relative;
+      font-family: system-ui, sans-serif;
     }
 
+    /* ===== Top Header ===== */
+    .top-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 1001;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      padding: 0 10px;
+    }   
+    /* ===== Buttons ===== */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      margin-top: 80px;
+      width: 100%;
+      max-width: 480px;
+    }
 
     .buttons {
-  display: flex;
-  flex-direction: row;    /* Change from column to row */
-  gap: 15px;
-  align-items: center;    /* Vertically center buttons in the row */
-  justify-content: flex-end;  /* Keep them aligned to the right, or use center/left as needed */
-}
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 350px;
+      margin: 0 auto;
+    }
 
-
-button {
-  font-size: 16px;
-  padding: 0.5em 1em;
-  font-weight: 500;
-  background: #dfe4eb;
-  color: rgb(17, 17, 17);
-  border: none;
-  border-radius: 0.6em;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.2s ease;
-}
-
+    button {
+      font-size: 16px;
+      padding: 0.5em 1em;
+      font-weight: 500;
+      background: #dfe4eb;
+      color: rgb(17, 17, 17);
+      border: none;
+      border-radius: 0.6em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s ease;
+      width: auto;
+      max-width: 300px;
+      min-width: 120px;
+    }
 
     .gradient {
       position: absolute;
@@ -68,17 +101,14 @@ button {
       left: 0;
       top: 0;
       border-radius: 0.6em;
-      background-image: linear-gradient(
-        rgba(0, 0, 0, 0),
-        rgba(0, 0, 0, 0),
-        rgba(0, 0, 0, 0.3)
-      );
+      background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
       z-index: 1;
     }
 
     .label {
       position: relative;
       z-index: 2;
+      pointer-events: none;
     }
 
     .transition {
@@ -98,6 +128,7 @@ button {
       width: 13em;
       height: 13em;
     }
+
     .transition2 {
       transition: all 0.5s cubic-bezier(0, 0, 0.2, 1);
       background-color: rgb(255, 50, 50);
@@ -122,143 +153,130 @@ button {
 
     a {
       text-decoration: none;
+      display: inline-block;
     }
 
+    /* ===== Porsline Box ===== */
+    .porsline-box {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 40px;
+      direction: ltr;
+      scale: 0.6;
+      transform-origin: top center;
+    }
+
+    .porsline-button-wrapper,
+    .porsline-button {
+      font-weight: bold;
+      padding: 0.6em 2.4em;
+      border-radius: 0.7em;
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+      text-align: center;
+    }
+
+    /* ===== Footer ===== */
     footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  min-height: 30px;        
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: rgba(255,255,255,0.8);
-  font-size: 13px;         
-  text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px 10px 0 0;
-  padding: 4px 12px;      
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 12px rgba(255,255,255,0.1);
-  animation: fadeIn 1s ease-out;
-  z-index: 1000;
-}
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      min-height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px 10px 0 0;
+      padding: 4px 12px 10px 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
 
+    footer a {
+      color: inherit;
+    }
 
-
-
+    /* ===== Animations ===== */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    #leter1{
-      color: greenyellow;
+    /* ===== Mobile Responsive Improved ===== */
+    @media (max-width: 768px) {
+      html,
+      body {
+        padding: 0 15px;
+        overflow-x: hidden;
+      }
+
+      .top-header {
+        height: 50px;
+        padding: 0 10px;
+      }
+      .top-header h5 {
+        font-size: 1.8em;
+      }
+
+      .main-container {
+        margin-top: 70px;
+        width: 100%;
+        max-width: 480px;
+      } 
+
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 0.4em 0.8em;
+        width: 100%;
+        max-width: 300px;
+        min-width: unset;
+      }
+
+      .porsline-box {
+        scale: 0.5;
+        margin-top: 30px;
+        gap: 8px;
+      }
+
+      footer {
+        padding-bottom: 10px;
+        font-size: 11px;
+      }
     }
-    #leter2{
-      color: orange;
+    .top-header img{
+      height: 60px; 
+  width: auto;   
+  display: block;
+  margin: 0 auto;
     }
-    #leter3{
-      color: blue;
-    }
-
-    @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
-
-    .top-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 60px;          
-  display: flex;
-  justify-content: center;
-  align-items: center;    
-  background: rgba(255,255,255,0.3);
-  z-index: 1001;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 0; 
-  margin: 0;
-}
-
-.top-header h5 {
-  font-family: 'Shadows Into Light', cursive;
-  font-size: 2.5em;
-  margin: 0 0.1em;
-  text-align: center;
-  line-height: 1;   
-}
-
-#leter1 {
-  color: greenyellow;
-}
-
-#leter2 {
-  color: orange;
-}
-
-#leter3 {
-  color: blue;
-}
-
-.dot {
-  color: #444;
-  font-weight: bold;
-} 
-.porsline-button-wrapper {
-  position: absolute;    /* Overlay positioning */
-  top: 50%;              /* Center vertically over buttons area */
-  right: 10vw;           /* You can use left or right as needed */
-  transform: translateY(-50%);
-  background-color: #FF7272;
-  color: #3e434d;
-  z-index: 2001;         /* Higher than buttons */
-  font-weight: bold;
-  padding: 0.6em 2.4em;
-  border-radius: 0.7em;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-  cursor: pointer;
-  border: none;
-  display: inline-block;
-}
-
-@media (max-width:600px) {
-  .porsline-button-wrapper {
-    top: 85vw;          /* Place overlay lower on screen for mobile */
-    right: 6vw;
-    font-size: 0.94em;
-    padding: 0.4em 1.2em;
-  }
-}
-
-.porsline-box {
-    display: flex;
-    justify-content: center;
-    gap: 10px;          /* spacing between the two buttons */
-    margin-top: 40px;   /* increased space from main buttons */
-    direction: ltr;
-
-    /* small size */
-    scale: 0.6;
-    transform-origin: top center;
-}
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* center horizontally */
-  gap: 40px;             /* vertical space between buttons and Porsline box */
-}
-
-
+  </style>
   </style>
 </head>
 <body>
   <div class="top-header">
-    <h5 id="leter1">A</h5>
-    <h5 class="dot">.</h5>
-    <h5 id="leter2">M</h5>
-    <h5 class="dot">.</h5>
-    <h5 id="leter3">K</h5>
+    <img src="Immages/Site_logo.png">
   </div>
   <div class="main-container">
     <div class="buttons">
@@ -269,46 +287,67 @@ button {
           <span class="label">سایت مدرسه</span>
         </button>
       </a>
-      <a href="#">
-        <button onclick="alert('[ SERVER.EXE - Critical Failure ] -------------------------------------------------- A fatal exception 0x503 has occurred at memory location 0x000000FF. The system has encountered an unrecoverable server-side fault. Possible causes: Connection timeout, internal corruption, unresponsive gateway, or overloaded process queue. Technical information: ERROR CODE 503 SERVICE UNAVAILABLE | THREAD ID: 0x7FFC3B18 | STACK TRACE: server.dll + 0x008C → api_handler.js + 0x192A → kernel32.exe + 0x1812 → sys.main + 0x0004 | Please contact your system administrator or restart your network daemon. Press Retry to reconnect or Cancel to abort.')">
+      <a href="Pages/Chat(Fake).html">
+        <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">چت کردن</span>
         </button>
       </a>
-      <a href="Pages/BooksM.html">
+      <a href="Pages/Books.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">PDF های کتاب</span>
         </button>
       </a>
-      <a href="Pages/DocumentsM.html">
+      <a href="Pages/Documents.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">جزوه های درس</span>
         </button>
       </a>
-      <a href="Pages/Questions.html">
+      <a href="../Pages/Questions.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">نمونه سوال</span>
         </button>
       </a>
-      <a href="Pages/VideosM.html">
+      <a href="Pages/Videos.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">ویدیو های آموزشی</span>
         </button>
       </a>
-      <a href="Pages/SearchEngineM.html">
+      <a href="Pages/SearchEngine.html">
         <button>
           <span class="transition"></span>
           <span class="gradient"></span>
           <span class="label">جستجوی درسی (در اینترنت)</span>
+        </button>
+      </a>
+      <a href="Pages/ClassDocument.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">برنامه کلاسی</span>
+        </button>
+      </a>
+      <a href="Pages/NewsPlayer.html">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">اخبار مدرسه</span>
+        </button>
+      </a>
+      <a href="https://www.freeconvert.com/video-compressor">
+        <button>
+          <span class="transition"></span>
+          <span class="gradient"></span>
+          <span class="label">کم حجم کردن فایل ها</span>
         </button>
       </a>
       </div>
@@ -319,14 +358,16 @@ button {
            onclick="cl0VXX2BIi('porsline-slider-iframe');showSlider()">بهبود سایت</a>   
     
         <a class="porsline-button" style="background-color: #52aeff; color: #3e434d"
-           href="https://survey.porsline.ir/s/ODXe1mKp"
-           onclick="cl0VXX2BIi('porsline-slider-iframe2');showSlider()">نظردهی به معلمان</a>
+           href="https://survey.porsline.ir/s/ODXe1mKp">نظردهی به معلمان</a>
+           <a class="porsline-button" style="background-color: #fcff52; color: #3e434d"
+           href="ChangeLog.html">تغییرات سایت</a>
     </div>
   </div>
     
   <footer style="text-align: end;">
     این سایت رسمی نیست!---ساخته شده توسط <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html">تیم رضنو</a>
   </footer>
+  <script src="Loader.js"></script>
     <script>
       (function() {
         var js,q,d=document,
@@ -360,4 +401,3 @@ button {
   
 </body>
 </html>
-

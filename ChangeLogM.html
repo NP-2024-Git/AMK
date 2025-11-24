@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="BackBtn.css">
+    <title>Document</title>
+    <style>
+      .rubik-font {
+        font-family: "Rubik", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 700;
+        font-style: normal;
+      }
+      #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: 1;
+      }
+
+      .card {
+        font-family: "Rubik", sans-serif;
+        background: #ff66a3;
+        border: 3px solid #000000;
+        box-shadow: 12px 12px 0 #000000;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: max-content;
+        width: 100%;
+        max-width: 400px;
+        z-index: 10;
+        margin: 0 auto;
+      }
+
+      .head {
+        font-family: Montserrat, sans-serif;
+        font-size: 14px;
+        font-weight: 900;
+        width: 100%;
+        height: 32px;
+        background: #ffffff;
+        padding: 5px 12px;
+        color: #000000;
+        border-bottom: 3px solid #000000;
+      }
+
+      .content {
+        padding: 8px 12px;
+        font-size: 14px;
+        font-weight: 600;
+        direction: rtl; 
+        text-align: right;
+      }
+
+      .content p {
+        font-family: "Cairo Play", sans-serif;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 400;
+        direction: rtl; 
+        text-align: right;
+      }
+
+      .button {
+        padding: 10px 16px;
+        margin-top: 10px;
+        border: 3px solid #000000;
+        box-shadow: 3px 3px 0 #000000;
+        font-weight: 750;
+        background: #4ade80;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        max-width: 200px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .button:hover {
+        transform: translate(1.5px, 1.5px);
+        box-shadow: 1.5px 1.5px 0 #000000;
+        background: #1ac2ff;
+      }
+
+      .button:active {
+        transform: translate(3px, 3px);
+        box-shadow: 0 0 0 #000000;
+      }
+
+      .card:hover {
+        transform: translate(-6px);
+      }
+
+      .top-text {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        font-weight: bold;
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border: 2px solid #000;
+        z-index: 15;
+        border-radius: 6px;
+      }
+
+      .card-container {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 10;
+        padding: 20px;
+        max-width: 400px;
+        margin: 120px auto 0 auto;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 480px) {
+        .card-container {
+          padding: 10px 15px;
+          max-width: 95%;
+        }
+        .head {
+          font-size: 16px;
+        }
+        .content {
+          font-size: 16px;
+          padding: 10px 15px;
+        }
+        .content p {
+          font-size: 14px;
+          padding: 8px 10px;
+        }
+        .button {
+          font-size: 18px;
+          padding: 14px 20px;
+          max-width: 100%;
+        }
+        .top-text {
+          font-size: 20px;
+          padding: 8px 12px;
+        }
+      }
+    </style>
+</head>
+<body>
+    <button class="Btn" onclick="history.back()">
+        <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
+        <div class="text">بازگشت</div>
+      </button>
+  <div class="top-text">تغییرات سایت</div>
+  <br/>
+  <div class="card-container">
+    <div class="card">
+      <div class="head">V3.4</div>
+      <div class="content">
+        اضافه کردن بخش تغییرات
+        <p>ویژگی اضافه کردن بخش تغییرات به سایت این امکان را فراهم می‌کند که تمامی تغییرات و به‌روزرسانی‌های اعمال شده به صورت منظم و دقیق ثبت و مستندسازی شوند. این بخش به کاربران و مدیران سایت اجازه می‌دهد تا هر تغییر جدیدی که ایجاد می‌شود، مانند تغییرات در محتوا، ساختار صفحات، یا تنظیمات فنی، به سرعت ثبت شود و تاریخچه‌ای کامل از تمامی اصلاحات در دسترس باشد. این قابلیت باعث می‌شود که فرآیند نظارت و پیگیری تغییرات ساده‌تر شده و امکان بازگشت به نسخه‌های قبلی در صورت نیاز فراهم شود.</p>
+        <a href="ChangeLog.html">
+        <button class="button">رفتن به ویژگی</button>
+      </a>
+      </div>
+      <br/>
+      <div class="content">
+        اضافه کردن برنامه های کلاسی
+        <p>این ویژگی امکان افزودن بخش اختصاصی برنامه‌های کلاسی را به سایت فراهم می‌کند که کاربران بتوانند به راحتی برنامه زمان‌بندی کلاس‌های مختلف را مشاهده کنند. با این قابلیت، برنامه کلاس‌ها به صورت دقیق و سازمان‌یافته نمایش داده می‌شود و دانش‌آموزان یا دانشجویان می‌توانند به سادگی اطلاعات مربوط به زمان، روز و محتوای هر کلاس را بررسی کنند. این بخش باعث افزایش شفافیت و دسترسی آسان به اطلاعات آموزشی شده و فرآیند مدیریت زمان‌بندی برنامه‌ها را برای مدیران و کاربران بهینه می‌کند.</p>
+        <a href="Pages/ClassDocument.html">
+          <button class="button">رفتن به ویژگی</button>
+        </a>
+      </div>
+      <br/>
+      <div class="content">
+        اضافه کردن اخبار مدرسه
+        <p>این ویژگی امکان افزودن بخشی اختصاصی برای نمایش اخبار مدرسه را به سایت فراهم می‌کند که در آن تمامی خبرها، اطلاعیه‌ها و رویدادهای مرتبط با مدرسه به صورت مرتب و به‌روز در اختیار دانش‌آموزان، والدین و کارکنان قرار می‌گیرد. این بخش به طور مستمر به‌روزرسانی می‌شود و شامل اخبار مهم، اطلاعیه‌های درسی، برنامه‌های خاص مدرسه، فعالیت‌های فرهنگی و ورزشی و سایر رویدادهای مدرسه است. کاربران می‌توانند به راحتی جدیدترین اخبار را مشاهده کنند و از تمامی تغییرات و اطلاعیه‌ها باخبر شوند.</p>
+        <a href="Pages/NewsPlayer.html">
+          <button class="button">رفتن به ویژگی</button>
+        </a>
+      </div>
+      <br/>
+      <div class="content">
+        درست کردن ویژگی چت
+     <p>ویژگی چت آنلاین سایت که قبلاً به خاطر ارورهای متعدد سرور مشکلاتی داشت، اکنون به طور کامل بهبود یافته و مشکلات سرور برطرف شده است. تیم فنی با دقت به بررسی و حل مشکلات پرداخته و تنظیمات سرور، پیکربندی‌ها و کدهای مربوطه را به‌روزرسانی کرده است تا این خطاها دیگر رخ ندهند. بلافاصله پس از رفع این مسائل، کارایی سیستم چت روان‌تر و پایدارتر شده و کاربران می‌توانند بدون نگرانی از قطع ارتباط یا خطاهای سرور به گفتگوی آنلاین بپردازند. این به‌روزرسانی‌ها شامل افزایش زمان پاسخ‌دهی سرور، اصلاحات امنیتی و مدیریت بهتر منابع سرور است. بنابراین، اکنون تجربه چت سریع، بدون وقفه و مطمئن برای همه کاربران فراهم شده است.</p>
+        <a href="Pages/Chat(Fake).html">
+          <button class="button">رفتن به ویژگی</button>
+        </a>
+      </div>
+      <br/>
+      <div class="content">
+       اضافه کردن کم حجم کننده ی ویدیو
+      <p>این ویژگی به سایت این امکان را می‌دهد که فایل‌های ویدیویی را به طور خودکار یا دستی فشرده‌سازی کند تا حجم آنها تا حد ممکن کاهش یابد. با وجود این قابلیت، فیلم‌های آموزشی و سایر ویدیوها به صورت کم‌حجم اما با کیفیت قابل قبول آماده می‌شوند تا در کامپیوترهای قدیمی یا با سخت‌افزار محدود نیز بدون مشکل و لگ قابل پخش باشند. این فرآیند باعث می‌شود کاربران مدرسه بتوانند به راحتی و سریع‌تر به محتوای ویدیویی دسترسی داشته باشند و تجربه تماشای روان و بدون وقفه‌ای داشته باشند.</p>
+        <a href="https://www.freeconvert.com/video-compressor">
+          <button class="button">رفتن به ویژگی</button>
+        </a>
+      </div>
+      <br/>
+    </div>
+    </div>
+    
+
+  
+  </div>
+  
+<video autoplay muted loop id="myVideo">
+    <source src="Videos/Bg/ChangeLogBg.mp4" type="video/mp4">
+  </video>
+      
+    <script>
+        var video = document.getElementById("myVideo");
+        var btn = document.getElementById("myBtn");
+
+        function myFunction() {
+          if (video.paused) {
+            video.play();
+            btn.innerHTML = "Pause";
+          } else {
+            video.pause();
+            btn.innerHTML = "Play";
+          }
+        }
+        </script>
+</body>
+</html>
