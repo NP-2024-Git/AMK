@@ -1,309 +1,143 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="../Immages/Site_logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Vazir&display=swap" rel="stylesheet" />
-  <title>AMK | برنامه ی کلاسی</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../Images/Site_logo.png">
+  <link rel="stylesheet" type="text/css" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <title>AMK</title>
   <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
+    html, body {
       height: 100%;
-      width: 100%;
-      min-height: 100vh;
-      font-family: 'Vazir', sans-serif;
-      background: url("../Immages/Background(2).png") center center/cover no-repeat;
-      background-attachment: fixed;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
     }
-
     body {
-      min-height: 100vh;
-      width: 100vw;
+      overflow-y: auto; 
     }
-
-    .site-container {
+    main {
+      flex: 1;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 90vh;
-      width: 100vw;
-      gap: 2em;
+      padding: 20px;
     }
-
-    h1 {
-      margin: 1em 0 1em 0;
-      font-size: 2em;
-      font-weight: 700;
-      color: #000000;
-      text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-      padding-bottom: 0.5em;
-      width: 100%;
-      text-align: center;
-    }
-
-    h2 {
-      margin-top: 1.5em;
-      font-size: 1.5em;
-      color: #e83f3f;
-      border-right: 4px solid #bd4747;
-      padding-right: 10px;
-      min-width: 260px;
-      text-shadow: 0 0 6px rgba(0, 183, 255, 0.6);
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 7px;
-      text-align: center;
-    }
-
-    .pdf-list {
-      width: 90%;
-      max-width: 700px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 0.8em;
-      margin-bottom: 1.5em;
-    }
-
-    .pdf-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 12px 18px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(4px);
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    .pdf-item:hover {
-      transform: scale(1.02);
-      background: rgba(255, 255, 255, 0.11);
-    }
-
-    .pdf-name {
-      font-size: 1.05em;
-      font-weight: 500;
-      color: #fff;
-      text-shadow: 0 0 4px #000;
-    }
-
-    .download-btn {
-      background: #00a2ff;
-      border: none;
-      color: #fff;
-      padding: 6px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 10px rgba(0, 162, 255, 0.4);
-    }
-
-    .download-btn:hover {
-      background: #0090ff;
-      box-shadow: 0 0 20px rgba(0, 162, 255, 0.6);
-    }
-
-    audio {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      opacity: 0.8;
-      z-index: 10;
-    }
-
-    select {
-      padding: 10px;
-      border-radius: 7px;
-      background: rgba(0, 0, 0, 0.4);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      margin: 4px;
-      backdrop-filter: blur(3px);
-    }
-
-    #filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      border-radius: 10px;
-      backdrop-filter: blur(5px);
-      width: 90%;
-      max-width: 700px;
-      align-items: center;
-    }
-
-    #showPdf {
-      background: #00a2ff;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      font-size: 1em;
-      cursor: pointer;
-      border-radius: 7px;
-      box-shadow: 0 0 10px rgba(0, 162, 255, 0.4);
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-
-    #showPdf:hover {
-      background: #0090ff;
-      box-shadow: 0 0 20px rgba(0, 162, 255, 0.7);
-    }
-
-    #result {
+    #result img {
+      max-width: 100%;
+      height: auto;
+      display: block;
       margin-top: 20px;
-      max-width: 700px;
-      width: 90%;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 0 8px rgba(0, 162, 255, 0.6);
-      font-size: 1.1em;
-      direction: rtl;
-      text-align: center;
     }
-
-    @media (max-width: 950px) {
-      .pdf-list {
-        width: 99vw;
-      }
-      #filters {
-        gap: 5px;
-      }
-    }
-button {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  color: white;
-  background-color: #171717;
-  padding: 1em 2em;
-  border: none;
-  border-radius: .6rem;
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-button span:not(:nth-child(6)) {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: 30px;
-  width: 30px;
-  background-color: #00840f;
-  border-radius: 50%;
-  transition: .6s ease;
-}
-
-button span:nth-child(6) {
-  position: relative;
-}
-
-button span:nth-child(1) {
-  transform: translate(-3.3em, -4em);
-}
-
-button span:nth-child(2) {
-  transform: translate(-6em, 1.3em);
-}
-
-button span:nth-child(3) {
-  transform: translate(-.2em, 1.8em);
-}
-
-button span:nth-child(4) {
-  transform: translate(3.5em, 1.4em);
-}
-
-button span:nth-child(5) {
-  transform: translate(3.5em, -3.8em);
-}
-
-button:hover span:not(:nth-child(6)) {
-  transform: translate(-50%, -50%) scale(4);
-  transition: 1.5s ease;
-}
-#result img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 8px;
-  display: block;
-}
   </style>
 </head>
 
 <body>
-  <div class="site-container">
-    <h1>جزوه‌ها و کتاب‌های کار</h1>
+<script src="../Loader.js"></script>
 
-    <div id="filters">
-      <select id="Class">
-        <option value="">انتخاب کلاس</option>
-        <option value="701">701</option>
-        <option value="702">702</option>
-        <option value="801">801</option>
-        <option value="802">802</option>
-        <option value="901">901</option>
-        <option value="902">902</option>
-      </select>
-
-      <button id="showPng">نمایش فایل‌ها</button>
+<nav class="navbar navbar-expand-lg navbar-dark nav-purple fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand text-capitalize" href="../index.html">
+      <img id="logo" src="../Images/Site_logo.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="../index.html">صفحه ی اصلی</a></li>
+        <li class="nav-item"><a class="nav-link active" href="https://beheshti-zn.ir">سایت مدرسه</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            سرویس های سایت
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="../Pages/Books.html">PDF کتاب ها</a></li>
+            <li><a class="dropdown-item" href="../Pages/Chat(Fake).html">چت</a></li>
+            <li><a class="dropdown-item" href="../Pages/ClassDocument.html">برنامه ی کلاسی</a></li>
+            <li><a class="dropdown-item" href="../Pages/Documents.html">کتاب کار ها</a></li>
+            <li><a class="dropdown-item" href="../Pages/games.html">بازی ها</a></li>
+            <li><a class="dropdown-item" href="../Pages/NewsPlayer.html">اخبار مدرسه</a></li>
+            <li><a class="dropdown-item" href="../Pages/Questions.html">نمونه سوالات</a></li>
+            <li><a class="dropdown-item" href="../Pages/SearchEngine.html">جستجوی درسی</a></li>
+            <li><a class="dropdown-item" href="../Pages/Videos.html">ویدیو های آموزشی</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-
-    <h2 id="listTitle">فایل‌ها</h2>
-    <div class="pdf-list" id="pdfList"></div>
-    <div id="result"></div>
   </div>
-  <script>
- const PngLinks = {
-            "701": "../Immages/701.jpg",
-            "702": "../Immages/702.jpg",
-            "801": "../Immages/801.jpg",
-            "802": "../Immages/802.jpg",
-            "901": "../Immages/901.jpg",
-            "902": "../Immages/902.jpg"
-        };
-document.getElementById('showPng').addEventListener('click', function () {
-  const Class = document.getElementById('Class').value;
+</nav> 
+
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col-xxl-6 col-md-8 col-10 mx-auto">
+        <form id="classForm" class="p-4 border rounded bg-light shadow-sm">
+          <div class="mb-3">
+            <label for="ClassSelect" class="form-label">کلاس</label>
+            <select id="ClassSelect" class="form-select" aria-label="Default select example">
+              <option selected disabled>کلاس خود را انتخاب کنید.</option>
+              <option value="701">701</option>
+              <option value="702">702</option>
+              <option value="801">801</option>
+              <option value="802">802</option>
+              <option value="901">901</option>
+              <option value="902">902</option>
+            </select>
+          </div>
+          <button id="showPng" type="submit" class="btn btn-primary w-100">نشان دادن برنامه کلاسی</button>
+        </form>
+        <div id="result"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="bg-secondary text-center text-white py-2 fixed-bottom">
+  <p>
+    copyright:
+    <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html"><strong>ReznoTeams</strong></a>
+    | site template:
+    <a href="https://mdtalalwasim.github.io/"><strong>Md. Talal Wasim</strong></a>
+  </p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+const PngLinks = {
+  "701": "../Images/701.jpg",
+  "702": "../Images/702.jpg",
+  "801": "../Images/801.jpg",
+  "802": "../Images/802.jpg",
+  "901": "../Images/901.jpg",
+  "902": "../Images/902.jpg"
+};
+
+document.getElementById('classForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const selectedClass = document.getElementById('ClassSelect').value;
   const resultDiv = document.getElementById('result');
 
-  if (!Class) {
+  if (!selectedClass) {
     resultDiv.innerHTML = `<p>لطفا یک گزینه‌ را انتخاب کنید.</p>`;
     return;
   }
 
-  const link =
-  PngLinks?.[Class] || null;
-
+  const link = PngLinks[selectedClass];
   if (!link) {
-    resultDiv.innerHTML = `<p> برنامه برای این کلاس موجود نیست.</p>`;
+    resultDiv.innerHTML = `<p>برنامه برای این کلاس موجود نیست.</p>`;
     return;
   }
 
-
-  resultDiv.innerHTML = `
-    <img  src="${link}" alt="برنامه کلاسی کلاس ${Class}">
-  `;
+  resultDiv.innerHTML = `<img src="${link}" alt="برنامه کلاسی کلاس ${selectedClass}">`;
 });
 
-    if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    ) {
-      window.location.href = "ClassDocumentM.html";
-    }
-  </script>
+</script>
 </body>
 </html>

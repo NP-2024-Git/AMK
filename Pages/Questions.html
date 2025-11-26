@@ -1,282 +1,128 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="../Immages/Site_logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Vazir&display=swap" rel="stylesheet" />
-  <title>A.M.K | دانلود جزوه‌ها</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../Images/Site_logo.png">
+  <link rel="stylesheet" type="text/css" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <title>AMK</title>
   <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      min-height: 100vh;
-      font-family: 'Vazir', sans-serif;
-      background: url("../Immages/Background(2).png") center center/cover no-repeat;
-      background-attachment: fixed;
-    }
-
-    body {
-      min-height: 100vh;
-      width: 100vw;
-    }
-
-    .site-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 90vh;
-      width: 100vw;
-      gap: 2em;
-    }
-
-    h1 {
-      margin: 1em 0 1em 0;
-      font-size: 2em;
-      font-weight: 700;
-      color: #000000;
-      text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-      padding-bottom: 0.5em;
-      width: 100%;
-      text-align: center;
-    }
-
-    h2 {
-      margin-top: 1.5em;
-      font-size: 1.5em;
-      color: #e83f3f;
-      border-right: 4px solid #bd4747;
-      padding-right: 10px;
-      min-width: 260px;
-      text-shadow: 0 0 6px rgba(0, 183, 255, 0.6);
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 7px;
-      text-align: center;
-    }
-
-    .pdf-list {
-      width: 90%;
-      max-width: 700px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 0.8em;
-      margin-bottom: 1.5em;
-    }
-
-    .pdf-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 12px 18px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(4px);
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    .pdf-item:hover {
-      transform: scale(1.02);
-      background: rgba(255, 255, 255, 0.11);
-    }
-
-    .pdf-name {
-      font-size: 1.05em;
-      font-weight: 500;
-      color: #fff;
-      text-shadow: 0 0 4px #000;
-    }
-
-    .download-btn {
-      background: #00a2ff;
-      border: none;
-      color: #fff;
-      padding: 6px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 10px rgba(0, 162, 255, 0.4);
-    }
-
-    .download-btn:hover {
-      background: #0090ff;
-      box-shadow: 0 0 20px rgba(0, 162, 255, 0.6);
-    }
-
-    audio {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      opacity: 0.8;
-      z-index: 10;
-    }
-
-    select {
-      padding: 10px;
-      border-radius: 7px;
-      background: rgba(0, 0, 0, 0.4);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      margin: 4px;
-      backdrop-filter: blur(3px);
-    }
-
-    #filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      border-radius: 10px;
-      backdrop-filter: blur(5px);
-      width: 90%;
-      max-width: 700px;
-      align-items: center;
-    }
-
-    #showPdf {
-      background: #00a2ff;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      font-size: 1em;
-      cursor: pointer;
-      border-radius: 7px;
-      box-shadow: 0 0 10px rgba(0, 162, 255, 0.4);
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-
-    #showPdf:hover {
-      background: #0090ff;
-      box-shadow: 0 0 20px rgba(0, 162, 255, 0.7);
-    }
-
-    #result {
-      margin-top: 20px;
-      max-width: 700px;
-      width: 90%;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 0 8px rgba(0, 162, 255, 0.6);
-      font-size: 1.1em;
-      direction: rtl;
-      text-align: center;
-    }
-
-    @media (max-width: 950px) {
-      .pdf-list {
-        width: 99vw;
-      }
-      #filters {
-        gap: 5px;
-      }
-    }
-button {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  color: white;
-  background-color: #171717;
-  padding: 1em 2em;
-  border: none;
-  border-radius: .6rem;
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
+    html, body { height: 100%; margin: 0; display: flex; flex-direction: column; }
+    body { overflow-y: auto; }
+    main {
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120px; /* فاصله از navbar */
 }
-
-button span:not(:nth-child(6)) {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: 30px;
-  width: 30px;
-  background-color: #00840f;
-  border-radius: 50%;
-  transition: .6s ease;
-}
-
-button span:nth-child(6) {
-  position: relative;
-}
-
-button span:nth-child(1) {
-  transform: translate(-3.3em, -4em);
-}
-
-button span:nth-child(2) {
-  transform: translate(-6em, 1.3em);
-}
-
-button span:nth-child(3) {
-  transform: translate(-.2em, 1.8em);
-}
-
-button span:nth-child(4) {
-  transform: translate(3.5em, 1.4em);
-}
-
-button span:nth-child(5) {
-  transform: translate(3.5em, -3.8em);
-}
-
-button:hover span:not(:nth-child(6)) {
-  transform: translate(-50%, -50%) scale(4);
-  transition: 1.5s ease;
-}
-  
+    main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    #result { margin-top: 20px; text-align: center; }
+    #result .pdf-btn { padding: 10px 20px; background-color: #0d6efd; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    #result .pdf-btn:hover { background-color: #0b5ed7; }
   </style>
 </head>
 
 <body>
-  <div class="site-container">
-    <h1>جزوه‌ها و کتاب‌های کار</h1>
+<script src="../Loader.js"></script>
 
-    <div id="filters">
-      <select id="paye">
-        <option value="">انتخاب پایه</option>
-        <option value="7">هفتم</option>
-        <option value="8">هشتم</option>
-        <option value="9">نهم</option>
-      </select>
+<nav class="navbar navbar-expand-lg navbar-dark nav-purple fixed-top">
 
-      <select id="dars">
-        <option value="">انتخاب درس</option>
-        <option value="riazi">ریاضی</option>
-        <option value="shimi">شیمی</option>
-        <option value="fizik">فیزیک</option>
-        <option value="zist">زیست و زمین</option>
-        <option value="englisi">انگلیسی</option>
-        <option value="ejtemaei">اجتماعی</option>
-        <option value="arabi">عربی</option>
-      </select>
-
-      <select id="nobat">
-        <option value="">نوبت</option>
-        <option value="1">اول</option>
-        <option value="2">دوم</option>
-      </select>
-
-      <button id="showPdf">نمایش فایل‌ها</button>
+  <div class="container-fluid">
+    <a class="navbar-brand text-capitalize" href="../index.html">
+      <img id="logo" src="../Images/Site_logo.png" alt="Site Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="../index.html">صفحه اصلی</a></li>
+        <li class="nav-item"><a class="nav-link active" href="https://beheshti-zn.ir">سایت مدرسه</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            سرویس‌های سایت
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="../Pages/Books.html">PDF کتاب‌ها</a></li>
+            <li><a class="dropdown-item" href="../Pages/Chat(Fake).html">چت</a></li>
+            <li><a class="dropdown-item" href="../Pages/ClassDocument.html">برنامه کلاسی</a></li>
+            <li><a class="dropdown-item" href="../Pages/Documents.html">کتاب کارها</a></li>
+            <li><a class="dropdown-item" href="../Pages/games.html">بازی‌ها</a></li>
+            <li><a class="dropdown-item" href="../Pages/NewsPlayer.html">اخبار مدرسه</a></li>
+            <li><a class="dropdown-item" href="../Pages/Questions.html">نمونه سوالات</a></li>
+            <li><a class="dropdown-item" href="../Pages/SearchEngine.html">جستجوی درسی</a></li>
+            <li><a class="dropdown-item" href="../Pages/Videos.html">ویدیوهای آموزشی</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-
-    <h2 id="listTitle">فایل‌ها</h2>
-    <div class="pdf-list" id="pdfList"></div>
-    <div id="result"></div>
   </div>
-  <script>
- const pdfLinks = {
+</nav>
+
+<main>
+  <div class="container text-center" style="margin-top: 100px;">
+    <h1 class="display-4">نمونه سوالات نوبت اول و دوم</h1>
+    <hr class="w-25 mx-auto" />
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xxl-6 col-md-8 col-10 mx-auto">
+        <form id="classForm" class="p-4 border rounded bg-light shadow-sm">
+          <div class="mb-3">
+            <label for="ClassSelect" class="form-label">کلاس</label>
+            <div id="filters" class="d-flex flex-column gap-2">
+              <select id="paye" class="form-select">
+                <option value="">انتخاب پایه</option>
+                <option value="7">هفتم</option>
+                <option value="8">هشتم</option>
+                <option value="9">نهم</option>
+              </select>
+
+              <select id="dars" class="form-select">
+                <option value="">انتخاب درس</option>
+                <option value="riazi">ریاضی</option>
+                <option value="shimi">شیمی</option>
+                <option value="fizik">فیزیک</option>
+                <option value="zist">زیست و زمین</option>
+                <option value="englisi">انگلیسی</option>
+                <option value="ejtemaei">اجتماعی</option>
+                <option value="arabi">عربی</option>
+              </select>
+
+              <select id="nobat" class="form-select">
+                <option value="">نوبت</option>
+                <option value="1">اول</option>
+                <option value="2">دوم</option>
+              </select>
+            </div>
+          </div>
+          <button id="showPdf" type="submit" class="btn btn-primary w-100">دانلود نمونه سوال</button>
+        </form>
+
+        <h2 class="mt-4" id="listTitle">فایل‌ها</h2>
+        <div id="result"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="bg-secondary text-center text-white py-3 mt-auto">
+  <p class="mb-0">
+    copyright:
+    <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html"><strong>ReznoTeams</strong></a>
+    | site template:
+    <a href="https://mdtalalwasim.github.io/"><strong>Md. Talal Wasim</strong></a>
+  </p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const pdfLinks = {
             "7": {
                 "payam": {
                     "1": "https://hamyar.in/%D9%86%D9%85%D9%88%D9%86%D9%87-%D8%B3%D9%88%D8%A7%D9%84-%D9%BE%DB%8C%D8%A7%D9%85-%D8%A2%D8%B3%D9%85%D8%A7%D9%86%DB%8C-%D9%87%D9%81%D8%AA%D9%85-%D8%A8%D8%A7-%D8%AC%D9%88%D8%A7%D8%A8-%D9%86%D9%88%D8%A8/",
@@ -440,29 +286,26 @@ button:hover span:not(:nth-child(6)) {
                 }
             }
         };
-document.getElementById('showPdf').addEventListener('click', function () {
+document.getElementById('classForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // prevent page reload
+
   const paye = document.getElementById('paye').value;
   const dars = document.getElementById('dars').value;
   const nobat = document.getElementById('nobat').value;
   const resultDiv = document.getElementById('result');
-
-  const lessonKey = dars;  // فیکس بزرگ موبایل
 
   if (!paye || !dars || !nobat) {
     resultDiv.innerHTML = `<p>لطفا همه گزینه‌ها را انتخاب کنید.</p>`;
     return;
   }
 
-  const link =
-    pdfLinks?.[paye]?.[lessonKey]?.[nobat] || null;
-
+  const link = pdfLinks?.[paye]?.[dars]?.[nobat] || null;
   if (!link) {
     resultDiv.innerHTML = `<p>فایل PDF برای این انتخاب موجود نیست.</p>`;
     return;
   }
 
   const lessonName = document.getElementById('dars').selectedOptions[0].text;
-
   resultDiv.innerHTML = `
     <p>PDF پایه <b>${paye}</b> - درس <b>${lessonName}</b> - نوبت <b>${nobat}</b>:</p>
     <a href="${link}" target="_blank" rel="noopener noreferrer">
@@ -470,12 +313,6 @@ document.getElementById('showPdf').addEventListener('click', function () {
     </a>
   `;
 });
-
-    if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    ) {
-      window.location.href = "QuestionsM.html";
-    }
-  </script>
+</script>
 </body>
 </html>
