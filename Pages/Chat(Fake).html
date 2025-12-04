@@ -1,168 +1,468 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Bootstrap RTL -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
-
-  <link rel="icon" type="image/png" href="../Images/Site_logo.png" />
+  <link rel="icon" type="image/png" href="../Images/ChatLogo.png" />
   <link rel="stylesheet" href="../css/style.css" />
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet" />
-
   <title>AMK</title>
-
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Vazirmatn', 'Open Sans', sans-serif;
-      display: flex;
-      flex-direction: column;
+    html,body{
+        position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #272727;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
     }
+    .feed {
+    max-width: 600px;
+    margin: 80px auto 40px;
+    padding: 0 20px;
+}
+#pageLoader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; 
+    height: 100%;
+    background: #272727;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
 
-    /* Navbar & Footer */
-    nav.navbar { flex-shrink: 0; }
-    footer { flex-shrink: 0; }
+body.loading nav {
+    display: none !important;
+}
+.new-post {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background: #1d9bf0;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 600;
+}
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1d9bf0;
+        }
 
-    /* Main content area for loader */
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #ffffff;
-      padding: 1rem;
-    }
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
 
-    /* Loader */
-    .loader {
-      width: 80px;
-      height: 80px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 20px;
+            background: #333;
+            color: #fff;
+        }
 
-    .loader .cup {
-      position: absolute;
-      width: 25px;
-      height: 18px;
-      background-color: #fff;
-      border: 1px solid #2e2e2e;
-      border-radius: 2px 2px 10px 10px;
-      animation: expansion 6s infinite ease-in-out;
-      transform-origin: center;
-    }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .cup::after {
-      content: "";
-      position: absolute;
-      top: -2px;
-      width: calc(100% - 2px);
-      height: 2px;
-      background: #fed59fca;
-      border: 1px solid #2e2e2ebe;
-      border-radius: 50%;
-    }
+        .avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1d9bf0;
+        }
 
-    .cup::before {
-      content: "";
-      position: absolute;
-      top: 15px;
-      width: calc(100% - 2px);
-      height: 4px;
-      background: transparent;
-      border: 1px solid #2e2e2e;
-      border-top: none;
-      border-radius: 50%;
-      z-index: -1;
-    }
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+        }
 
-    .cup .cup-handle {
-      position: absolute;
-      width: 5px;
-      height: 10px;
-      background-color: #fff;
-      border: 1px solid #2e2e2e;
-      right: -5px;
-      top: 2px;
-      border-radius: 2px 10px 20px 2px;
-    }
+        .auth-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            background: #000;
+            border-radius: 20px;
+            padding: 30px;
+        }
 
-    .cup .smoke {
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      width: 15px;
-      height: 25px;
-      background: rgba(107, 102, 102, 0.43);
-      border-radius: 50%;
-      transform: translateX(-50%);
-      animation: rise 6s infinite ease-in-out;
-      filter: blur(8px);
-    }
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
 
-    .cup .smoke.one { animation-delay: 0s; }
-    .cup .smoke.two { animation-delay: 1s; }
-    .cup .smoke.three { animation-delay: 2s; }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            color: #71767b;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    .loader .load {
-      position: absolute;
-      font-size: 12px;
-      opacity: 0.7;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      width: 100px;
-    }
+        .tab-btn.active {
+            color: #1d9bf0;
+            border-bottom: 2px solid #1d9bf0;
+        }
 
-    @keyframes expansion {
-      0%, 100% { width: 25px; transform: translateX(0); }
-      40%, 90% { width: 100%; transform: translateX(0); }
-      80% { width: 25px; transform: translateX(64px); }
-    }
+        .auth-form {
+            display: none;
+        }
 
-    @keyframes rise {
-      0% { transform: translate(-50%, 0) scale(0.4); opacity: 0; }
-      30% { opacity: 0.7; }
-      60% { opacity: 0.4; }
-      100% { transform: translate(-50%, -120px) scale(1); opacity: 0; }
-    }
+        .auth-form.active {
+            display: block;
+        }
 
-    footer a { color: #fff; text-decoration: underline; }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-    /* Responsive adjustments */
-    @media (max-width: 576px) {
-      .loader { width: 60px; height: 60px; }
-      .loader .load { font-size: 10px; top: 50px; width: 80px; }
-    }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #111;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1d9bf0;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .new-post {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #1d9bf0;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3);
+            transition: transform 0.2s;
+            z-index: 100;
+        }
+
+        .new-post:hover {
+            transform: scale(1.1);
+        }
+
+        .feed {
+            margin-top: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            min-height: calc(100vh - 120px);
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome-screen h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #1d9bf0;
+        }
+
+        .welcome-screen p {
+            color: #71767b;
+            margin-bottom: 30px;
+        }
+
+        .post {
+    background: #1c1c1e;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.post-header .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 2px solid #1d9bf0;
+}
+
+.post-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #e7e9ea;
+}
+
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1d9bf0;
+        }
+
+        .post-info h3 {
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .post-info span {
+            color: #71767b;
+            font-size: 13px;
+        }
+
+        .post-text {
+            font-size: 15px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: #71767b;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 20px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .action-btn:hover {
+            background: rgba(29, 155, 240, 0.1);
+            color: #1d9bf0;
+        }
+
+        .action-btn.liked {
+            color: #f91880 !important;
+        }
+
+        .action-btn.reposted {
+            color: #00ba7c !important;
+        }
+
+        .action-count {
+            font-size: 13px;
+        }
+
+        .comments {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+
+        .comments.active {
+            display: block;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-input input {
+            flex: 1;
+            background: #111;
+            border: none;
+            padding: 8px;
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .comment-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .comment-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1d9bf0;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: #e7e9ea;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        /* مودال پست */
+        .post-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: #000;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .modal-content textarea {
+            width: 100%;
+            height: 120px;
+            border: none;
+            background: #111;
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .post-btn {
+            background: #1d9bf0;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .upload-panel {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload-btn {
+    background: #1d9bf0;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+}
+
+#fileName {
+    color: #e7e9ea;
+    font-size: 14px;
+}
+.modal-content {
+    position: relative;
+    margin-top: 20px;
+    border-radius: 20px;
+    padding: 20px;
+    background: #000;
+}
+
+.upload-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark nav-purple">
+   <script src="../LoaderTemplates/Loader-Satisfying.js"></script>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-gray fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand text-capitalize" href="../index.html">
-        <img id="logo" src="../Images/Site_logo.png">
-      </a>
+      <a class="navbar-brand text-capitalize order-lg-2 ms-3" href="../index.html">
+  <img id="logo" src="../Images/ChatLogo.png">
+</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="../index.html">صفحه ی اصلی</a></li>
-          <li class="nav-item"><a class="nav-link active" href="https://beheshti-zn.ir">سایت مدرسه</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="../index.html">AMK main page</a></li>
+          <li class="nav-item"><a class="nav-link active" href="https://beheshti-zn.ir">School site</a></li>
+          <li class="nav-item"><a class="nav-link active" href="../Sanjagak.html">Sanjagak page</a></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              سرویس های سایت
+              Other site Services
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="../Pages/Books.html">PDF کتاب ها</a></li>
@@ -180,29 +480,81 @@
       </div>
     </div>
   </nav> 
+<div class="feed" id="chatFeed"></div>
 
-  <!-- Main content (loader) -->
-  <main>
-    <div class="loader">
-      <div class="cup">
-        <div class="cup-handle"></div>
-        <div class="smoke one"></div>
-        <div class="smoke two"></div>
-        <div class="smoke three"></div>
-      </div>
-      <div class="load">در حال بارگذاری...</div>
+<div style="position: fixed; bottom: 20px; width: 100%; max-width: 600px; display: flex; justify-content: center; gap: 10px;">
+  <input type="text" id="chatInput" placeholder="Type your message..." style="flex: 1; padding: 10px; border-radius: 10px; border: none; background: #111; color: #fff;">
+  <button onclick="sendMessage()" style="padding: 10px 20px; border: none; border-radius: 10px; background: #1d9bf0; color: #fff;">Send</button>
+</div>
+
+<div id="customPopup" style="
+    display:none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #000;
+    border-radius: 12px;
+    padding: 20px 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    z-index: 9999;
+    min-width: 300px;
+    text-align: center;
+    font-family: sans-serif;
+">
+    <span id="popupClose" style="
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 20px;
+        color: red;
+    ">✖</span>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <h2 style="margin: 10px 0 10px;">SERVER ERROR</h2>
     </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-secondary text-center text-white py-2">
-    <p>
-      copyright:
-      <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html"><strong>ReznoTeams</strong></a> |
-      site template:
-      <a href="https://mdtalalwasim.github.io/"><strong>Md. Talal Wasim</strong></a>
+    <p>Server blew up. Everyone's dead :D | Jokes aside, the server is malfunctioning and doesn't work. Please try again later :D<br/><br/>
+Thanks, ReznoTeams.
     </p>
-  </footer>
+</div>
+
+<script>
+const chatFeed = document.getElementById('chatFeed');
+const popup = document.getElementById('customPopup');
+const popupClose = document.getElementById('popupClose');
+
+function addMessage(user, text, avatarUrl = null) {
+  const post = document.createElement('div');
+  post.className = 'post';
+  post.innerHTML = `
+    <div class="post-header" style="display:flex; gap:10px; align-items:center;">
+      <div class="avatar" style="background: ${avatarUrl ? 'url(' + avatarUrl + ') center/cover no-repeat' : '#1d9bf0'};"></div>
+      <div class="post-info">
+        <h3>${user}</h3>
+      </div>
+    </div>
+    <div class="post-text">${text}</div>
+  `;
+  chatFeed.appendChild(post);
+  chatFeed.scrollTop = chatFeed.scrollHeight;
+}
+
+addMessage("ارسطو رضایی @AMK-Admin-Rezaie", "به چت amk خوش آمدید", "../Images/ChatAdmin1.png");
+
+popupClose.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  popup.style.display = 'block';
+  input.value = '';
+}
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>

@@ -7,7 +7,7 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
         rel="stylesheet"
       />
-        <link rel="icon" type="image/png" href="../Images/Site_logo.png">
+        <link rel="icon" type="image/png" href="../Images/GameLogo.png">
       <link rel="stylesheet" type="text/css" href="../css/style.css" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -164,22 +164,17 @@
     opacity: 1;
     transform: scale(1);
 }
-
+.nav-orange {
+    background-color: #c36800 !important;
+}
     </style>
 </head>
 <body>
-    <script>
-        if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    ) {
-      window.location.href = "https://myket.ir/mag/best-online-games-for-android";
-    }
-    </script>
-    <script src="../Loader.js"></script>
-  <nav class="navbar navbar-expand-lg navbar-dark nav-purple fixed-top">
+   <script src="../LoaderTemplates/Loader-Cubes.js"></script>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-orange fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand text-capitalize" href="../index.html">
-        <img id="logo" src="../Images/Site_logo.png">
+        <img id="logo" src="../Images/GameLogo.png">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -188,6 +183,7 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="../index.html">صفحه ی اصلی</a></li>
           <li class="nav-item"><a class="nav-link active" href="https://beheshti-zn.ir">سایت مدرسه</a></li>
+          <li class="nav-item"><a class="nav-link active" href="../Sanjagak.html">سایت سنجاقک</a></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               سرویس های سایت
@@ -254,50 +250,6 @@
         });
       </script>
       <script>
-    const musicFiles = [
-      '../Music/beans.mp3',
-      '../Music/catburger.mp3',
-      '../Music/elevator.mp3',
-      '../Music/hot chocolate.mp3',
-      '../Music/vanilla tea.mp3'
-    ];
-    let currentTrack = 0;
-
-    audioPlayer.volume = 0.1;
-
-    function playTrack() {
-      if (musicFiles[currentTrack]) {
-        audioPlayer.src = musicFiles[currentTrack];
-        audioPlayer.play().catch(error => {
-          console.error('Error playing audio:', error);
-          alert('خطا در پخش موسیقی. لطفاً بررسی کنید که فایل‌های موسیقی در دسترس باشند.');
-        });
-      } else {
-        console.error('No valid track found.');
-      }
-    }
-
-    playTrack();
-
-    audioPlayer.addEventListener('ended', () => {
-      currentTrack = (currentTrack + 1) % musicFiles.length;
-      playTrack();
-    });
-
-    function checkLink(url) {
-      fetch(url, { method: 'HEAD' })
-        .then(response => {
-          if (!response.ok) {
-            alert(`خطا: فایل ${url} یافت نشد. لطفاً مسیر فایل را بررسی کنید.`);
-          }
-        })
-        .catch(error => {
-          console.error('Error checking link:', error);
-          alert(`خطا در بررسی فایل ${url}. لطفاً مسیر فایل را بررسی کنید.`);
-        });
-    }
-    
-
     document.querySelectorAll('.app-button').forEach(button => {
     button.addEventListener('click', function (e) {
         let ripple = document.createElement('span');
@@ -360,11 +312,6 @@ function hideApp() {
         appIframe.src = "";
     }, 400); 
 }
-if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    ) {
-      window.location.href = "https://myket.ir/mag/best-online-games-for-android";
-    }
     </script>
 </body>
 </html>
