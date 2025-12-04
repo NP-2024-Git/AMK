@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Upload & Replace Pics</title>
-  <link rel="icon" type="image/png" href="  ../Images/ReznoLogo.png">
+  <link rel="icon" type="image/png" href="Images/ReznoLogo.png">
 
   <style>
     html,
     body {
-      background: url("Images/AdminNewsBG.jpg") center/cover no-repeat;
+      background: url("../Images/AdminNewsBG.jpg") center/cover no-repeat;
       height: 100%;
       width: 100%;
       margin: 0;
@@ -81,8 +81,8 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   const file = document.getElementById("fileInput").files[0];
   if (!file) return alert("Please select a file");
 
-  const webFolder = "../Images/Sanjagak/"; 
-  const gitFolder = "../Images/Sanjagak/";  
+  const webFolder = "Images/Sanjagak/"; 
+  const gitFolder = "Images/Sanjagak/";  
 
   const PicNum = await getNextPicNumber(webFolder);
   const uploadName = `Pic${PicNum}.jpg`;
@@ -123,5 +123,3 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   </script>
 </body>
 </html>
-
-
