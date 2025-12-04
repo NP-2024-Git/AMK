@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Upload & Replace Pics</title>
+  <link rel="icon" type="image/png" href="  ../Images/ReznoLogo.png">
+
+  <style>
+    html,
+    body {
+      background: url("../Images/AdminNewsBG.jpg") center/cover no-repeat;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+      font-family: system-ui, sans-serif;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      min-height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px 10px 0 0;
+      padding: 4px 12px 10px 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
+
+    footer a {
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload Sanjagak image</h2>
+  <p>This page is ONLY for Sanjagak employes.Plz,if you have acces to this site,DO NOT UPLOAD TROLS :(</p>
+     
+  <form id="uploadForm">
+    <input type="file" id="fileInput" accept=".jpg,.jpeg" />
+    <button type="submit">Upload</button>
+  </form>
+  <footer style="text-align: end;">
+    این سایت رسمی نیست!---ساخته شده توسط <a href="https://np-2024-git.github.io/ReznoTeamProfolio/Index.html">تیم رضنو</a>
+  </footer>
+   <script src="../LoaderTemplates/Loader-Blob.js"></script>
+    <script src="PassDatabase.js"></script>
+  <script src="GitToken.js"></script>
+  <script>
+async function getNextPicNumber(webFolder) {
+  let index = 1;
+  async function exists(url) {
+    return fetch(url, { method: "HEAD" })
+      .then(res => res.ok)
+      .catch(() => false);
+  }
+  while (true) {
+    const url = `${webFolder}Pic${index}.jpg`;
+    if (!(await exists(url))) break;
+    index++;
+  }
+  return index; 
+}
+
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const file = document.getElementById("fileInput").files[0];
+  if (!file) return alert("Please select a file");
+
+  const webFolder = "../Images/Sanjagak/"; 
+  const gitFolder = "../Images/Sanjagak/";  
+
+  const PicNum = await getNextPicNumber(webFolder);
+  const uploadName = `Pic${PicNum}.jpg`;
+  const filePath = gitFolder + uploadName;
+
+  const arrayBuffer = await file.arrayBuffer();
+  const content = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+
+  try {
+    const uploadRes = await fetch(
+      `https://api.github.com/repos/${username}/${repo}/contents/${filePath}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: `Upload ${uploadName}`,
+          content: content,
+          branch: branch
+        })
+      }
+    );
+
+    if (uploadRes.ok) {
+      alert(`Upload successful! File saved as ${uploadName}`);
+    } else {
+      const errorText = await uploadRes.text();
+      console.error(errorText);
+      alert("Upload failed. Check console for details.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error uploading file.");
+  }
+});
+  </script>
+</body>
+</html>
